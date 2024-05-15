@@ -1100,7 +1100,7 @@ form.comment-text input { padding-right: 130px; }
 .twit-date a { color: var(--iq-body-text); }
 
 /*---------------------------------------------------------------------
-Profile Edit 
+Profile Edit
 -----------------------------------------------------------------------*/
 .profile-pic { max-width: 100%; display: block; border-radius: 50%; -webkit-border-radius: 50%; }
 .profile-img-edit { position: relative; display: inline-block; height: 150px; width: 150px; }
@@ -1152,3 +1152,12 @@ Add User Page
 -----------------------------------------------------------------------*/
 .add-img-user .p-image { position: static; text-align: left; display: block; height: auto; width: auto; background: transparent; margin-top: 20px; }
 .img-extension a, .img-extension span { color: var(--iq-body-text); padding: 0 3px; font-size: 13px; }
+
+.dt-search {
+    float: right!important;
+}
+
+.dt-info {
+    display: flex;
+    justify-content: space-between;
+}

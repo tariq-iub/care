@@ -108,6 +108,27 @@
 <!-- Custom JavaScript -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+<script>
+    $(document).ready(function() {
+        $("#myTable").DataTable({
+            responsive: true,
+            ordering: false,
+            paging: true,
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 rows', '25 rows', '50 rows', 'Show all']
+            ],
+            buttons: [
+                'copy', 'print', 'pageLength'
+            ]
+        });
+
+        $(".dt-buttons button").addClass("btn-outline-primary");
+        $(".dt-buttons button").removeClass("btn-secondary");
+    });
+</script>
+
 <!-- Stacking JavaScript -->
 @stack('scripts')
 

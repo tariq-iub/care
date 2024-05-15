@@ -51,21 +51,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $("#myTable").DataTable({
-                responsive: true,
-                ordering: false,
-                paging: true,
-                dom: 'Bfrtip',
-                lengthMenu: [
-                    [10, 25, 50, -1],
-                    ['10 rows', '25 rows', '50 rows', 'Show all']
-                ],
-                buttons: [
-                    'copy', 'print', 'pageLength'
-                ]
-            });
-        });
-    </script>
+
 @endpush
