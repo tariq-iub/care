@@ -111,7 +111,6 @@
 <script>
     $(document).ready(function() {
         $("#myTable").DataTable({
-            responsive: true,
             ordering: false,
             paging: true,
             dom: 'Bfrtip',
@@ -121,7 +120,20 @@
             ],
             buttons: [
                 'copy', 'print', 'pageLength'
-            ]
+            ],
+            responsive: {
+                details: {
+                    display: DataTable.Responsive.display.modal({
+                        header: function (row) {
+                            var data = row.data();
+                            return 'Details for ' + data[0] + ' ' + data[1];
+                        }
+                    }),
+                    renderer: DataTable.Responsive.renderer.tableAll({
+                        tableClass: 'table'
+                    })
+                }
+            }
         });
 
         $(".dt-buttons button").addClass("btn-outline-primary");

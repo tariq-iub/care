@@ -1154,10 +1154,14 @@ Add User Page
 .img-extension a, .img-extension span { color: var(--iq-body-text); padding: 0 3px; font-size: 13px; }
 
 .dt-search {
-    float: right!important;
+    float: right !important;
+}
+
+.dt-paging {
+    float: right !important;
+    padding-top: 0.85em;
 }
 
 .dt-info {
-    display: flex;
-    justify-content: space-between;
+    display: inline-block;
 }
