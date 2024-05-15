@@ -14,7 +14,7 @@
                         <table id="myTable" class="table table-hover table-bordered mt-4" style="width:100%">
                             <thead>
                             <tr>
-                                <th>ID#</th>
+                                <th class="text-center">ID#</th>
                                 <th>Title</th>
                                 <th>Icon</th>
                                 <th>Route</th>
@@ -28,9 +28,11 @@
                             <tbody>
                             @foreach($menus as $menu)
                                 <tr>
-                                    <td>{{ $menu->id }}</td>
+                                    <td class="text-center">{{ $menu->id }}</td>
                                     <td>{{ $menu->title }}</td>
-                                    <td>{{ $menu->icon }}</td>
+                                    <td>
+                                        <i class="{{ $menu->icon }}"></i> {{ $menu->icon }}
+                                    </td>
                                     <td>{{ $menu->route }}</td>
                                     <td>{{ $menu->parent_id }}</td>
                                     <td>{{ $menu->display_order }}</td>
