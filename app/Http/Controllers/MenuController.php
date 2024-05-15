@@ -12,7 +12,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::all();
+        $menus = Menu::with("parent")->get();
         return view('admin.menus.index', compact('menus'));
     }
 

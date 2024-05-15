@@ -8,6 +8,9 @@
                     <div class="iq-header-title">
                         <h4 class="card-title">Menu List</h4>
                     </div>
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="ri-add-circle-line"></i>Add Menu
+                    </a>
                 </div>
                 <div class="iq-card-body">
                     <div class="table-responsive">
@@ -19,10 +22,10 @@
                                 <th>Icon</th>
                                 <th>Route</th>
                                 <th>Parent Menu</th>
-                                <th>Display Order</th>
+                                <th class="text-center">Display Order</th>
                                 <th>Level</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -34,11 +37,22 @@
                                         <i class="{{ $menu->icon }}"></i> {{ $menu->icon }}
                                     </td>
                                     <td>{{ $menu->route }}</td>
-                                    <td>{{ $menu->parent_id }}</td>
-                                    <td>{{ $menu->display_order }}</td>
+                                    <td>{{ $menu->parent->title ?? '' }}</td>
+                                    <td class="text-center">{{ $menu->display_order }}</td>
                                     <td>{{ $menu->level }}</td>
-                                    <td>{{ $menu->status }}</td>
-                                    <td></td>
+                                    <td class="text-center">
+                                        @if($menu->status)
+                                            <span class="badge iq-bg-success">Active</span>
+                                        @else
+                                            <span class="badge iq-bg-danger">Blocked</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center list-user-action">
+                                            <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-pencil-line"></i></a>
+                                            <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
