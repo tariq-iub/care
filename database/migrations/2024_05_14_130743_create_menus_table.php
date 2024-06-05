@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('icon')->nullable();
-            $table->string('url')->nullable();
             $table->string('route')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('display_order')->default(0);
