@@ -8,7 +8,7 @@
                     <div class="iq-header-title">
                         <h4 class="card-title">Menu List</h4>
                     </div>
-                    <a href="#" class="btn btn-outline-primary">
+                    <a href="{{ route('menus.create') }}" class="btn btn-outline-primary">
                         <i class="ri-add-circle-line"></i>Add Menu
                     </a>
                 </div>
