@@ -24,7 +24,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+
 Route::resource('/users', UserController::class);
+Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+
 Route::resource('/menus', MenuController::class);
 Route::resource('/roles', RoleController::class);
