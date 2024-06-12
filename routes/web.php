@@ -37,7 +37,7 @@ Route::controller(DataFileController::class)
     ->group(function () {
         Route::get('/data', 'index')->name('index');
         Route::get('/data/create', 'create')->name('create');
-        Route::get('/data/store', 'store')->name('store');
-        Route::get('/data/{data_file}/delete', 'destroy')->name('delete');
+        Route::post('/data/store', 'store')->name('store');
+        Route::delete('/data/{data_file}', 'destroy')->name('delete');
         Route::get('/data/{data_file}/download', 'edit')->name('download');
     });
