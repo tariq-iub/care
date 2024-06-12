@@ -21,7 +21,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.menus.create');
+        $parentMenus = (new Menu())->parentsOnly();
+        return view('admin.menus.create', compact('parentMenus'));
     }
 
     /**
