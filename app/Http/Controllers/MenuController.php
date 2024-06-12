@@ -30,7 +30,21 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(),[
+            'title' => 'required',
+        ]);
+
+        $menu = new Menu();
+        $menu->title = $request['title'];
+        $menu->icon = $request['icon'];
+        $menu->route = $request['route'];
+        $menu->parent_id = $request['parent_id'];
+        $menu->display_order = $request['display_order'];
+        $menu->level = $request['level'];
+        $menu->status = $request['status'];
+        $menu->save();
+
+        return redirect()->route('menus.index');
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +31,13 @@ Route::get('/users/profile', [UserController::class, 'profile'])->name('users.pr
 
 Route::resource('/menus', MenuController::class);
 Route::resource('/roles', RoleController::class);
+
+Route::controller(DataFileController::class)
+    ->as('data.')
+    ->group(function () {
+        Route::get('/data', 'index')->name('index');
+        Route::get('/data/create', 'create')->name('create');
+        Route::get('/data/store', 'store')->name('store');
+        Route::get('/data/{data_file}/delete', 'destroy')->name('delete');
+        Route::get('/data/{data_file}/download', 'edit')->name('download');
+    });

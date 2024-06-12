@@ -45,10 +45,12 @@
                 </li>
                 @else
                 <li class="{{ Route::is($menu->route) ? 'active' : '' }}">
+                    @if(!is_null($menu->route))
                     <a href="{{ route($menu->route) }}" class="iq-waves-effect">
                         <i class="{{ $menu->icon }} iq-arrow-left"></i>
                         <span>{{ $menu->title }}</span>
                     </a>
+                    @endif
                 </li>
                @endif
             @endforeach

@@ -29,7 +29,7 @@
                             <div class="form-group col-md-6">
                                 <label for="parent_id">Parent Menu</label>
                                 <select class="form-control" id="parent_id" name="parent_id">
-                                    <option>Select Parent</option>
+                                    <option value="">Select Parent</option>
                                     @foreach($parentMenus as $menu)
                                         <option value="{{ $menu->id }}">{{ $menu->title }}</option>
                                     @endforeach
