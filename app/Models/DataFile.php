@@ -11,7 +11,7 @@ class DataFile extends Model
     use HasFactory;
     use Loggable;
 
-    protected $fillable = ['file_name', 'file_path', 'site_id'];
+    protected $fillable = ['file_name', 'file_path', 'site_id', 'device_id'];
 
     public function component()
     {
@@ -21,5 +21,10 @@ class DataFile extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
     }
 }

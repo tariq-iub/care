@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_files', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->unsignedBigInteger('component_id')->nullable();
-            $table->unsignedBigInteger('site_id');
-            $table->unsignedBigInteger('device_id');
+            $table->string('serial_number')->unique();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_files');
+        Schema::dropIfExists('devices');
     }
 };
