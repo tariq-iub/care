@@ -1,5 +1,7 @@
 @extends('layouts.care')
 @section('title', 'System Menus')
+@section('page-title', 'Menus')
+@section('page-message', "Menu management along with user level.")
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -49,8 +51,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center list-user-action">
-                                            <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit" href="#"><i class="ri-pencil-line"></i></a>
-                                            <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
+                                            <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" data-original-title="Edit" href="{{ route('menus.edit', $menu->id) }}"><i class="ri-pencil-line"></i></a>
+                                            <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" data-original-title="Delete"
+                                               onclick="deleteMenu({{ $menu->id }})" href="javascript:void(0)">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -65,5 +70,20 @@
 @endsection
 
 @push('scripts')
-
+    <script>
+        function deleteMenu(menuId) {
+            if (confirm('Are you sure to delete this record?')) {
+                fetch(`{{ url('menus') }}/${menuId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    alert('Record deleted successfully.');
+                    location.reload();
+                });
+            }
+        }
+    </script>
 @endpush

@@ -4,16 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use DataTables;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
+        if ($request->ajax()) {
+            $data = User::select('*');
+            return Datatables::of($data)
+                ->addColumn('avatar', function($row){
+                    return view('admin.users.partial.avatar', compact('row'));
+                })
+                ->addColumn('status', function ($row) {
+                    return view('admin.users.partial.status', compact('row'));
+                })
+                ->addColumn('role', function ($row) {
+                    return $row->role->title;
+                })
+                ->addColumn('action', function($row)
+                {
+                    return view('admin.users.partial.action', compact('row'));
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.users.index');
     }
 
     /**
@@ -67,5 +87,21 @@ class UserController extends Controller
     public function profile()
     {
 
+    }
+
+    public function statusToggle(User $user)
+    {
+        if($user->status)
+        {
+            $user->status = false;
+            $user->save();
+        }
+        else
+        {
+            $user->status = true;
+            $user->save();
+        }
+
+        return redirect('/users');
     }
 }

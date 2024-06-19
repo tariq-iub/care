@@ -13,7 +13,7 @@
     <!-- REVOLUTION STYLE SHEETS -->
     <link rel="stylesheet" href="{{ asset('assets/welcome/revolution/css/settings.html') }}">
     <!-- Typography CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/welcome/css/typography.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/typography.css') }}">
     <!-- Style CSS -->
     <link rel="stylesheet" href="{{ asset('assets/welcome/css/style.css') }}">
     <!-- Responsive CSS -->
@@ -22,6 +22,20 @@
     <!-- Stacking CSS -->
     @stack("css")
 
+    <style>
+        .button {
+            color: #ffffff;
+            padding: 10px 30px;
+            border: none;
+            position: relative;
+            font-weight: 500;
+            display: inline-block;
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            background: #4e37b2;
+        }
+    </style>
 </head>
 <body>
     <!-- loader Start -->
@@ -81,66 +95,6 @@
 
     @yield('content')
 
-{{--    <div id="app">--}}
-{{--        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">--}}
-{{--            <div class="container">--}}
-{{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
-{{--                    {{ config('app.name', 'Laravel') }}--}}
-{{--                </a>--}}
-{{--                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">--}}
-{{--                    <span class="navbar-toggler-icon"></span>--}}
-{{--                </button>--}}
-
-{{--                <div class="collapse navbar-collapse" id="navbarSupportedContent">--}}
-{{--                    <!-- Left Side Of Navbar -->--}}
-{{--                    <ul class="navbar-nav me-auto">--}}
-
-{{--                    </ul>--}}
-
-{{--                    <!-- Right Side Of Navbar -->--}}
-{{--                    <ul class="navbar-nav ms-auto">--}}
-{{--                        <!-- Authentication Links -->--}}
-{{--                        @guest--}}
-{{--                            @if (Route::has('login'))--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-
-{{--                            @if (Route::has('register'))--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-{{--                        @else--}}
-{{--                            <li class="nav-item dropdown">--}}
-{{--                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>--}}
-{{--                                    {{ Auth::user()->name }}--}}
-{{--                                </a>--}}
-
-{{--                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--}}
-{{--                                    <a class="dropdown-item" href="{{ route('logout') }}"--}}
-{{--                                       onclick="event.preventDefault();--}}
-{{--                                                     document.getElementById('logout-form').submit();">--}}
-{{--                                        {{ __('Logout') }}--}}
-{{--                                    </a>--}}
-
-{{--                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
-{{--                                        @csrf--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
-{{--                        @endguest--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </nav>--}}
-
-{{--        <main class="py-4">--}}
-{{--            @yield('content')--}}
-{{--        </main>--}}
-{{--    </div>--}}
-
     <!-- JavaScript -->
     <script src="{{ asset('assets/welcome/js/jquery-3.4.1.min.js') }}"></script>
     <!-- popper  -->
@@ -176,6 +130,7 @@
             }
         }
     </script>
+
     <script src="{{ asset('assets/welcome/js/grouploop-1.0.0.min.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('assets/welcome/js/custom.js') }}"></script>

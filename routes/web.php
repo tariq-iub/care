@@ -22,25 +22,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
-
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+    Route::resource('/users', UserController::class);
+    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::get('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
+    Route::resource('/menus', MenuController::class)->except(['show']);
+    Route::resource('/roles', RoleController::class);
+    Route::controller(DataFileController::class)
+        ->as('data.')
+        ->group(function () {
+            Route::get('/data', 'index')->name('index');
+            Route::post('/data/store', 'store')->name('store');
+            Route::delete('/data/{data_file}', 'destroy')->name('delete');
+            Route::get('/data/{data_file}/download', 'edit')->name('download');
+        });
+});
 
-Route::resource('/users', UserController::class);
-Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
-
-Route::resource('/menus', MenuController::class);
-Route::resource('/roles', RoleController::class);
-
-Route::controller(DataFileController::class)
-    ->as('data.')
-    ->group(function () {
-        Route::get('/data', 'index')->name('index');
-        Route::post('/data/store', 'store')->name('store');
-        Route::delete('/data/{data_file}', 'destroy')->name('delete');
-        Route::get('/data/{data_file}/download', 'edit')->name('download');
-    });

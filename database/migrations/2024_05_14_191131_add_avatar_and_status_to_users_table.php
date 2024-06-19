@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('avatar')->nullable()->after('password');
             $table->boolean('status')->default(true)->after('avatar');
+            $table->unsignedBigInteger('role_id')->default(3)->after('status');
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('avatar');
             $table->dropColumn('status');
+            $table->dropColumn('role_id');
         });
     }
 };

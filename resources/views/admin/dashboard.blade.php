@@ -1,5 +1,7 @@
 @extends('layouts.care')
 @section('title', 'Center of Automation, Robotics & Embedded Systems')
+@section('page-title', 'Dashboard')
+@section('page-message', "Device Monitoring IoT System For Your Industry")
 @section('content')
     <div class="row content-body">
         <div class="col-lg-8">

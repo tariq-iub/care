@@ -7,31 +7,23 @@
                     <div class="hover-circle"><i class="ri-arrow-right-s-line"></i></div>
                 </div>
                 <div class="iq-navbar-logo d-flex justify-content-between">
-                    <a href="index.html" class="header-logo">
+                    <a href="{{ url('/') }}" class="header-logo">
                         <img src="{{ asset('assets/images/logo.png') }}" class="img-fluid rounded-normal" alt="">
                         <div class="pt-2 pl-2 logo-title">
-                            <span class="text-danger text-uppercase">Server<span class="text-primary ml-1">360</span></span>
+                            <span class="text-danger text-uppercase">Care<span class="text-primary ml-1">360</span></span>
                         </div>
                     </a>
                 </div>
             </div>
             <div class="navbar-breadcrumb">
-                <h4 class="mb-0 text-dark">Dashboard</h4>
-                <p class="mb-0"><span class="text-danger">Hi there,</span> Great to see you again</p>
+                <h4 class="mb-0 text-dark">@yield('page-title')</h4>
+                <p class="mb-0">@yield('page-message')</p>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"  aria-label="Toggle navigation">
                 <i class="ri-menu-3-line"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto navbar-list">
-                    <li class="nav-item nav-icon">
-                        <div class="iq-search-bar">
-                            <form action="#" class="searchbox">
-                                <input type="text" class="text search-input" placeholder="Type here to search...">
-                                <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                            </form>
-                        </div>
-                    </li>
                     <li class="nav-item nav-icon">
                         <a href="#" class="search-toggle iq-waves-effect text-primary rounded">
                             <i class="ri-notification-line block"></i>
@@ -106,7 +98,7 @@
                         <div class="iq-card shadow-none m-0">
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
-                                    <h5 class="mb-0 text-white line-height">Hello Barry Tech</h5>
+                                    <h5 class="mb-0 text-white line-height">Hello {{ Auth::user()->name }}</h5>
                                     <span class="text-white font-size-12">Available</span>
                                 </div>
                                 <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
@@ -154,7 +146,14 @@
                                     </div>
                                 </a>
                                 <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                    <a class="bg-primary iq-sign-btn" href="{{ route('logout') }}" role="button"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Sign out<i class="ri-login-box-line ml-2"></i>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </a>
                                 </div>
                             </div>
                         </div>
