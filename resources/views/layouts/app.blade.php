@@ -79,7 +79,7 @@
                 <div class="col-lg-4 text-right">
                     <div class="btn-purchase">
                         @auth
-                            <a href="{{ route('/dashboard') }}" class="button white-btn shadow">
+                            <a href="{{ url('/home') }}" class="button white-btn shadow">
                                 {{ __('Dashboard') }}
                             </a>
                         @else

@@ -1,6 +1,6 @@
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
-        <a href="{{ url('/') }}" class="header-logo">
+        <a href="{{ url('/home') }}" class="header-logo">
             <img src="{{ asset('assets/images/logo.png') }}" class="img-fluid rounded-normal" alt="">
             <div class="logo-title font-size-21 font-weight-500">
                 <span class="text-danger text-uppercase">CARE<span class="text-primary ml-1">360</span></span>
