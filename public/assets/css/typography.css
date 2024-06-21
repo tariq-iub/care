@@ -84,7 +84,7 @@ h6 { font-size: 1.0em; }
 Input
 ------------------------------------------------*/
 label { color: var(--iq-dark); }
-.form-control.form-control-sm {height: 30px;line-height: 30px;}
+.form-control.form-control-sm {height: 40px;line-height: 30px;}
 .form-control.form-control-lg {height: 50px;line-height: 50px;}
 
 /* Definition Lists */
