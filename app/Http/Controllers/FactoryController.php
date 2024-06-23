@@ -12,7 +12,8 @@ class FactoryController extends Controller
      */
     public function index()
     {
-        //
+        $factories = Factory::all();
+        return view('admin.factories.index', compact('factories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class FactoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.factories.create');
     }
 
     /**
@@ -28,15 +29,24 @@ class FactoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate(request(),[
+            'title' => 'required|string',
+            'address' => 'required|string',
+            'owner_name' => 'required|string',
+            'email' => 'required|email',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Factory $factory)
-    {
-        //
+        $factory = new Factory();
+        $factory->title = $request->input('title');
+        $factory->address = $request->input('address');
+        $factory->owner_name = $request->input('owner_name');
+        $factory->owner_cnic = $request->input('owner_cnic');
+        $factory->email = $request->input('email');
+        $factory->contact_no = $request->input('contact_no');
+        $factory->fax = $request->input('fax');
+        $factory->save();
+
+        return redirect(route('factories.index'))->with('message', 'Factory register successfully.');
     }
 
     /**
@@ -44,7 +54,7 @@ class FactoryController extends Controller
      */
     public function edit(Factory $factory)
     {
-        //
+        return view('admin.factories.edit', compact('factory'));
     }
 
     /**
@@ -52,7 +62,23 @@ class FactoryController extends Controller
      */
     public function update(Request $request, Factory $factory)
     {
-        //
+        $this->validate(request(),[
+            'title' => 'required|string',
+            'address' => 'required|string',
+            'owner_name' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        $factory->title = $request->input('title');
+        $factory->address = $request->input('address');
+        $factory->owner_name = $request->input('owner_name');
+        $factory->owner_cnic = $request->input('owner_cnic');
+        $factory->email = $request->input('email');
+        $factory->contact_no = $request->input('contact_no');
+        $factory->fax = $request->input('fax');
+        $factory->save();
+
+        return redirect(route('factories.index'))->with('message', 'Factory registration updated successfully.');
     }
 
     /**

@@ -11,12 +11,7 @@ class Factory extends Model
     use HasFactory;
     use Loggable;
 
-    protected $fillable = ['title', 'user_id'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['title', 'address', 'owner_name', 'email'];
 
     public function sites()
     {

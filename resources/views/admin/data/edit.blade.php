@@ -45,8 +45,6 @@
                                 <div class="invalid-feedback">Select a factory name...</div>
                             </div>
 
-
-
                             <div class="form-group">
                                 <label for="site_id">Site</label>
                                 <select class="custom-select select2 site" id="site_id" name="site_id"

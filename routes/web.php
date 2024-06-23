@@ -7,7 +7,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 
 /*
@@ -36,7 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
     Route::resource('/menus', MenuController::class)->except(['show']);
     Route::resource('/roles', RoleController::class)->except(['create', 'show']);
-    Route::resource('/factories', FactoryController::class);
+    Route::resource('/factories', FactoryController::class)->except(['show']);
     Route::resource('/sites', SiteController::class);
     Route::resource('/inspections', InspectionController::class);
     Route::controller(DataFileController::class)
