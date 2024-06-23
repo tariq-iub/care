@@ -18,6 +18,6 @@ class Device extends Model
         $nextId = $query[0]->Auto_increment;
 
         // Use the nextId to generate a custom serial number
-        return 'MC' . str_pad($nextId, 8, '0', STR_PAD_LEFT);
+        return 'MC' . str_pad($nextId, 6, '0', STR_PAD_LEFT);
     }
 }

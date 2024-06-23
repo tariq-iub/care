@@ -10,8 +10,13 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <!-- Bootstrap Dual List CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-duallistbox.min.css') }}">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap4.min.css') }}">
     <!-- Typography CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/typography.css') }}">
     <!-- Style CSS -->
@@ -56,7 +61,8 @@
 <!-- JavaScript -->
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.bootstrap-duallistbox.min.js') }}"></script>
 <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
 <!-- Appear JavaScript -->
 <script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
@@ -138,7 +144,18 @@
 
         $(".dt-buttons button").addClass("btn-outline-primary");
         $(".dt-buttons button").removeClass("btn-secondary");
+
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        });
+
+        triggerTooltip();
+
     });
+
+    function triggerTooltip(){
+        $('[data-toggle="tooltip"]').tooltip();
+    }
 </script>
 
 <!-- Stacking JavaScript -->

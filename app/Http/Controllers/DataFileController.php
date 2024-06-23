@@ -4,60 +4,103 @@ namespace App\Http\Controllers;
 
 use App\Models\DataFile;
 use App\Models\Device;
+use App\Models\Factory;
+use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 class DataFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) {
+
+        if ($request->ajax())
+        {
+            $data = DataFile::select('*');
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('inspection', function($row) {
+                    return view('admin.data.partial.inspection', compact('row'));
+                })
+                ->addColumn('device', function ($row) {
+                    return $row->device->serial_number;
+                })
+                ->addColumn('component', function ($row) {
+                    return ($row->component) ? $row->component->title : "";
+                })
+                ->addColumn('site', function ($row) {
+                    return $row->site->title;
+                })
+                ->addColumn('factory', function ($row) {
+                    return $row->site->factory->title;
+                })
+                ->addColumn('uploaded_at', function ($row) {
+                    return view('admin.data.partial.uploaded_at', compact('row'));
+                })
+                ->addColumn('action', function($row) {
+                    return view('admin.data.partial.action', compact('row'));
+                })
+                ->rawColumns(['inspection', 'uploaded_at', 'action'])
+                ->make(true);
+        }
+
+        $factories = Factory::all();
+        $devices = Device::all();
+        $inspections = Inspection::where('taken_up', false)->get();
+        return view('admin.data.index', compact('factories', 'devices', 'inspections'));
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(DataFile $dataFile)
     {
-        $dataFiles = DataFile::with(['component', 'site'])->get();
-        return view('admin.data.index', compact('dataFiles'));
+        $factories = Factory::all();
+        $devices = Device::all();
+        $inspections = Inspection::all();
+        return view('admin.data.edit', compact('dataFile', 'factories', 'devices', 'inspections'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the specified resource in storage.
      */
-    public function store(Request $request)
+    public function update(Request $request, DataFile $dataFile)
     {
-        // Validate the request input
-        $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048',
             'site_id' => 'required|exists:sites,id',
             'device_serial' => 'required|string|exists:devices,serial_number', // Ensure device is registered
+            'inspection_id' => 'required|exists:inspections,id',
         ]);
 
-        // Find the device by serial number
-        $device = Device::where('serial_number', $request->input('device_serial'))->first();
-
-        // Check if the device exists
-        if (!$device) {
-            return response()->json(['message' => 'Device is not registered at system.'], 404);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Check if the uploaded file is valid
+        $device = Device::where('serial_number', $request->input('device_serial'))->first();
+
         if ($request->file('file')->isValid()) {
             $file = $request->file('file');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('data_files', $fileName, 'public');
 
-            // Store file metadata in the database
-            $dataFile = DataFile::create([
-                'file_name' => $fileName,
-                'file_path' => $filePath,
-                'component_id' => $request->input('component_id'),
-                'site_id' => $request->input('site_id'),
-                'device_id' => $device->id,
-            ]);
+            $dataFile->file_name = $fileName;
+            $dataFile->file_path = $filePath;
+            $dataFile->component_id = $request->input('component_id');
+            $dataFile->site_id = $request->input('site_id');
+            $dataFile->device_id = $device->id;
+            $dataFile->inspection_id = $request->input('inspection_id');
 
-            return response()->json(['message' => 'File uploaded successfully.', 'data' => $dataFile], 201);
-        }
-        else {
-            return response()->json(['message' => 'Invalid file upload'], 400);
+            $dataFile->save();
+
+            return redirect(route('data.index'))->with('success', 'Data updated successfully.');
         }
     }
 
@@ -103,6 +146,7 @@ class DataFileController extends Controller
             'file' => 'required|mimes:csv,txt|max:2048',
             'site_id' => 'required|exists:sites,id',
             'device_serial' => 'required|string|exists:devices,serial_number', // Ensure device is registered
+            'inspection_id' => 'required|exists:inspections,id',
         ]);
 
         $device = Device::where('serial_number', $request->input('device_serial'))->first();
@@ -132,5 +176,37 @@ class DataFileController extends Controller
         }
 
         return response()->json(['message' => 'Invalid file upload'], 400);
+    }
+
+    public function replace(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:data_files,id',
+            'file' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $dataFile = DataFile::find($request->input('id'));
+        $oldFile = $dataFile->file_path;
+
+        if ($request->file('file')->isValid()) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('data_files', $fileName, 'public');
+
+            $dataFile->update([
+                'file_name' => $fileName,
+                'file_path' => $filePath,
+            ]);
+
+            // Check if the old file exists and delete it
+            if (Storage::disk('public')->exists($oldFile)) {
+                Storage::disk('public')->delete($oldFile);
+            }
+
+            return response()->json(['message' => 'File replaced successfully.', 'data' => $dataFile], 201);
+        }
+        else {
+            return response()->json(['message' => 'Invalid file upload.'], 400);
+        }
     }
 }

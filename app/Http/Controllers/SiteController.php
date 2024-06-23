@@ -60,6 +60,27 @@ class SiteController extends Controller
      */
     public function destroy(Site $site)
     {
-        //
+
+    }
+
+    public function fetch(Request $request)
+    {
+        if($request->input('id'))
+        {
+            $data = Site::where('id', $request->input('id'))
+                ->with(['components'])
+                ->first();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'Site is not registered in the system.'], 404);
+        }
+        else
+        {
+            $data = Site::with(['components'])
+                ->get();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'No sites registered in the system.'], 404);
+        }
     }
 }

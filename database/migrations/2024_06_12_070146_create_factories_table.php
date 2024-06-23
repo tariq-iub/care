@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('factories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('user_id');
-            $table->enum('access_level', ['owner', 'employee'])->default('owner');
+            $table->string('address');
+            $table->string('owner_name');
+            $table->string('owner_cnic', 15)->nullable();
+            $table->string('contact_no')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

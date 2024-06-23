@@ -6,17 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 
-class Role extends Model
+class Inspection extends Model
 {
     use HasFactory;
-    Use Loggable;
+    use Loggable;
 
     protected $fillable = [
         'title',
+        'type',
+        'scheduled_at',
     ];
 
-    public function menus()
+    protected $casts = [
+        'scheduled_at' => 'datetime',
+    ];
+
+    public function dataFiles()
     {
-        return $this->belongsToMany(Menu::class, 'menus_roles');
+        return $this->hasMany(DataFile::class);
     }
 }

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_files', function (Blueprint $table) {
+        Schema::create('inspections', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->unsignedBigInteger('component_id')->nullable();
-            $table->unsignedBigInteger('site_id');
-            $table->unsignedBigInteger('device_id');
+            $table->string("title");
+            $table->enum('type', ['visit', 'remote'])->default('visit');
+            $table->dateTime('scheduled_at');
+            $table->string('visitor_name')->nullable();
+            $table->boolean("taken_up")->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_files');
+        Schema::dropIfExists('inspections');
     }
 };

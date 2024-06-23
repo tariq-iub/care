@@ -51,8 +51,8 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center list-user-action">
-                                            <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" data-original-title="Edit" href="{{ route('menus.edit', $menu->id) }}"><i class="ri-pencil-line"></i></a>
-                                            <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" data-original-title="Delete"
+                                            <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ route('menus.edit', $menu->id) }}"><i class="ri-pencil-line"></i></a>
+                                            <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" title="Delete"
                                                onclick="deleteMenu({{ $menu->id }})" href="javascript:void(0)">
                                                 <i class="ri-delete-bin-line"></i>
                                             </a>

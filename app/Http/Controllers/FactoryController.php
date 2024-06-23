@@ -62,4 +62,25 @@ class FactoryController extends Controller
     {
         //
     }
+
+    public function fetch(Request $request)
+    {
+        if($request->input('id'))
+        {
+            $data = Factory::where('id', $request->input('id'))
+                ->with(['sites'])
+                ->first();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'Factory is not registered in the system.'], 404);
+        }
+        else
+        {
+            $data = Factory::with(['sites'])
+                ->get();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'No factories registered in the system.'], 404);
+        }
+    }
 }

@@ -1159,3 +1159,7 @@ Add User Page
 .dt-info {
     display: inline-block;
 }
+
+.w-100 {
+    width: 100% !important;
+}
