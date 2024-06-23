@@ -170,6 +170,7 @@ class DataFileController extends Controller
                 'component_id' => $request->input('component_id'),
                 'site_id' => $request->input('site_id'),
                 'device_id' => $device->id,
+                'inspection_id' => $request->input('inspection_id'),
             ]);
 
             return response()->json(['message' => 'File uploaded successfully'], 200);
