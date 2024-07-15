@@ -1,162 +1,74 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@include('layouts.partial.admin_head')
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Care - @yield('title')</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <!-- Bootstrap Dual List CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-duallistbox.min.css') }}">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
-    <!-- Select2 CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap4.min.css') }}">
-    <!-- Typography CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/typography.css') }}">
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+<main class="main" id="top">
+    @include('layouts.partial.sidebar')
+    @include('layouts.partial.navbar')
+    <div class="content">
+        @yield('content')
+        @include('layouts.partial.footer')
 
-    <!-- Stacking CSS -->
-    @stack("css")
-
-</head>
-
-<body>
-<!-- loader Start -->
-<div id="loading">
-    <div id="loading-center">
-    </div>
-</div>
-<!-- loader END -->
-
-<!-- Wrapper Start -->
-<div class="wrapper">
-    <!-- Sidebar  -->
-    @include('include.sidebar')
-
-    <!-- TOP Nav Bar -->
-    @include('include.topbar')
-
-
-    <!-- Page Content  -->
-    <div id="content-page" class="content-page">
-        <div class="container-fluid">
-            @yield('content')
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div class="toast fade" role="alert" id="toast-message"
+                 aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Notification</strong>
+                    <button class="btn ms-2 p-0" type="button" data-bs-dismiss="toast" aria-label="Close"><span class="uil uil-times fs-7"></span></button>
+                </div>
+                <div class="toast-body">
+                    {{ session('message') }}
+                </div>
+            </div>
         </div>
     </div>
+</main>
 
-</div>
-<!-- Wrapper END -->
-<!-- Footer -->
-@include('include.footer')
+<!-- ===============================================-->
+<!--    JavaScripts-->
+<!-- ===============================================-->
+<script src="{{ asset('assets/vendors/popper/popper.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/anchorjs/anchor.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/is/is.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/lodash/lodash.min.js') }}"></script>
+<script src="{{ asset('assets/js/polyfill.min58be.js') }}?features=window.scroll"></script>
+<script src="{{ asset('assets/vendors/list.js/list.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/feather-icons/feather.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/dayjs/dayjs.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/choices/choices.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/dhtmlx-gantt/dhtmlxgantt.js') }}"></script>
+<script src="{{ asset('assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('assets/js/phoenix.js') }}"></script>
+<script src="{{ asset('assets/vendors/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.js') }}"></script>
+<script src="../assets/js/projectmanagement-dashboard.js"></script>
 
-<!-- JavaScript -->
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.bootstrap-duallistbox.min.js') }}"></script>
-<script src="{{ asset('assets/js/datatables.min.js') }}"></script>
-<!-- Appear JavaScript -->
-<script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
-<!-- Countdown JavaScript -->
-<script src="{{ asset('assets/js/countdown.min.js') }}"></script>
-<!-- Counterup JavaScript -->
-<script src="{{ asset('assets/js/waypoints.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.counterup.min.js') }}"></script>
-<!-- Wow JavaScript -->
-<script src="{{ asset('assets/js/wow.min.js') }}"></script>
-<!-- Apexcharts JavaScript -->
-<script src="{{ asset('assets/js/apexcharts.js') }}"></script>
-<!-- Slick JavaScript -->
-<script src="{{ asset('assets/js/slick.min.js') }}"></script>
-<!-- Select2 JavaScript -->
-<script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<!-- Owl Carousel JavaScript -->
-<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-<!-- Magnific Popup JavaScript -->
-<script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
-<!-- Smooth Scrollbar JavaScript -->
-<script src="{{ asset('assets/js/smooth-scrollbar.js') }}"></script>
-<!-- lottie JavaScript -->
-<script src="{{ asset('assets/js/lottie.js') }}"></script>
-<!-- am core JavaScript -->
-<script src="{{ asset('assets/js/core.js') }}"></script>
-<!-- am charts JavaScript -->
-<script src="{{ asset('assets/js/charts.js') }}"></script>
-<!-- am animated JavaScript -->
-<script src="{{ asset('assets/js/animated.js') }}"></script>
-<!-- am kelly JavaScript -->
-<script src="{{ asset('assets/js/kelly.js') }}"></script>
-<!-- am maps JavaScript -->
-<script src="{{ asset('assets/js/maps.js') }}"></script>
-<!-- am worldLow JavaScript -->
-<script src="{{ asset('assets/js/worldLow.js') }}"></script>
-<!-- Raphael-min JavaScript -->
-<script src="{{ asset('assets/js/raphael-min.js') }}"></script>
-<!-- Morris JavaScript -->
-<script src="{{ asset('assets/js/morris.js') }}"></script>
-<!-- Morris min JavaScript -->
-<script src="{{ asset('assets/js/morris.min.js') }}"></script>
-<!-- Flatpicker Js -->
-<script src="{{ asset('assets/js/flatpickr.js') }}"></script>
-<!-- Style Customizer -->
-<script src="{{ asset('assets/js/style-customizer.js') }}"></script>
-<!-- Chart Custom JavaScript -->
-<script src="{{ asset('assets/js/chart-custom.js') }}"></script>
-<!-- Custom JavaScript -->
-<script src="{{ asset('assets/js/custom.js') }}"></script>
+@if(Session::has('message'))
+    <script>
+        Swal.fire({
+            title: 'Success',
+            text: '{{ Session::get('message') }}',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 3000
+        })
+    </script>
+@endif
 
-<script>
-    $(document).ready(function() {
-        $("#myTable").DataTable({
-            ordering: false,
-            paging: true,
-            dom: 'Bfrtip',
-            lengthMenu: [
-                [10, 25, 50, -1],
-                ['10 rows', '25 rows', '50 rows', 'Show all']
-            ],
-            buttons: [
-                'copy', 'print', 'pageLength'
-            ],
-            responsive: {
-                details: {
-                    display: DataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return 'Details for ' + data[0] + ' ' + data[1];
-                        }
-                    }),
-                    renderer: DataTable.Responsive.renderer.tableAll({
-                        tableClass: 'table'
-                    })
-                }
-            }
-        });
-
-        $(".dt-buttons button").addClass("btn-outline-primary");
-        $(".dt-buttons button").removeClass("btn-secondary");
-
-        $('.select2').select2({
-            theme: 'bootstrap4'
-        });
-
-        triggerTooltip();
-
-    });
-
-    function triggerTooltip(){
-        $('[data-toggle="tooltip"]').tooltip();
-    }
-</script>
+@if(Session::has('error-message'))
+    <script>
+        Swal.fire({
+            title: 'Error',
+            text: '{{ Session::get('error-message') }}',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            timer: 3000
+        })
+    </script>
+@endif
 
 <!-- Stacking JavaScript -->
 @stack('scripts')

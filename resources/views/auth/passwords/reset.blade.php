@@ -1,84 +1,55 @@
-@extends('layouts.app')
-@section('title', 'Password Reset')
+@extends('layouts.auth')
 
 @section('content')
-    <div id="home">
-        <div class="main-slider">
-            <div id="container-inside">
-                <svg class="editorial"
-                     xmlns="https://www.w3.org/2000/svg"
-                     xmlns:xlink="https://www.w3.org/1999/xlink"
-                     viewBox="0 24 150 28"
-                     preserveAspectRatio="none">
-                    <defs>
-                        <path id="gentle-wave"
-                              d="M-160 44c30 0
-                                 58-18 88-18s
-                                 58 18 88 18
-                                 58-18 88-18
-                                 58 18 88 18
-                                 v44h-352z" />
-                    </defs>
-                    <g class="parallax">
-                        <use xlink:href="#gentle-wave" x="50" y="0" fill="#4329b7"/>
-                        <use xlink:href="#gentle-wave" x="50" y="3" fill="#382299"/>
-                        <use xlink:href="#gentle-wave" x="50" y="6" fill="#38258e"/>
-                    </g>
-                </svg>
-            </div>
-            <div class="slider-content">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="iq-card">
-                            <div class="iq-card-header pt-3">
-                                <div class="iq-header-title">
-                                    <h4 class="card-title">CARE 360 - {{ __('Reset Password') }}</h4>
-                                </div>
-                            </div>
-                            <div class="iq-card-body">
-                                <form method="POST" action="{{ route('password.update') }}">
-                                    @csrf
-                                    <input type="hidden" name="token" value="{{ $token }}">
+    <div class="px-xxl-5">
+        <div class="text-center mb-6">
+            <h4 class="text-body-highlight">Reset Password</h4>
+            <p class="text-body-tertiary mb-5">Enter your email and password below and change your <br class="d-sm-none" />password.</p>
+            <form class="d-flex align-items-center mb-5" method="POST" action="{{ route('password.update') }}">
+                @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
 
-                                    <div class="form-group">
-                                        <label for="email">{{ __('Email Address') }}</label>
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                               name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="password">{{ __('Password') }}</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                                               name="password" required autocomplete="new-password">
-
-                                        @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                                        <input id="password-confirm" type="password" class="form-control"
-                                               name="password_confirmation" required autocomplete="new-password">
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary px-5 mr-2">
-                                        {{ __('Reset Password') }}
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="email">Email Address</label>
+                    <div class="form-icon-container">
+                        <input class="form-control form-icon-input @error('email') is-invalid @enderror"
+                               id="email" name="email" type="email" placeholder="name@example.com"
+                               value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus/>
+                        <span class="fas fa-user text-body fs-9 form-icon"></span>
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
-            </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="form-icon-container">
+                        <input class="form-control form-icon-input @error('password') is-invalid @enderror"
+                               id="password" name="password" type="password" placeholder="Password"
+                               required autocomplete="current-password"/>
+                        <span class="fas fa-key text-body fs-9 form-icon"></span>
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="password">Confirm Password</label>
+                    <div class="form-icon-container">
+                        <input class="form-control form-icon-input" type="password"
+                               id="password-confirm" name="password_confirmation" required autocomplete="new-password"/>
+                        <span class="fas fa-key text-body fs-9 form-icon"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">Reset Password</button>
+            </form>
         </div>
     </div>
 @endsection

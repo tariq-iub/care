@@ -2,38 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\Return_;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index()
     {
-        if ($request->ajax()) {
-            $data = User::select('*');
-            return Datatables::of($data)
-                ->addColumn('avatar', function($row){
-                    return view('admin.users.partial.avatar', compact('row'));
-                })
-                ->addColumn('status', function ($row) {
-                    return view('admin.users.partial.status', compact('row'));
-                })
-                ->addColumn('role', function ($row) {
-                    return $row->role->title;
-                })
-                ->addColumn('action', function($row)
-                {
-                    return view('admin.users.partial.action', compact('row'));
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('admin.users.index');
+        $users = User::all();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -41,7 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -49,15 +38,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role_id' => ['required', 'integer', 'exists:roles,id'],
+            'photo_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Handle the file upload if a file is provided
+        $photoPath = null;
+        if ($request->hasFile('photo_path')) {
+            $file = $request->file('photo_path');
+            $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $photoPath = $file->storeAs('users', $filename, 'public');
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'avatar' => $photoPath,
+            'status' => $request->status,
+            'role_id' => $request->role_id,
+        ]);
+
+        return redirect()->route('users.index')->with('message', 'User created successfully.');
     }
 
     /**
@@ -65,7 +75,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        return view('admin.users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -73,7 +84,32 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role_id' => ['required', 'integer', 'exists:roles,id'],
+            'photo_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $photoPath = null;
+        if ($request->hasFile('photo_path')) {
+            $file = $request->file('photo_path');
+            $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $photoPath = $file->storeAs('users', $filename, 'public');
+        }
+
+        $user->name = $request->name;
+        $user->password = Hash::make($request->password);
+        $user->avatar = $photoPath;
+        $user->status = $request->status;
+        $user->role_id = $request->role_id;
+        $user->save();
+
+        return redirect()->route('users.index')->with('message', 'User has been updated successfully.');
     }
 
     /**
@@ -81,12 +117,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
-    }
-
-    public function profile()
-    {
-
+        $user->delete();
+        return redirect()->route('users.index')->with('message', 'User has been deleted successfully.');
     }
 
     public function statusToggle(User $user)
@@ -103,5 +135,10 @@ class UserController extends Controller
         }
 
         return redirect('/users');
+    }
+
+    public function profile()
+    {
+
     }
 }

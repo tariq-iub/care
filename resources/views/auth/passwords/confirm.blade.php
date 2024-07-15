@@ -1,72 +1,36 @@
 @extends('layouts.app')
-@section('title', 'Confirm Password')
 
 @section('content')
-    <div id="home">
-        <div class="main-slider">
-            <div id="container-inside">
-                <svg class="editorial"
-                     xmlns="https://www.w3.org/2000/svg"
-                     xmlns:xlink="https://www.w3.org/1999/xlink"
-                     viewBox="0 24 150 28"
-                     preserveAspectRatio="none">
-                    <defs>
-                        <path id="gentle-wave"
-                              d="M-160 44c30 0
-                                 58-18 88-18s
-                                 58 18 88 18
-                                 58-18 88-18
-                                 58 18 88 18
-                                 v44h-352z" />
-                    </defs>
-                    <g class="parallax">
-                        <use xlink:href="#gentle-wave" x="50" y="0" fill="#4329b7"/>
-                        <use xlink:href="#gentle-wave" x="50" y="3" fill="#382299"/>
-                        <use xlink:href="#gentle-wave" x="50" y="6" fill="#38258e"/>
-                    </g>
-                </svg>
-            </div>
-            <div class="slider-content">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="iq-card">
-                            <div class="iq-card-header pt-3">
-                                <div class="iq-header-title">
-                                    <h4 class="card-title">CARE 360 - {{ __('Confirm Password') }}</h4>
-                                </div>
-                            </div>
-                            <div class="iq-card-body">
-                                {{ __('Please confirm your password before continuing.') }}
+    <div class="px-xxl-5">
+        <div class="text-center mb-6">
+            <h4 class="text-body-highlight">Password Confirmation</h4>
+            <p class="text-body-tertiary mb-5">Please confirm your password before continuing.</p>
+            <form class="d-flex align-items-center mb-5" method="POST" action="{{ route('password.confirm') }}">
+                @csrf
 
-                                <form method="POST" action="{{ route('password.confirm') }}">
-                                    @csrf
-
-                                    <div class="form-group">
-                                        <label for="password">{{ __('Password') }}</label>
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                        @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary px-5 mr-2">
-                                        {{ __('Confirm Password') }}
-                                    </button>
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link float-right" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </form>
-                            </div>
-                        </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="form-icon-container">
+                        <input class="form-control form-icon-input @error('password') is-invalid @enderror"
+                               id="password" name="password" type="password" placeholder="Password"
+                               required autocomplete="current-password"/>
+                        <span class="fas fa-key text-body fs-9 form-icon"></span>
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
-            </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">Confirm Password</button>
+                @if (Route::has('password.request'))
+                    <div class="col-auto">
+                        <a class="fs-9 fw-semibold" href="{{ route('password.request') }}">
+                            Forgot your Password?
+                        </a>
+                    </div>
+                @endif
+            </form>
         </div>
     </div>
 @endsection
