@@ -5,6 +5,7 @@ use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SensorDataController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/factories', FactoryController::class)->except(['show', 'destroy']);
     Route::resource('/sites', SiteController::class)->except(['show', 'destroy']);
     Route::resource('/inspections', InspectionController::class);
+    Route::resource('/sensor_data', SensorDataController::class);
     Route::controller(DataFileController::class)
         ->as('data.')
         ->group(function () {
