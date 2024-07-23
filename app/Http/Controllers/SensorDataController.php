@@ -12,7 +12,16 @@ class SensorDataController extends Controller
      */
     public function index()
     {
-        return SensorData::all();
+        $fft = SensorData::FFT(1, ['X']);
+        $data = [];
+
+        foreach ($fft as $key => $value) {
+            $data[] = [
+                'real' => $value->getReal(),
+                'imaginary' => $value->getImaginary(),
+            ];
+        }
+        return $data;
     }
 
     /**
