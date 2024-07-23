@@ -19,6 +19,7 @@ class SensorDataController extends Controller
             $data[] = [
                 'real' => $value->getReal(),
                 'imaginary' => $value->getImaginary(),
+                'magnitude' => $value->abs(),
             ];
         }
         return $data;
