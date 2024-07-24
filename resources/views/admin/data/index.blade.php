@@ -1,4 +1,4 @@
-@extends('layouts.powereye')
+@extends('layouts.care')
 
 @section('content')
 
@@ -84,11 +84,11 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                        <a class="dropdown-item" href="{{ route('users.edit', $row->id) }}"
+                                        <a class="dropdown-item" href="{{ route('data.edit', $row->id) }}"
                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                             Edit
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('files.download', $row->id) }}"
+                                        <a class="dropdown-item" href="{{ route('data.download', $row->id) }}"
                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
                                             Download
                                         </a>
