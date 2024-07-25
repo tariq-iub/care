@@ -55,7 +55,10 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/data-setup/', [DataCollectionSetupController::class, 'index'])->name('setup.index');
+    Route::get('/data-setup', [DataCollectionSetupController::class, 'index'])->name('setup.index');
+    Route::get('/data-setup/create', [DataCollectionSetupController::class, 'create'])->name('setup.create');
+    Route::get('/data-setup/{data_collection_setup}/edit', [DataCollectionSetupController::class, 'edit'])->name('setup.edit');
+    Route::get('/data-setup/{data_collection_setup}/show', [DataCollectionSetupController::class, 'show'])->name('setup.show');
     Route::post('/data-setup/complete', [DataCollectionSetupController::class, 'complete'])->name('setup.complete');
 
     Route::get('/plant-setup/', [PlantSetupController::class, 'index'])->name('plant.index');

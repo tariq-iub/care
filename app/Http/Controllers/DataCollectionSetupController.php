@@ -2,28 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataCollectionSetup;
+use App\Models\CutOffFrequency;
+use App\Models\Demodulation;
+use App\Models\General;
+use App\Models\Measurement;
+use App\Models\Resolution;
+use App\Models\Transducer;
+use App\Models\Units;
 use Illuminate\Http\Request;
 
 class DataCollectionSetupController extends Controller
 {
     public function index()
     {
+        $dataCollectionSetups = DataCollectionSetup::all();
+
+
+        return view('admin.data_collection_setup.index', compact('dataCollectionSetups'));
+    }
+    public function create()
+    {
         // Define static arrays for dropdowns
-        $cutoffFrequencies = ['10 Hz', '20 Hz', '50 Hz', '100 Hz'];
-        $resolutions = ['High', 'Medium', 'Low'];
-        $transducerTypes = ['Accelerometer', 'Velocity Probe', 'Proximity Probe', 'Volts Dynamic'];
-        $sensitivityUnits = ['mV/g', 'V/in', 'mV/Pa', 'V/m/s²', 'mA/g'];
-        $averageTypes = ['Spectral', 'Time Synchronous'];
-        $averageOverlapPercentages = ['0%', '12.5%', '25%', '37.5%', '50%', '62.5%', '75%'];
-        $windowTypes = ['Hanning', 'Hamming', 'Flat Top', 'Rectangular'];
-        $highPassFilters = ['500 Hz', '1000 Hz', '2000 Hz', '3000 Hz', '4000 Hz', '5000 Hz'];
-        $bandPassFilters = [
-            '1250-2500 Hz', '1250-5000 Hz', '1250-10000 Hz',
-            '2500-5000 Hz', '3400-4400 Hz', '5000-10000 Hz'
-        ];
+        $cutoffFrequencies = CutOffFrequency::all()->pluck('value')->toArray();
+        $resolutions = Resolution::all()->pluck('value')->toArray();
+        $transducerTypes = Transducer::all()->pluck('title')->toArray();
+        $sensitivityUnits = Units::all()->pluck('title')->toArray();
+        $averageTypes = getAverageType();
+        $averageOverlapPercentages = getAverageOverlapPercentages();
+        $windowTypes = getWindowType();
+        $highPassFilters = getHighPassFilters();
+        $bandPassFilters = getBandPassFilters();
 
         // Pass arrays to the view
-        return view('admin.data_collection_setup.index', compact(
+        return view('admin.data_collection_setup.create', compact(
             'cutoffFrequencies',
             'resolutions',
             'transducerTypes',
@@ -36,10 +48,62 @@ class DataCollectionSetupController extends Controller
         ));
     }
 
+    public function edit(DataCollectionSetup $dataCollectionSetup)
+    {
+        $general = General::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+        $measurement = Measurement::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+        $demodulation = Demodulation::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+
+        $cutoffFrequencies = CutOffFrequency::all()->pluck('value')->toArray();
+        $resolutions = Resolution::all()->pluck('value')->toArray();
+        $transducerTypes = Transducer::all()->pluck('title')->toArray();
+        $sensitivityUnits = Units::all()->pluck('title')->toArray();
+        $averageTypes = getAverageType();
+        $averageOverlapPercentages = getAverageOverlapPercentages();
+        $windowTypes = getWindowType();
+        $highPassFilters = getHighPassFilters();
+        $bandPassFilters = getBandPassFilters();
+
+        // Pass arrays to the view
+        return view('admin.data_collection_setup.edit', compact(
+
+            'dataCollectionSetup',
+            'cutoffFrequencies',
+            'general',
+            'measurement',
+            'demodulation',
+            'resolutions',
+            'transducerTypes',
+            'sensitivityUnits',
+            'averageTypes',
+            'averageOverlapPercentages',
+            'windowTypes',
+            'highPassFilters',
+            'bandPassFilters'
+        ));
+    }
+
+    public function show(DataCollectionSetup $dataCollectionSetup)
+    {
+        $general = General::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+        $measurement = Measurement::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+        $demodulation = Demodulation::with('dataCollectionSetup')->where('data_collection_setup_id', $dataCollectionSetup->id)->first();
+
+        return view('admin.data_collection_setup.show', compact(
+
+            'dataCollectionSetup',
+            'general',
+            'measurement',
+            'demodulation',
+        ));
+    }
+
+
     public function complete(Request $request)
     {
         $validatedData = $request->validate([
-            'cutoff_frequency' => 'required',
+            'setup_name' => 'required',
+            'cut_off_frequency' => 'required',
             'resolution' => 'required',
             'transducer_type' => 'required',
             'sensitivity' => 'required',
@@ -70,6 +134,7 @@ class DataCollectionSetupController extends Controller
             'unit' => 'required|string',
         ]);
 
+        print_r ($validated);
         // Save data to the database
         $setup = DataCollectionSetup::updateOrCreate(
             ['user_id' => auth()->id()], // Assuming user-specific setups
