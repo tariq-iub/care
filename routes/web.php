@@ -4,12 +4,14 @@ use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\PlantSetupController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SensorDataController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\DataCollectionSetupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +54,9 @@ Route::group(['middleware' => ['auth']], function () {
         });
 });
 
+Route::prefix('admin')->group(function () {
+    Route::get('/data-setup/', [DataCollectionSetupController::class, 'index'])->name('setup.index');
+    Route::post('/data-setup/complete', [DataCollectionSetupController::class, 'complete'])->name('setup.complete');
+
+    Route::get('/plant-setup/', [PlantSetupController::class, 'index'])->name('plant.index');
+});
