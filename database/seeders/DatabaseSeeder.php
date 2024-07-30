@@ -18,7 +18,16 @@ class DatabaseSeeder extends Seeder
             Unit::class,
             RolesTableSeeder::class,
             UsersTableSeeder::class,
-            ServiceRepresentativeSeeder::class
+            ServiceRepresentativesTableSeeder::class,
+            CompaniesTableSeeder::class,
+            PlantsTableSeeder::class,
+            AreasTableSeeder::class,
+            DevicesTableSeeder::class,
+            ComponentsTableSeeder::class,
+            PlantServiceRepsTableSeeder::class,
+            InspectionsTableSeeder::class,
+            NotesTableSeeder::class,
+            DataFileSeeder::class,
         ]);
     }
 }

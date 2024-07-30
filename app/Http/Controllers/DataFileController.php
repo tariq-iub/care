@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DataFile;
 use App\Models\Device;
 use App\Models\Factory;
+use App\Models\Plant;
 use App\Models\SensorData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,12 +18,11 @@ class DataFileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $files = DataFile::orderBy('id', 'desc')->get();
-        $factories = Factory::all();
+        $plants = Plant::all();
         $devices = Device::all();
-        return view('admin.files.index', compact('files', 'factories', 'devices'));
+        return view('admin.data.index', compact('plants', 'devices'));
     }
 
     /**
@@ -125,23 +125,23 @@ class DataFileController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataFile::with(['device', 'site.factory'])->select('*');
+            $data = DataFile::with(['device', 'area.plant'])->select('*');
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('device', function ($row) {
                     return $row->device->serial_number;
                 })
-                ->addColumn('site', function ($row) {
-                    return $row->site->title;
+                ->addColumn('area', function ($row) {
+                    return $row->area->title;
                 })
-                ->addColumn('factory', function ($row) {
-                    return $row->site->factory->title;
+                ->addColumn('plant', function ($row) {
+                    return $row->area->plant->title;
                 })
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->diffForHumans();
                 })
                 ->addColumn('action', function ($row) {
-                    return view('admin.files.partial.action', compact('row'))->render();
+                    return view('admin.data.partial.action', compact('row'))->render();
                 })
                 ->rawColumns(['action'])
                 ->make(true);

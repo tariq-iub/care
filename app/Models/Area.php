@@ -15,4 +15,14 @@ class Area extends Model
         'plant_id',
         'status'
     ];
+
+    public function plant()
+    {
+        return $this->belongsTo(Plant::class);
+    }
+
+    public function components()
+    {
+        return $this->hasMany(Component::class);
+    }
 }

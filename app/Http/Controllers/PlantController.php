@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Factory;
 use App\Models\Plant;
 use App\Models\PlantServiceRep;
 use App\Models\ServiceRepresentative;
@@ -28,14 +29,14 @@ class PlantController extends Controller
         $note = $plant->note;
         $serviceRepsAll = ServiceRepresentative::all();
         $plantServiceReps = PlantServiceRep::where('plant_id', $plant->id)->get(); //  get all service reps for the plant that are already assigned
-        $serviceReps= [];
-        foreach($plantServiceReps as $plantServiceRep) {
+        $serviceReps = [];
+        foreach ($plantServiceReps as $plantServiceRep) {
             $serviceReps[] = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
         }
 
-        foreach($serviceReps as $serviceRep) {
-            foreach($serviceRepsAll as $key => $serviceRepAll) {
-                if($serviceRep->id == $serviceRepAll->id) {
+        foreach ($serviceReps as $serviceRep) {
+            foreach ($serviceRepsAll as $key => $serviceRepAll) {
+                if ($serviceRep->id == $serviceRepAll->id) {
                     unset($serviceRepsAll[$key]);
                 }
             }
@@ -48,8 +49,8 @@ class PlantController extends Controller
     {
         $note = $plant->note;
         $plantServiceReps = PlantServiceRep::where('plant_id', $plant->id)->get();
-        $serviceReps= [];
-        foreach($plantServiceReps as $plantServiceRep) {
+        $serviceReps = [];
+        foreach ($plantServiceReps as $plantServiceRep) {
             $serviceReps[] = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
         }
 
@@ -100,5 +101,23 @@ class PlantController extends Controller
         $plants = Plant::where('company_id', $company_id)->get();
 
         return view('admin.plants.partial.handlers_table', compact('plants', 'company'));
+    }
+
+    public function fetch(Request $request)
+    {
+        if ($request->input('id')) {
+            $data = Plant::where('id', $request->input('id'))
+                ->with(['areas'])
+                ->first();
+
+            if ($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'Factory is not registered in the system.'], 404);
+        } else {
+            $data = Plant::with(['areas'])
+                ->get();
+
+            if ($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'No factories registered in the system.'], 404);
+        }
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.powereye')
+@extends('layouts.care')
 
 @section('content')
     <nav class="mb-3" aria-label="breadcrumb">
@@ -12,17 +12,17 @@
 
     <h2 class="text-bold text-body-emphasis mb-5">Data Files</h2>
 
-    <div class="table-responsive">
-        <table class="table table-bordered data-table">
+    <div class="table-responsive scrollbar ms-n1 ps-1">
+        <table class="table data-table">
             <thead>
             <tr>
-                <th>No</th>
-                <th>File Title</th>
-                <th>Device</th>
-                <th>Site</th>
-                <th>Factory</th>
-                <th>Uploaded</th>
-                <th>Actions</th>
+                <th class="sort align-middle" style="width:15%; min-width:50px;">NO</th>
+                <th class="sort align-middle" style="width:15%; min-width:200px;">FILE TITLE</th>
+                <th class="sort align-middle" style="width:15%; min-width:200px;">DEVICE</th>
+                <th class="sort align-middle" style="width:15%; min-width:200px;">AREA</th>
+                <th class="sort align-middle" style="width:15%; min-width:200px;">FACTORY</th>
+                <th class="sort align-middle" style="width:15%; min-width:200px;">UPLOADED AT</th>
+                <th class="sort align-middle" style="width:15%; min-width:50px;">ACTIONS</th>
             </tr>
             </thead>
             <tbody>
@@ -49,8 +49,8 @@
                             <select class="form-select" id="factory_id" name="factory_id" data-choices="data-choices"
                                     data-options='{"removeItemButton":true,"placeholder":true}' required>
                                 <option value="">Select Factory</option>
-                                @foreach($factories as $factory)
-                                    <option value="{{ $factory->id }}">{{ $factory->title }}</option>
+                                @foreach($plants as $plant)
+                                    <option value="{{ $plant->id }}">{{ $plant->title }}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">Select a factory name...</div>
@@ -137,13 +137,13 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('files.data') }}",
+                ajax: "{{ route('data.data') }}",
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'file_name', name: 'file_name'},
                     {data: 'device', name: 'device.serial_number'},
-                    {data: 'site', name: 'site.title'},
-                    {data: 'factory', name: 'site.factory.title'},
+                    {data: 'area', name: 'area.title'},
+                    {data: 'plant', name: 'area.plant.title'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
@@ -152,7 +152,7 @@
 
         function deleteFile(ctrl, id) {
             if (confirm('Are you sure to delete this file?')) {
-                fetch(`{{ url('files') }}/${id}`, {
+                fetch(`{{ url('data') }}/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -248,7 +248,7 @@
         });
 
         function OpenEditModal(id) {
-            fetch(`{{ url('files') }}/${id}`, {
+            fetch(`{{ url('data') }}/${id}`, {
                 method: 'GET'
             })
                 .then(response => {
@@ -265,7 +265,7 @@
                     $('#device_serial').val(data.device_serial);
 
                     // Since the file input cannot be pre-filled for security reasons, you might want to notify the user if a file is already present.
-                    $('#edit-form').attr('action', `{{ url('files') }}/${id}`);
+                    $('#edit-form').attr('action', `{{ url('data') }}/${id}`);
 
                     // Open the modal
                     $(".bd-edit-modal-lg").modal('show');
@@ -282,7 +282,7 @@
                 event.preventDefault();
                 const formData = new FormData(editForm);
                 const id = formData.get('id'); // Get the ID from the form
-                fetch(`{{ url('files') }}/${id}`, {
+                fetch(`{{ url('data') }}/${id}`, {
                     method: 'PUT',
                     body: formData
                 })

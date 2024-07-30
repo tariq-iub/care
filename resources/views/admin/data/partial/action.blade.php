@@ -5,7 +5,7 @@
 
     <ul class="dropdown-menu dropdown-menu-right">
         <li>
-            <a class="dropdown-item" href="{{ route('files.download', $row->id) }}">
+            <a class="dropdown-item" href="{{ route('data.download', $row->id) }}">
                 <i class="ri-download-cloud-2-line"></i> Download
             </a>
         </li>

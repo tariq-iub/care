@@ -23,9 +23,9 @@ class DataFile extends Model
         return $this->belongsTo(Component::class);
     }
 
-    public function site()
+    public function area()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Area::class);
     }
 
     public function device()

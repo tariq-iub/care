@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class AreaController extends Controller
@@ -61,5 +62,26 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         //
+    }
+
+    public function fetch(Request $request)
+    {
+        if($request->input('id'))
+        {
+            $data = Area::where('id', $request->input('id'))
+                ->with(['components'])
+                ->first();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'Site is not registered in the system.'], 404);
+        }
+        else
+        {
+            $data = Area::with(['components'])
+                ->get();
+
+            if($data) return response()->json($data, 200);
+            else return response()->json(['message' => 'No sites registered in the system.'], 404);
+        }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\SiteController;
@@ -28,8 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/data/upload', [DataFileController::class, 'upload'])->name('upload');
 Route::post('/data/edit', [DataFileController::class, 'edit'])->name('edit');
 Route::post('/data/replace', [DataFileController::class, 'replace'])->name('replace');
-Route::get('/factories', [FactoryController::class, 'fetch']);
-Route::get('/sites', [SiteController::class, 'fetch']);
+Route::get('/plants', [AreaController::class, 'fetch']);
+Route::get('/areas', [PlantController::class, 'fetch']);
 
 Route::post('/admin/data-setup/general', [DataCollectionSetupController::class, 'saveGeneralData'])->name('api.data-setup.general');
 Route::post('/admin/data-setup/measurement', [DataCollectionSetupController::class, 'saveMeasurementData'])->name('api.data-setup.measurement');

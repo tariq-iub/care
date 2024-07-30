@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->string('file_path');
             $table->unsignedBigInteger('component_id')->nullable();
-            $table->unsignedBigInteger('site_id');
+            $table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('device_id');
             $table->unsignedBigInteger('inspection_id');
             $table->timestamps();
