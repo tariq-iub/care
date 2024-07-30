@@ -13,12 +13,18 @@ return new class extends Migration
     {
         Schema::create('service_representatives', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('address');
             $table->string('service_rep_name');
-            $table->string('phone')->nullable();
-            $table->string('fax')->nullable();
-            $table->string('email')->nullable();
+            $table->string('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
+            $table->string('country');
+            $table->string('contact_name');
+            $table->string('contact_title');
+            $table->string('phone_number');
+            $table->string('alt_phone_number')->nullable();
+            $table->string('fax_number')->nullable();
+            $table->string('email');
             $table->softDeletes();
             $table->timestamps();
 

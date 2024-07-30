@@ -10,6 +10,7 @@ class Menu extends Model
 {
     use HasFactory;
     use Loggable;
+
     protected $fillable = ['title'];
 
     public function subMenus()

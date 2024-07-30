@@ -106,7 +106,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                         <a class="dropdown-item" href="{{ route('setup.edit', $row->id) }}">Edit</a>
-                                        <a class="dropdown-item" href="{{ route('setup.show', $row->id) }}">Show</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openModal(event, {{ $row->id }})">Show</a>
                                         <a class="dropdown-item" href="javascript:void(0)">Copy</a>
                                         <form id="update-status-{{ $row->id }}"
                                               action="{{ route('users.status', $row->id) }}" method="POST"
@@ -145,9 +145,81 @@
         </div>
     </div>
 
+    @include('admin.data_collection_setup.show');
+
 @endsection
 
 @push("scripts")
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const impactDemodCheckbox = document.getElementById("impact-demodulation");
+            const highPassFilterGroup = document.getElementById("high-pass-filter-group");
+            const bandPassFilterGroup = document.getElementById("band-pass-filter-group");
 
+            impactDemodCheckbox.addEventListener("change", function () {
+                if (impactDemodCheckbox.checked) {
+                    highPassFilterGroup.style.display = "block";
+                    bandPassFilterGroup.style.display = "none";
+                } else {
+                    highPassFilterGroup.style.display = "none";
+                    bandPassFilterGroup.style.display = "block";
+                }
+            });
+
+            // Initial setup based on the checkbox state
+            if (impactDemodCheckbox.checked) {
+                highPassFilterGroup.style.display = "block";
+                bandPassFilterGroup.style.display = "none";
+            } else {
+                highPassFilterGroup.style.display = "none";
+                bandPassFilterGroup.style.display = "block";
+            }
+        });
+
+        function openModal(event, id) {
+            event.preventDefault(); // Prevent the default action of the link
+
+            // Perform AJAX request to fetch data for the given id
+            fetch('/api/admin/data-setup/' + id + '/details')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                        const setup = data.data.setup;
+                        const general = data.data.general;
+                        const measurement = data.data.measurement;
+                        const demodulation = data.data.demodulation;
+
+                        // Populate the fields for Form 1 (Setup and General)
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-setup-name').value = setup.setup_name;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-cut-off-frequency').value = general.cut_off_frequency;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-resolution').value = general.resolution;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-transducer-type').value = general.transducer_type;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-sensitivity').value = general.sensitivity;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-sensitivity-unit').value = general.unit;
+
+                        // Populate the fields for Form 2 (Measurement)
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-average-type').value = measurement.average_type;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-no-of-averages').value = measurement.number_of_averages;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-average-overlap-percentage').value = measurement.average_overlap_percentage;
+                        document.querySelector('#bootstrap-vertical-wizard-wizard-window-type').value = measurement.window_type;
+
+                        // Populate the fields for Form 3 (Demodulation)
+                        document.querySelector('#impact-demodulation').checked = demodulation.filter_type === "HighPassFilter";
+                        document.querySelector('#high-pass-filter').value = demodulation.filter_value;
+                        document.querySelector('#band-pass-filter').value = demodulation.filter_value;
+
+                        // Show the modal
+                        var modal = new bootstrap.Modal(document.getElementById('show-data-collection-setup'), {});
+                        modal.show();
+                    } else {
+                        alert(data.message); // Show error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching setup details:', error);
+                    alert('An error occurred while fetching setup details.');
+                });
+        }
+    </script>
 @endpush
-
