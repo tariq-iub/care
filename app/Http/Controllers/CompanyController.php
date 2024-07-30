@@ -126,9 +126,6 @@ class CompanyController extends Controller
 
     public function updateCompanyInfo(Request $request)
     {
-
-        $company = Company::where('id', $request->input('plant_id'))->firstOrFail();
-
         $validator = $request->validate([
             'company_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -144,20 +141,9 @@ class CompanyController extends Controller
             'email' => 'required|email|max:255',
         ]);
 
-        $company->update([
-            'company_name' => $validator['company_name'],
-            'address' => $validator['address'],
-            'city' => $validator['city'],
-            'state' => $validator['state'],
-            'zip' => $validator['zip'],
-            'country' => $validator['country'],
-            'contact_name' => $validator['contact_name'],
-            'contact_title' => $validator['contact_title'],
-            'phone_number' => $validator['phone_number'],
-            'alt_phone_number' => $validator['alt_phone_number'],
-            'fax_number' => $validator['fax_number'],
-            'email' => $validator['email'],
-        ]);
+        $company = Company::where('id', $request->input('company_id'))->firstOrFail();
+
+        $company->update($request->all());
 
         return response()->json(['success' => true, 'company' => $company]);
     }

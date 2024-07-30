@@ -244,7 +244,7 @@
                 if (getActiveStep() == 2) {
                     const formData = new FormData(form);
                     formData.append('plant_id', {{$plant->id}});
-                    $.post('/api/plant-setup/update-plant-info', Object.fromEntries(formData), function(response) {
+                    $.post('/api/plant/update-plant-info', Object.fromEntries(formData), function(response) {
                         plant_id = response.plant.id;
                         console.log(response,plant_id);
                     }).fail(function(response) {
@@ -255,7 +255,7 @@
                     const formData = new FormData(form2);
                     formData.append('note_id', {{$note->id}});
                     $.ajax({
-                        url: '/api/plant-setup/update-note',
+                        url: '/api/note/update-note',
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -271,7 +271,7 @@
                 if (getActiveStep() == 4) {
                     const formData = new FormData(form3);
                     let serviceRepsIds = $('#organizerMultiple').val();
-                    $.post('/api/plant-setup/link-service-rep', {
+                    $.post('/api/service-rep/link-service-rep', {
                         plant_id: {{$plant->id}},
                         service_rep_ids: serviceRepsIds
                     }, function(response) {
@@ -290,7 +290,7 @@
 
                 const serviceRepId = $(this).val();
                 service_rep_id = serviceRepId;
-                $.get(`/api/plant-setup/fetch-service-representative/${serviceRepId}`, function(response) {
+                $.get(`/api/service-rep/fetch-service-representative/${serviceRepId}`, function(response) {
 
                     $('#service-rep-info').removeClass('d-none');
 

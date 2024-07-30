@@ -24,7 +24,7 @@
                                 </h4>
                             </div>
                             <div class="col-12 col-md">
-                                <a class="btn btn-outline-primary rounded-pill float-md-end" href="{{ route('company.create') }}">
+                                <a class="float-md-end" href="{{ route('company.create') }}">
                                     <span class="fas fa-plus me-2"></span>
                                 </a>
                             </div>
@@ -76,11 +76,8 @@
                         <div class="mb-2">
                             <label for="service_rep_id" class="form-label">Select Service Representative</label>
 
-                            <select class="form-select" name="service_rep" id="organizerMultiple" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'> required>
-{{--                                <option value="">Select Service Representative</option>--}}
-{{--                                @foreach($serviceReps as $serviceRep)--}}
-{{--                                    <option value="{{ $serviceRep->id }}">{{ $serviceRep->service_rep_name }}</option>--}}
-{{--                                @endforeach--}}
+                            <select class="form-select" name="service_rep" id="service-rep-link" required>
+                                <option value="">Select Service Representative</option>
                             </select>
                         </div>
                         <div class="d-flex justify-content-center">
@@ -92,7 +89,7 @@
         </div>
     </div>
 
-{{--    @include('admin.plants.plant-show')--}}
+    @include('admin.plants.plant-show')
 
 
 @endsection
@@ -104,17 +101,15 @@
             $(".list-group-item-success").removeClass('list-group-item-success');
             $(this).addClass('list-group-item-success');
 
-            $.get(`{{ url('/api/plant-setup/fetch-plants') }}/${id}`, function(response) {
+            $.get(`{{ url('/api/plant/fetch-plants') }}/${id}`, function(response) {
                 $("#handlers-data").html(response);
             });
         });
 
         function openLinkServiceRepModal(plantId) {
-            $.get(`/api/plant-setup/fetch-plant-service-rep/${plantId}`, function(response) {
+            $.get(`/api/plant/fetch-plant-service-rep/${plantId}`, function(response) {
                 let serviceReps = response.serviceReps;
                 let serviceRepsAll = response.serviceRepsAll;
-
-                // remove serviceReps from serviceRepsAll
 
                 serviceReps.forEach(function(serviceRep) {
                     serviceRepsAll = serviceRepsAll.filter(function(item) {
@@ -122,30 +117,10 @@
                     });
                 });
 
-                console.log(serviceReps, typeof serviceReps);
-                console.log(serviceRepsAll, typeof serviceRepsAll);
-
-                let html = '';
+                $('#service-rep-link').empty();
                 serviceRepsAll.forEach(function(serviceRep) {
-                    console.log('Id', serviceRep.id, 'Name', serviceRep.service_rep_name);
-                    html += `<option value="${serviceRep.id}">${serviceRep.service_rep_name}</option>`;
+                    $('#service-rep-link').append(`<option value="${serviceRep.id}">${serviceRep.service_rep_name}</option>`);
                 });
-
-                console.log(html);
-
-                let choices = new Choices('#organizerMultiple', {
-                    removeItemButton: true,
-                    placeholder: true,
-                });
-
-                choices.setChoices(serviceRepsAll.map(serviceRep => ({
-                    value: serviceRep.id,
-                    label: serviceRep.service_rep_name,
-                    selected: false,
-                    disabled: false
-                })), 'value', 'label', false);
-
-
             });
 
             $("#plant_id").val(plantId);
@@ -155,19 +130,13 @@
         $("#linkServiceRepForm").on("submit", function(event) {
             event.preventDefault();
             $plantId = $("#plant_id").val();
-            $serviceRepIds = $('#organizerMultiple').val();
-
-            console.log($serviceRepIds);
-
-            $.post("{{ url('/api/plant-setup/link-service-rep') }}",
-                {
-                    service_rep_ids: $serviceRepIds,
-                    plant_id: $plantId
-                }
+            $serviceRepIds = [];
+            $serviceRepIds.push($("#service-rep-link").val());
+            $.post("{{ url('/api/service-rep/link-service-rep') }}",
+                {service_rep_ids: $serviceRepIds, plant_id: $plantId}
                 , function(response) {
                 console.log(response);
                 if (response.success) {
-
                     $("#linkServiceRepForm")[0].reset();
                     $("#linkServiceRepModal").modal("hide");
                 } else {
@@ -175,6 +144,24 @@
                 }
             });
         });
+
+        function openShowPlantModal(event, plantId) {
+            event.preventDefault();
+            $.get(`/api/plant/fetch-plant/${plantId}`, function(response) {
+                $("#plant-name").val(response.plant.title);
+                $("#plant-status").val(response.plant.status === 1 ? 'Active' : 'Inactive');
+                $('#notes').val(response.note.note);
+
+                $('#service-rep').empty();
+
+                response.serviceReps.forEach(function(serviceRep) {
+                    $('#service-rep').append(`<option value="${serviceRep.id}">${serviceRep.service_rep_name}</option>`);
+                });
+
+                var modal = new bootstrap.Modal(document.getElementById('show-data-collection-setup'), {});
+                modal.show();
+            });
+        }
     </script>
 @endpush
 

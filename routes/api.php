@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
@@ -30,8 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/data/upload', [DataFileController::class, 'upload'])->name('upload');
 Route::post('/data/edit', [DataFileController::class, 'edit'])->name('edit');
 Route::post('/data/replace', [DataFileController::class, 'replace'])->name('replace');
-Route::get('/plants', [AreaController::class, 'fetch']);
-Route::get('/areas', [PlantController::class, 'fetch']);
+Route::get('/factories', [FactoryController::class, 'fetch']);
+Route::get('/sites', [SiteController::class, 'fetch']);
 
 Route::post('/admin/data-setup/general', [DataCollectionSetupController::class, 'saveGeneralData'])->name('api.data-setup.general');
 Route::post('/admin/data-setup/measurement', [DataCollectionSetupController::class, 'saveMeasurementData'])->name('api.data-setup.measurement');
@@ -50,19 +49,20 @@ Route::get('/get-units/{key}', function ($key) {
 Route::post('/check-email/{email}', [ServiceRepresentativeController::class, 'checkEmail']);
 
 
-Route::post('/plant-setup/save-company-info', [CompanyController::class, 'saveCompanyInfo']);
-Route::post('/plant-setup/save-plant-info', [PlantController::class, 'savePlantInfo']);
-Route::post('/plant-setup/save-note', [NoteController::class, 'saveNotesPictures']);
-Route::post('/plant-setup/save-service-representative', [ServiceRepresentativeController::class, 'saveServiceRepresentative']);
+Route::post('/company/save-company-info', [CompanyController::class, 'saveCompanyInfo']);
+Route::post('/plant/save-plant-info', [PlantController::class, 'savePlantInfo']);
+Route::post('/note/save-note', [NoteController::class, 'saveNotesPictures']);
+Route::post('/service-rep/save-service-representative', [ServiceRepresentativeController::class, 'saveServiceRepresentative']);
 
-Route::post('/plant-setup/update-company-info', [CompanyController::class, 'updateCompanyInfo']);
-Route::post('/plant-setup/update-plant-info', [PlantController::class, 'updatePlantInfo']);
-Route::post('/plant-setup/update-note', [NoteController::class, 'updateNotesPictures']);
-Route::post('/plant-setup/update-service-representative', [ServiceRepresentativeController::class, 'updateServiceRepresentative']);
+Route::post('/company/update-company-info', [CompanyController::class, 'updateCompanyInfo']);
+Route::post('/plant/update-plant-info', [PlantController::class, 'updatePlantInfo']);
+Route::post('/note/update-note', [NoteController::class, 'updateNotesPictures']);
+Route::post('/service-rep/update-service-representative', [ServiceRepresentativeController::class, 'updateServiceRepresentative']);
 
 
-Route::get('/plant-setup/fetch-plants/{id}', [PlantController::class, 'showPlants']);
+Route::get('/plant/fetch-plants/{id}', [PlantController::class, 'showPlants']);
+Route::get('/plant/fetch-plant/{id}', [PlantController::class, 'showPlant']);
 
-Route::get('/plant-setup/fetch-service-representative/{id}', [ServiceRepresentativeController::class, 'fetchServiceRepresentative']);
-Route::get('/plant-setup/fetch-plant-service-rep/{id}', [ServiceRepresentativeController::class, 'fetchPlantServiceRepresentative']);
-Route::post('/plant-setup/link-service-rep', [ServiceRepresentativeController::class, 'linkServiceRepresentative']);
+Route::get('/service-rep/fetch-service-representative/{id}', [ServiceRepresentativeController::class, 'fetchServiceRepresentative']);
+Route::get('/plant/fetch-plant-service-rep/{id}', [ServiceRepresentativeController::class, 'fetchPlantServiceRepresentative']);
+Route::post('/service-rep/link-service-rep', [ServiceRepresentativeController::class, 'linkServiceRepresentative']);
