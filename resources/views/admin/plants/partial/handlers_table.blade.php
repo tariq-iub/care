@@ -7,7 +7,7 @@
                 </h4>
             </div>
             <div class="col-12 col-md text-md-end">
-                <a class="btn btn-outline-primary rounded-pill float-md-end" href="{{ route('plant.create',['id' => $company->id]) }}">
+                <a class="float-md-end" href="{{ route('plant.create',['id' => $company->id]) }}">
                     <span class="fas fa-plus me-2"></span>
                 </a>
             </div>
@@ -42,20 +42,9 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                     <a class="dropdown-item" href="{{ route('plant.edit', $row->id) }}">Edit</a>
-                                    <a class="dropdown-item" href="{{ route('plant.show', $row->id) }}">Show</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openShowPlantModal(event, {{ $row->id }})">Show</a>
 
                                     <button class="dropdown-item" onclick="openLinkServiceRepModal({{$row->id}})">Link Service Representative</button>
-
-                                    {{--<a class="dropdown-item" href="javascript:void(0)">Copy</a>
-                                    <form id="update-status-{{ $row->id }}"
-                                          action="{{ route('users.status', $row->id) }}" method="POST"
-                                          style="display:none;">
-                                        @csrf
-                                        @method("PUT")
-                                        <input type="hidden" name="status" value="{{ !$row->status }}">
-                                    </form>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#!">Remove</a>--}}
                                 </div>
                             </div>
                         </td>

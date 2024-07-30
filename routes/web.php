@@ -57,30 +57,14 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/data/download/{data_file}', 'download')->name('download');
         });
 
-    Route::prefix('admin')->group(function () {
-        Route::get('/data-setup', [DataCollectionSetupController::class, 'index'])->name('setup.index');
-        Route::get('/data-setup/create', [DataCollectionSetupController::class, 'create'])->name('setup.create');
-        Route::get('/data-setup/{data_collection_setup}/edit', [DataCollectionSetupController::class, 'edit'])->name('setup.edit');
-        Route::get('/data-setup/{data_collection_setup}/show', [DataCollectionSetupController::class, 'show'])->name('setup.show');
-        Route::get('/plant-setup/', [PlantSetupController::class, 'index'])->name('plant.index');
-    });
-Route::prefix('admin')->group(function () {
     Route::get('/data-setup', [DataCollectionSetupController::class, 'index'])->name('setup.index');
     Route::get('/data-setup/create', [DataCollectionSetupController::class, 'create'])->name('setup.create');
     Route::get('/data-setup/{data_collection_setup}/edit', [DataCollectionSetupController::class, 'edit'])->name('setup.edit');
     Route::get('/data-setup/{data_collection_setup}/show', [DataCollectionSetupController::class, 'show'])->name('setup.show');
     Route::post('/data-setup/complete', [DataCollectionSetupController::class, 'complete'])->name('setup.complete');
 
-    Route::get('/plant-setup/', [CompanyController::class, 'index'])->name('company.index');
-    Route::get('/plant-setup/create', [CompanyController::class, 'create'])->name('company.create');
-    Route::get('/plant-setup/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
-    Route::get('/plant-setup/{company}/show', [CompanyController::class, 'show'])->name('company.show');
-    Route::post('/plant-setup/complete', [CompanyController::class, 'complete'])->name('company.complete');
+    Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store', 'edit', 'show']);
 
-//    Route::get('/plant-setup/', [PlantController::class, 'index'])->name('plant.index');
-    Route::get('/plant-setup/create-plant/{id}', [PlantController::class, 'create'])->name('plant.create');
-    Route::get('/plant-setup/{plant}/edit-plant', [PlantController::class, 'edit'])->name('plant.edit');
-    Route::get('/plant-setup/{plant}/show-plant', [PlantController::class, 'show'])->name('plant.show');
-    Route::post('/plant-setup/complete', [PlantController::class, 'complete'])->name('plant.complete');
-
+    Route::get('/plant/create-plant/{id}', [PlantController::class, 'create'])->name('plant.create');
+    Route::get('/plant/{plant}/edit-plant', [PlantController::class, 'edit'])->name('plant.edit');
 });

@@ -253,7 +253,7 @@
                                                     Company and Plant information has been successfully added.
                                                 </p>
                                                 <a class="btn btn-primary px-6"
-                                                    href="{{ route('admin.plants.create') }}"
+                                                    href="{{ route('company.create') }}"
                                                     onclick="location.reload()"
                                                 >
                                                     Start Over
@@ -333,7 +333,7 @@
                 if (getActiveStep() == 2) {
                     const formData = new FormData(form);
 
-                    $.post('/api/plant-setup/save-company-info', Object.fromEntries(formData), function(response) {
+                    $.post('/api/company/save-company-info', Object.fromEntries(formData), function(response) {
                         company_id = response.company.id;
                         console.log(response);
                     }).fail(function(response) {
@@ -343,7 +343,7 @@
                 if (getActiveStep() == 3) {
                     const formData = new FormData(form2);
                     formData.append('company_id', company_id);
-                    $.post('/api/plant-setup/save-plant-info', Object.fromEntries(formData), function(response) {
+                    $.post('/api/plant/save-plant-info', Object.fromEntries(formData), function(response) {
                         plant_id = response.plant.id;
                         console.log(response,plant_id);
                     }).fail(function(response) {
@@ -354,7 +354,7 @@
                     const formData = new FormData(form3);
                     formData.append('plant_id', plant_id);
                     $.ajax({
-                        url: '/api/plant-setup/save-note',
+                        url: '/api/note/save-note',
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -371,7 +371,7 @@
                     const formData = new FormData(form4);
                     let serviceRepsIds = $('#organizerMultiple').val();
 
-                    $.post('/api/plant-setup/link-service-rep', {
+                    $.post('/api/service-rep/link-service-rep', {
                         plant_id: plant_id,
                         service_rep_ids: serviceRepsIds
                     }, function(response) {
@@ -380,34 +380,6 @@
                         console.log(response);
                     });
                 }
-            });
-
-
-            $('#service-rep').on('change', function() {
-
-                if ($(this).val() == '') {
-                    $('#service-rep-info').addClass('d-none');
-                    return;
-                }
-
-                const serviceRepId = $(this).val();
-                $.get(`/api/plant-setup/fetch-service-representative/${serviceRepId}`, function(response) {
-
-                    $('#service-rep-info').removeClass('d-none');
-
-                    $('#service-rep-name').val(response.serviceRep.service_rep_name);
-                    $('#service-rep-address').val(response.serviceRep.address);
-                    $('#service-rep-city').val(response.serviceRep.city);
-                    $('#service-rep-state').val(response.serviceRep.state);
-                    $('#service-rep-zip').val(response.serviceRep.zip);
-                    $('#service-rep-country').val(response.serviceRep.country);
-                    $('#service-rep-contact-name').val(response.serviceRep.contact_name);
-                    $('#service-rep-contact-title').val(response.serviceRep.contact_title);
-                    $('#service-rep-phone-number').val(response.serviceRep.phone_number);
-                    $('#service-rep-alt-phone-number').val(response.serviceRep.alt_phone_number);
-                    $('#service-rep-fax-number').val(response.serviceRep.fax_number);
-                    $('#service-rep-email-address').val(response.serviceRep.email);
-                });
             });
         });
 

@@ -8,8 +8,6 @@ use App\Models\PlantServiceRep;
 use App\Models\ServiceRepresentative;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Log;
-
 class PlantController extends Controller
 {
     public function index()
@@ -44,17 +42,17 @@ class PlantController extends Controller
         return view('admin.plants.plant-edit', compact('plant', 'serviceReps', 'note', 'serviceRepsAll'));
     }
 
-    public function show(Plant $plant)
-    {
-        $note = $plant->note;
-        $plantServiceReps = PlantServiceRep::where('plant_id', $plant->id)->get();
-        $serviceReps= [];
-        foreach($plantServiceReps as $plantServiceRep) {
-            $serviceReps[] = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
-        }
-
-        return view('admin.plants.plant-show', compact('plant', 'serviceReps', 'note'));
-    }
+//    public function show(Plant $plant)
+//    {
+//        $note = $plant->note;
+//        $plantServiceReps = PlantServiceRep::where('plant_id', $plant->id)->get();
+//        $serviceReps= [];
+//        foreach($plantServiceReps as $plantServiceRep) {
+//            $serviceReps[] = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
+//        }
+//
+//        return view('admin.plants.plant-show', compact('plant', 'serviceReps', 'note'));
+//    }
 
     public function savePlantInfo(Request $request)
     {
@@ -100,5 +98,24 @@ class PlantController extends Controller
         $plants = Plant::where('company_id', $company_id)->get();
 
         return view('admin.plants.partial.handlers_table', compact('plants', 'company'));
+    }
+
+    public function showPlant(Request $request, $id)
+    {
+        $plant = Plant::where('id', $id)->firstOrFail();
+        $note = $plant->note;
+        $plantServiceRep = PlantServiceRep::where('plant_id', $id)->get();
+        $serviceReps = [];
+
+        foreach($plantServiceRep as $plantServiceReps) {
+            $serviceReps[] = ServiceRepresentative::where('id', $plantServiceReps->service_rep_id)->first();
+        }
+
+        return response()->json([
+            'success' => true,
+            'plant' => $plant,
+            'note' => $note,
+            'serviceReps' => $serviceReps
+            ]);
     }
 }
