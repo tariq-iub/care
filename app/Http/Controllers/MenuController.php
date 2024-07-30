@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -12,8 +13,14 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::with("parent")->get();
-        return view('admin.menus.index', compact('menus'));
+        // Fetch all menus
+        $menus = Menu::all();
+
+        // Fetch all users
+        $users = User::all();
+
+        // Pass both menus and users to the view
+        return view('admin.menus.index', compact('menus', 'users'));
     }
 
     /**
@@ -21,8 +28,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        $parentMenus = (new Menu())->parentsOnly();
-        return view('admin.menus.create', compact('parentMenus'));
+        $menus = Menu::whereNull('parent_id')->get(); // Fetch parent menus
+        return view('admin.menus.create', compact('menus'));
     }
 
     /**
@@ -30,21 +37,30 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate(request(),[
-            'title' => 'required|string',
+        // Validate the request
+        $request->validate([
+            'title' => 'required|string|unique:menus',
+            'icon' => 'nullable|string',
+            'route' => 'nullable|string',
+            'parent_id' => 'nullable|exists:menus,id',
+            'display_order' => 'nullable|integer',
+            'level' => 'required|in:admin,client',
+            'status' => 'required|boolean',
         ]);
 
-        $menu = new Menu();
-        $menu->title = $request['title'];
-        $menu->icon = $request['icon'];
-        $menu->route = $request['route'];
-        $menu->parent_id = $request['parent_id'];
-        $menu->display_order = $request['display_order'];
-        $menu->level = $request['level'];
-        $menu->status = $request['status'];
-        $menu->save();
+        // Create a new menu
+        Menu::create([
+            'title' => $request->input('title'),
+            'icon' => $request->input('icon'),
+            'route' => $request->input('route'),
+            'parent_id' => $request->input('parent_id'),
+            'display_order' => $request->input('display_order', 0),
+            'level' => $request->input('level'),
+            'status' => $request->input('status'),
+        ]);
 
-        return redirect()->route('menus.index');
+        // Redirect to the index route
+        return redirect()->route('menus.index')->with('success', 'Menu created successfully.');
     }
 
     /**
@@ -61,19 +77,24 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        $this->validate(request(),[
+        // Validate the request
+        $request->validate([
             'title' => 'required|string',
+            'icon' => 'nullable|string',
+            'parent_id' => 'nullable|integer',
+            'status' => 'required|boolean',
         ]);
 
-        $menu->title = $request['title'];
-        $menu->icon = $request['icon'];
-        $menu->route = $request['route'];
-        $menu->parent_id = $request['parent_id'];
-        $menu->display_order = $request['display_order'];
-        $menu->level = $request['level'];
-        $menu->status = $request['status'];
+        // Update the menu fields
+        $menu->title = $request->input('title');
+        $menu->icon = $request->input('icon');
+        $menu->parent_id = $request->input('parent_id');
+        $menu->status = (bool) $request->input('status');
+
+        // Save the changes
         $menu->save();
 
+        // Redirect to the index route
         return redirect()->route('menus.index');
     }
 
@@ -84,5 +105,20 @@ class MenuController extends Controller
     {
         $menu->delete();
         return redirect()->route('menus.index');
+    }
+
+    public function linkUser(Request $request)
+    {
+        $validated = $request->validate([
+            'menu_id' => 'required|exists:menus,id',
+            'user_id' => 'required|exists:users,id',
+            'access_level' => 'required|in:owner,employee',
+        ]);
+
+        $menu = Menu::findOrFail($validated['menu_id']);
+        $user = User::findOrFail($validated['user_id']);
+        $menu->users()->attach($user, ['access_level' => $validated['access_level']]);
+
+        return response()->json(['success' => true]);
     }
 }

@@ -24,9 +24,4 @@ class ServiceRepresentative extends Model
         'fax_number',
         'email',
     ];
-
-    public function plantServiceReps()
-    {
-        return $this->hasMany(PlantServiceRep::class);
-    }
 }

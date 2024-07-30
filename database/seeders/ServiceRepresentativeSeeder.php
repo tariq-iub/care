@@ -4,15 +4,20 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\ServiceRepresentative;
 use Illuminate\Support\Facades\DB;
 
 class ServiceRepresentativeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
+    public function run()
     public function run(): void
     {
+        ServiceRepresentative::factory()->count(10)->create();
         $serviceReps = [
             [
                 'service_rep_name' => 'Service Rep 1',

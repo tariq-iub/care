@@ -1,89 +1,100 @@
 @extends('layouts.care')
-@section('title', 'CARE Roles')
-@section('page-title', 'Roles')
-@section('page-message', "Manage user roles.")
 
 @section('content')
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="iq-card">
-                <div class="iq-card-header d-flex justify-content-between">
-                    <div class="iq-header-title">
-                        <h4 class="card-title">User Roles</h4>
-                    </div>
-                    <a href="javascript:void(0)" class="btn btn-outline-primary"
-                       data-toggle="modal" data-target=".bd-add-modal-lg">
-                        <i class="ri-add-circle-line"></i>Add Role
-                    </a>
-                </div>
+    <nav class="mb-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
+            <li class="breadcrumb-item active">Menus</li>
+        </ol>
+    </nav>
 
-                <div class="iq-card-body">
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-hover table-bordered mt-4" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th class="text-center">ID#</th>
-                                <th>Role Title</th>
-                                <th>Menus Attached</th>
-                                <th>Created At</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($roles as $row)
-                            <tr>
-                                <td class="text-center">{{ $row->id }}</td>
-                                <td>{{ $row->title }}</td>
-                                <td>
-                                    {{ ($row->id == 1) ? "All" : "" }}
-                                </td>
-                                <td class="text-center">
-                                    {{ $row->created_at->format('d-m-Y h:i:s A') }}
-                                </td>
-                                <td class="text-center">
-                                    <a class="btn btn-outline-secondary" href="{{ route('roles.edit', $row->id) }}">
-                                        <i class="ri-pencil-line"></i> Edit Role
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="mb-5">
+        <h2 class="text-bold text-body-emphasis">Roles</h2>
+        <p class="text-body-tertiary lead">Manage the user roles.</p>
+    </div>
+
+    <div id="menus" data-list='{"valueNames":["id","title","menu-count"],"page":10,"pagination":true}'>
+        <div class="row align-items-center justify-content-between g-3 mb-4">
+            <div class="col col-auto">
+                <div class="search-box">
+                    <form class="position-relative">
+                        <input class="form-control search-input search" type="search" placeholder="Search menus" aria-label="Search"/>
+                        <span class="fas fa-search search-box-icon"></span>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-primary" href="{{ route('roles.create') }}">
+                        <span class="fas fa-plus me-2"></span>
+                        Add Role
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade bd-add-modal-lg" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Role</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+        <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1">
+                <table class="table table-sm fs-9 mb-0">
+                    <thead>
+                    <tr>
+                        <th class="sort align-middle" scope="col" data-sort="id" style="width:15%; min-width:150px;">ROLE ID</th>
+                        <th class="sort align-middle" scope="col" data-sort="title" style="width:15%; min-width:150px;">ROLE TITLE</th>
+                        <th class="sort align-middle" scope="col" data-sort="menu-count" style="width:15%; min-width:150px;">MENUS ATTACHED</th>
+                        <th class="sort align-middle" scope="col" style="width:15%; min-width:150px;">CREATED AT</th>
+                        <th class="sort align-middle text-end" scope="col" style="width:10%;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list" id="menus-table-body">
+                    @foreach($roles as $role)
+                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <td class="align-middle ps-3">
+                                <h6 class="fw-semibold">{{ $role->id }}</h6>
+                            </td>
+                            <td class="align-middle">
+                                {{ $role->title }}
+                            </td>
+                            <td class="align-middle">
+                                {{ ($role->id == 1) ? "All" : $role->menus->count() }}
+                            </td>
+                            <td class="align-middle text-body">
+                                {{ $role->created_at->format('d-m-Y h:i:s A') }}
+                            </td>
+                            <td class="align-middle text-end white-space-nowrap text-body-tertiary">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2">
+                                        <a class="dropdown-item" href="{{ route('roles.edit', $role->id) }}">Edit</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
+                <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
+                    <a class="fw-semibold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    <a class="fw-semibold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                </div>
+                <div class="col-auto d-flex">
+                    <button class="page-link" data-list-pagination="prev">
+                        <span class="fas fa-chevron-left"></span>
+                    </button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next">
+                        <span class="fas fa-chevron-right"></span>
                     </button>
                 </div>
-                <form id="replace-form" method="POST" action="{{ route('roles.store') }}" class="needs-validation" novalidate>
-                    @csrf
-                    <div class="modal-body">
-                        <input type="hidden" id="record-id" name="id" value="">
-                        <div class="form-group">
-                            <label for="data-file">Role Title</label>
-                            <input type="text" class="form-control" name="title" required>
-                            <div class="invalid-feedback">Please provide a suitable role title.</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create Role</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-
-@endpush

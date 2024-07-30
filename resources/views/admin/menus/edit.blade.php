@@ -1,77 +1,82 @@
 @extends('layouts.care')
-@section('title', 'Edit Menu')
-@section('page-title', 'Edit Menu')
-@section('page-message', "Edit existing menu")
+
 @section('content')
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="iq-card">
-                <div class="iq-card-header d-flex justify-content-between">
-                    <div class="iq-header-title">
-                        <h4 class="card-title">Edit Menu</h4>
+    <nav class="mb-3" aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('menus.index') }}">Menus</a></li>
+            <li class="breadcrumb-item active">Edit Menu</li>
+        </ol>
+    </nav>
+
+    <div class="mb-5">
+        <h2 class="text-bold text-body-emphasis">Edit Menu</h2>
+        <p class="text-body-tertiary lead">
+            Update the menu details.
+        </p>
+    </div>
+
+    <form action="{{ route('menus.update', $menu->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $menu->title) }}" required>
+                    @error('title')
+                    <div class="invalid-feedback">
+                        {{ $message }}
                     </div>
+                    @enderror
                 </div>
 
-                <div class="iq-card-body">
-                    <form action="{{ route('menus.update', $menu->id) }}" method="POST">
-                        @csrf
-                        @method('put')
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="title">Menu Title</label>
-                                <input type="text" class="form-control" id="title" name="title"
-                                       value="{{ $menu->title }}" placeholder="Menu Title" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="icon">Menu Icon</label>
-                                <input type="text" class="form-control" id="icon" name="icon"
-                                       value="{{ $menu->icon }}" placeholder="Menu Icon">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="route">Menu Route</label>
-                                <input type="text" class="form-control" id="route" name="route"
-                                       value="{{ $menu->route }}" placeholder="Menu Route">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="parent_id">Parent Menu</label>
-                                <select class="form-control" id="parent_id" name="parent_id">
-                                    <option value="">Select Parent</option>
-                                    @foreach($parentMenus as $parentMenu)
-                                        <option value="{{ $parentMenu->id }}" {{ ($parentMenu?->id == $menu->parent?->id) ? "selected" : "" }}>
-                                            {{ $parentMenu->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="display_order">Display Order</label>
-                                <input type="number" class="form-control" id="display_order" name="display_order"
-                                       min="0" max="100" value="{{ $menu->display_order }}">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="level">Menu Level</label>
-                                <select class="form-control" id="level" name="level">
-                                    <option value="admin" {{ ($menu->id == 'admin') ? "selected" : "" }}>Admin Level Menu</option>
-                                    <option value="client" {{ ($menu->id == 'client') ? "selected" : "" }}>Client Level Menu</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="status">Menu Status</label>
-                                <select class="form-control" id="status" name="status">
-                                    <option value="1" {{ ($menu->id == '1') ? "selected" : "" }}>Active</option>
-                                    <option value="0" {{ ($menu->id == '0') ? "selected" : "" }}>Block</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon</label>
+                    <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon" value="{{ old('icon', $menu->icon) }}">
+                    @error('icon')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
 
-                        <button type="submit" class="btn btn-primary mt-3">Update Menu</button>
-                    </form>
+                <div class="mb-3">
+                    <label for="parent_id" class="form-label">Parent Menu</label>
+                    <select class="form-select @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id">
+                        <option value="">None</option>
+                        @foreach($parentMenus as $parent)
+                            <option value="{{ $parent->id }}" {{ $parent->id == $menu->parent_id ? 'selected' : '' }}>
+                                {{ $parent->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('parent_id')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
+                        <option value="1" {{ $menu->status ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ !$menu->status ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                    @error('status')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Update Menu</button>
+                    <a href="{{ route('menus.index') }}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 @endsection
-
-@push('scripts')
-
-@endpush
