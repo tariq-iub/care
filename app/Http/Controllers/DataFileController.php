@@ -5,23 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\DataFile;
 use App\Models\Device;
 use App\Models\Factory;
-use App\Models\Inspection;
+use App\Models\SensorData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
+use League\Csv\Reader;
+use Yajra\DataTables\DataTables;
 
 class DataFileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        $files = DataFile::all();
+    public function index(Request $request)
+    {
+        $files = DataFile::orderBy('id', 'desc')->get();
         $factories = Factory::all();
         $devices = Device::all();
-        $inspections = Inspection::where('taken_up', false)->get();
-        return view('admin.data.index', compact('files', 'factories', 'devices', 'inspections'));
+        return view('admin.files.index', compact('files', 'factories', 'devices'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $factories = Factory::all();
+        $devices = Device::all();
+        return view('admin.files.create', compact('factories', 'devices'));
     }
 
 
@@ -32,8 +43,27 @@ class DataFileController extends Controller
     {
         $factories = Factory::all();
         $devices = Device::all();
-        $inspections = Inspection::all();
-        return view('admin.data.edit', compact('dataFile', 'factories', 'devices', 'inspections'));
+
+        return view('admin.data.edit', compact('dataFile', 'factories', 'devices',));
+    }
+
+    /**
+     * Fetch a single resource.
+     */
+    public function show($id)
+    {
+        $dataFile = DataFile::find($id);
+
+        if (!$dataFile) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        return response()->json([
+            'factory_id' => $dataFile->site->factory_id,
+            'site_id' => $dataFile->site_id,
+            'component_id' => $dataFile->component_id,
+            'device_serial' => $dataFile->device->serial_number,
+        ]);
     }
 
     /**
@@ -69,7 +99,7 @@ class DataFileController extends Controller
 
             $dataFile->save();
 
-            return redirect(route('data.index'))->with('success', 'Data updated successfully.');
+            return redirect(route('files.index'))->with('success', 'Data updated successfully.');
         }
     }
 
@@ -92,17 +122,41 @@ class DataFileController extends Controller
         return response()->json(['message' => 'File deleted successfully.'], 200);
     }
 
+    public function getData(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = DataFile::with(['device', 'site.factory'])->select('*');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('device', function ($row) {
+                    return $row->device->serial_number;
+                })
+                ->addColumn('site', function ($row) {
+                    return $row->site->title;
+                })
+                ->addColumn('factory', function ($row) {
+                    return $row->site->factory->title;
+                })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at->diffForHumans();
+                })
+                ->addColumn('action', function ($row) {
+                    return view('admin.files.partial.action', compact('row'))->render();
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
     public function download(DataFile $dataFile)
     {
         $filePath = $dataFile->file_path;
 
         // Check if the file exists
-        if (Storage::disk('public')->exists($filePath))
-        {
+        if (Storage::disk('public')->exists($filePath)) {
             // Return the file as a download response
             return Storage::disk('public')->download($filePath, $dataFile->file_name);
-        }
-        else {
+        } else {
             // Return an error response if the file does not exist
             return response()->json(['message' => 'File not found.'], 404);
         }
@@ -114,8 +168,7 @@ class DataFileController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048',
             'site_id' => 'required|exists:sites,id',
-            'device_serial' => 'required|string|exists:devices,serial_number', // Ensure device is registered
-            'inspection_id' => 'required|exists:inspections,id',
+            'device_serial' => 'required|string|exists:devices,serial_number',
         ]);
 
         $device = Device::where('serial_number', $request->input('device_serial'))->first();
@@ -133,19 +186,39 @@ class DataFileController extends Controller
             $filePath = $file->storeAs('data_files', $fileName, 'public');
 
             // Store file metadata in the database
-            DataFile::create([
+            $dataFile = DataFile::create([
                 'file_name' => $fileName,
                 'file_path' => $filePath,
-                'component_id' => $request->input('component_id'),
                 'site_id' => $request->input('site_id'),
                 'device_id' => $device->id,
-                'inspection_id' => $request->input('inspection_id'),
             ]);
+
+            $this->process_file($dataFile);
 
             return response()->json(['message' => 'File uploaded successfully'], 200);
         }
 
         return response()->json(['message' => 'Invalid file upload'], 400);
+    }
+
+    private function process_file(DataFile $dataFile)
+    {
+        $filePath = $dataFile->file_path;
+
+        if (Storage::disk('public')->exists($filePath)) {
+            $csv = Reader::createFromPath(Storage::disk('public')->path($filePath), 'r');
+            $csv->setHeaderOffset(0);
+            $rows = $csv->getRecords();
+
+            foreach ($rows as $row) {
+                SensorData::create([
+                    'data_file_id' => $dataFile->id,
+                    'X' => $row['V1'],
+                    'Y' => $row['I1'],
+                    'Z' => $row['P1'],
+                ]);
+            }
+        }
     }
 
     public function replace(Request $request)
@@ -174,8 +247,7 @@ class DataFileController extends Controller
             }
 
             return response()->json(['message' => 'File replaced successfully.', 'data' => $dataFile], 201);
-        }
-        else {
+        } else {
             return response()->json(['message' => 'Invalid file upload.'], 400);
         }
     }

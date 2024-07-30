@@ -18,12 +18,12 @@ class Unit extends Seeder
 
         DB::table('units')->insert([
             [
-                'title' => 'in',
+                'unit' => 'in',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'title' => 'in/s',
+                'unit' => 'in/s',
                 'created_at' => $now,
                 'updated_at' => $now,
             ]

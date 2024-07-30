@@ -1,4 +1,3 @@
-
 @extends('layouts.care')
 
 @section('content')
@@ -111,13 +110,14 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab1" id="bootstrap-vertical-wizard-tab1">
                                     <form id="wizardVerticalForm1" novalidate="novalidate" data-wizard-form="1">
+                                        @csrf
                                         <div class="mb-2">
                                             <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-setup-name">Setup Name</label>
                                             <input class="form-control" type="text" name="setup_name" placeholder="Setup Name" id="bootstrap-vertical-wizard-wizard-setup-name" value={{ $dataCollectionSetup->setup_name }}>
                                         </div>
                                         <div class="mb-2">
                                             <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-cut-off-frequency">Cutoff Frequency</label>
-                                            <select class="form-select" name="cut-off-frequency" id="bootstrap-vertical-wizard-wizard-cut-off-frequency">
+                                            <select class="form-select" name="cutoff_frequency" id="bootstrap-vertical-wizard-wizard-cut-off-frequency">
                                                 @foreach($cutoffFrequencies as $frequency)
                                                     <option value="{{ $frequency }}"
                                                     @if($general->cut_off_frequency == $frequency) selected @endif>{{ $frequency }}</option>
@@ -140,7 +140,7 @@
                                             <div class="col">
                                                 <div class="mb-2 mb-sm-0">
                                                     <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-transducer-type">Transducer Type</label>
-                                                    <select class="form-select" name="transducer-type" id="bootstrap-vertical-wizard-wizard-transducer-type">
+                                                    <select class="form-select" name="transducer_type" id="bootstrap-vertical-wizard-wizard-transducer-type">
                                                         @foreach($transducerTypes as $type)
                                                             <option value="{{ $type }}"
                                                             @if($general->transducer_type == $type) selected @endif>{{ $type }}</option>
@@ -167,7 +167,7 @@
                                             <div class="col">
                                                 <div class="mb-2">
                                                     <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-sensitivity-unit">Unit</label>
-                                                    <select class="form-select" name="sensitivity-unit" id="bootstrap-vertical-wizard-wizard-sensitivity-unit">
+                                                    <select class="form-select" name="sensitivity_unit" id="bootstrap-vertical-wizard-wizard-sensitivity-unit">
                                                         @foreach($sensitivityUnits as $unit)
                                                             <option value="{{ $unit }}"
                                                             @if($general->unit == $unit) selected @endif>{{ $unit }}</option>
@@ -181,7 +181,7 @@
                                         <div class="col-sm-6">
                                             <div class="mb-2">
                                                 <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-sensitivity-unit">Unit</label>
-                                                <select class="form-select" name="sensitivity-unit" id="bootstrap-vertical-wizard-wizard-sensitivity-unit">
+                                                <select class="form-select" name="sensitivity_unit" id="bootstrap-vertical-wizard-wizard-sensitivity-unit">
                                                     @foreach($sensitivityUnits as $unit)
                                                         <option value="{{ $unit }}"
                                                         @if($general->unit == $unit) selected @endif>{{ $unit }}</option>
@@ -194,9 +194,10 @@
 
                                 <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab2" id="bootstrap-vertical-wizard-tab2">
                                     <form id="wizardVerticalForm2" novalidate="novalidate" data-wizard-form="2">
+                                        @csrf
                                         <div class="mb-2 mb-sm-0">
                                             <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-average-type">Average Type</label>
-                                            <select class="form-select" name="cut-off-frequency" id="bootstrap-vertical-wizard-wizard-average-type">
+                                            <select class="form-select" name="average_type" id="bootstrap-vertical-wizard-wizard-average-type">
                                                 @foreach($averageTypes as $type)
                                                     <option value="{{ $type }}"
                                                     @if($measurement->average_type == $type) selected @endif>{{ $type }}</option>
@@ -206,12 +207,12 @@
 
                                         <div class="mb-2 mb-sm-0">
                                             <label class="form-label" for="bootstrap-vertical-wizard-wizard-no-of-averages">Number of Averages</label>
-                                            <input class="form-control" type="text" name="setup_name" placeholder="" id="bootstrap-vertical-wizard-wizard-no-of-averages" value={{$measurement->number_of_averages}}>
+                                            <input class="form-control" type="text" name="number_of_averages" placeholder="" id="bootstrap-vertical-wizard-wizard-no-of-averages" value={{$measurement->number_of_averages}}>
                                         </div>
 
                                         <div class="mb-2 mb-sm-0">
                                             <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-average-overlap-percentage">Average overlap percentage</label>
-                                            <select class="form-select" name="transducer-type" id="bootstrap-vertical-wizard-wizard-average-overlap-percentage">
+                                            <select class="form-select" name="average_overlap_percentage" id="bootstrap-vertical-wizard-wizard-average-overlap-percentage">
                                                 @foreach($averageOverlapPercentages as $percentage)
                                                     <option value="{{ $percentage }}"
                                                     @if($measurement->average_overlap_percentage == $percentage) selected @endif>{{ $percentage }}</option>
@@ -221,7 +222,7 @@
 
                                         <div class="mb-2 mb-sm-0">
                                             <label class="form-label text-body" for="bootstrap-vertical-wizard-wizard-window-type">Window Type</label>
-                                            <select class="form-select" name="sensitivity" id="bootstrap-vertical-wizard-wizard-window-type">
+                                            <select class="form-select" name="window_type" id="bootstrap-vertical-wizard-wizard-window-type">
                                                 @foreach($windowTypes as $type)
                                                     <option value="{{ $type }}"
                                                     @if($measurement->window_type == $type) selected @endif>{{ $type }}</option>
@@ -233,15 +234,16 @@
 
                                 <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab3" id="bootstrap-vertical-wizard-tab3">
                                     <form id="wizardVerticalForm3" novalidate="novalidate" data-wizard-form="3">
+                                        @csrf
                                         <div class="mb-2">
-                                            <input type="checkbox" id="impact-demodulation" name="impact-demodulation"
+                                            <input type="checkbox" id="impact-demodulation" name="impact_demodulation"
                                             @if($demodulation->filter_type == "HighPassFilter") checked @endif>
                                             <label class="form-label text-body" for="impact-demodulation">Impact Demodulation</label>
                                         </div>
 
                                         <div class="mb-2" id="high-pass-filter-group">
                                             <label class="form-label text-body" for="high-pass-filter">High Pass Filter</label>
-                                            <select class="form-select" name="high-pass-filter" id="high-pass-filter">
+                                            <select class="form-select" name="high_pass_filter" id="high-pass-filter">
                                                 @foreach($highPassFilters as $filter)
                                                         <option value="{{ $filter }}"
                                                                 @if($demodulation->filter_value == $filter) selected @endif>{{ $filter }}</option>
@@ -251,7 +253,7 @@
 
                                         <div class="mb-2" id="band-pass-filter-group">
                                             <label class="form-label text-body" for="band-pass-filter">Band Pass Filter</label>
-                                            <select class="form-select" name="band-pass-filter" id="band-pass-filter" >
+                                            <select class="form-select" name="band_pass_filter" id="band-pass-filter" >
                                                 @foreach($bandPassFilters as $filter)
                                                     <option value="{{ $filter }}"
                                                     @if($demodulation->filter_value == $filter) selected @endif>{{ $filter }}</option>
@@ -345,6 +347,120 @@
                 highPassFilterGroup.style.display = "none";
                 bandPassFilterGroup.style.display = "block";
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select the form data and buttons
+            const form1 = document.querySelector('#wizardVerticalForm1');
+            const form2 = document.querySelector('#wizardVerticalForm2');
+            const form3 = document.querySelector('#wizardVerticalForm3');
+            const nextBtn = document.querySelector('[data-wizard-next-btn]');
+            const prevBtn = document.querySelector('[data-wizard-prev-btn]');
+            const wizardStep1 = document.querySelector('[data-wizard-step="1"]');
+            const wizardStep2 = document.querySelector('[data-wizard-step="2"]');
+            const wizardStep3 = document.querySelector('[data-wizard-step="3"]');
+
+            nextBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                console.log('Next button clicked');
+                console.log('Current wizard step states:');
+                console.log('Step 1 active:', wizardStep1.classList.contains('active'));
+                console.log('Step 2 active:', wizardStep2.classList.contains('active'));
+                console.log('Step 3 active:', wizardStep3.classList.contains('active'));
+
+                let formData;
+                let url;
+                let method;
+
+                if (!wizardStep1.classList.contains('active') && wizardStep2.classList.contains('active') && !wizardStep3.classList.contains('active')) {
+                    formData = new FormData(form1);
+                    const setupId = {{ $dataCollectionSetup->id }};
+                    url = '/api/admin/data-setup/general/' + setupId;
+                    method = 'PUT';
+                    const csrfToken = '{{ csrf_token() }}';
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: JSON.stringify(Object.fromEntries(formData)), // Convert FormData to JSON
+                        contentType: 'application/json',  // Set content type to JSON
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken  // Include CSRF token in headers
+                        },
+                        success: function (response) {
+                            // Code to execute on success
+                            console.log("Success:", response);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Code to execute on error
+                            console.error("Error:", textStatus, errorThrown);
+                        }
+                    });
+                } else if (!wizardStep1.classList.contains('active') && !wizardStep2.classList.contains('active') && wizardStep3.classList.contains('active')) {
+                    formData = new FormData(form2);
+                    const setupId = {{ $dataCollectionSetup->id }};
+                    url = '/api/admin/data-setup/measurement/' + setupId;
+                    method = 'PUT';
+                    const csrfToken = '{{ csrf_token() }}';
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: JSON.stringify(Object.fromEntries(formData)), // Convert FormData to JSON
+                        contentType: 'application/json',  // Set content type to JSON
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken  // Include CSRF token in headers
+                        },
+                        success: function (response) {
+                            // Code to execute on success
+                            console.log("Success:", response);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Code to execute on error
+                            console.error("Error:", textStatus, errorThrown);
+                        }
+                    });
+                } else if (!wizardStep1.classList.contains('active') && !wizardStep2.classList.contains('active') && !wizardStep3.classList.contains('active')) {
+                    formData = new FormData(form3);
+                    const setupId = {{ $dataCollectionSetup->id }};
+                    url = '/api/admin/data-setup/demodulation/' + setupId;
+                    method = 'PUT';
+                    const csrfToken = '{{ csrf_token() }}';
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: JSON.stringify(Object.fromEntries(formData)), // Convert FormData to JSON
+                        contentType: 'application/json',  // Set content type to JSON
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken  // Include CSRF token in headers
+                        },
+                        success: function (response) {
+                            // Code to execute on success
+                            console.log("Success:", response);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Code to execute on error
+                            console.error("Error:", textStatus, errorThrown);
+                        }
+                    });
+                } else {
+                    console.log('No matching wizard step condition.');
+                    return;
+                }
+
+                console.log('Preparing to send data to:', url);
+                const jsonData = JSON.stringify(Object.fromEntries(formData));
+                console.log('FormData converted to JSON:', jsonData);
+            });
+
+            // Optional: Add event listener for prevBtn if needed
+            prevBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                console.log('Previous button clicked');
+                // Handle previous button functionality if required
+            });
         });
     </script>
 @endpush

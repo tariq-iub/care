@@ -2,63 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
 use App\Models\Role;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $roles = Role::all();
         return view('admin.roles.index', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function create()
     {
-        $this->validate(request(),[
-            'title' => 'required|string',
-        ]);
-
-        $role = new Role();
-        $role->title = $request->input('title');
-        $role->save();
-
-        return redirect()->route('roles.index');
+        $menus = Menu::all();
+        return view('admin.roles.create', compact('menus'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
+    public function store(Request $request)
     {
-        $menus =  Menu::where('status', true)
-            ->orderBy('id', 'asc')
-            ->orderBy('display_order', 'asc')
-            ->get();
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
 
+        $role = Role::create($request->only('title'));
+        // Attach menus if necessary
+        $role->menus()->sync($request->menus);
+
+        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $role = Role::findOrFail($id);
+        $menus = Menu::all();
         return view('admin.roles.edit', compact('role', 'menus'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-        return $request;
-    }
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role)
-    {
-        //
+        $role = Role::findOrFail($id);
+        $role->update($request->only('title'));
+        // Update menus if necessary
+        $role->menus()->sync($request->menus);
+
+        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }
 }
