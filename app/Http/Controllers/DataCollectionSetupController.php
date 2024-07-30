@@ -11,15 +11,12 @@ use App\Models\Resolution;
 use App\Models\Transducer;
 use App\Models\Units;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class DataCollectionSetupController extends Controller
 {
     public function index()
     {
         $setups = DataCollectionSetup::all();
-
         return view('admin.data_collection_setup.index', compact('setups'));
     }
 
@@ -130,7 +127,6 @@ class DataCollectionSetupController extends Controller
             'message' => 'Setup not found.'
         ]);
     }
-
 
     public function store(Request $request)
     {

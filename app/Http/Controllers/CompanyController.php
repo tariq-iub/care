@@ -126,7 +126,6 @@ class CompanyController extends Controller
 
     public function updateCompanyInfo(Request $request)
     {
-
         $company = Company::where('id', $request->input('plant_id'))->firstOrFail();
 
         $validator = $request->validate([
