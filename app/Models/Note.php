@@ -10,5 +10,9 @@ class Note extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['note', 'picture_path'];
+    protected $fillable = [
+        'note',
+        'picture_path'
+    ];
+
 }

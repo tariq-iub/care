@@ -60,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody class="list" id="setups-table-body">
-                    @foreach($dataCollectionSetups as $row)
+                    @foreach($setups as $row)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="align-middle white-space-nowrap">
 {{--                                @php--}}
@@ -92,7 +92,7 @@
 {{--                            <td class="city align-middle white-space-nowrap text-body">--}}
 {{--                                {{ $row->role->title }}--}}
 {{--                            </td>--}}
-                            <td class=" align-middle text-end white-space-nowrap text-body-tertiary">
+                            <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
                                 <div class="btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
                                             type="button" data-bs-toggle="dropdown" data-boundary="window"

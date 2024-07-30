@@ -11,11 +11,22 @@ class ServiceRepresentative extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'address',
         'service_rep_name',
-        'phone',
-        'fax',
+        'address',
+        'city',
+        'state',
+        'zip',
+        'country',
+        'contact_name',
+        'contact_title',
+        'phone_number',
+        'alt_phone_number',
+        'fax_number',
         'email',
     ];
+
+    public function plantServiceReps()
+    {
+        return $this->hasMany(PlantServiceRep::class);
+    }
 }

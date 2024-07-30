@@ -36,8 +36,8 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Abdullah Abid',
-                'email' => 'abdrps2004@gmail.com',
+                'name' => 'Zaid Khalid',
+                'email' => 'zaid@gmail.com',
                 'password' => '$2y$12$L2KOuUpth.QzPslprcBoRu0nVbcNJIAbruP4h7BmhGiAFTpxmr5KK',
                 'status' => true,
                 'role_id' => 1,

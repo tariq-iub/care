@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->string('note');
-            $table->string('picture_path');
+            $table->string('picture_path')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
         });
+
     }
 
     /**
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notes_pictures');
+        Schema::dropIfExists('notes');
     }
 };

@@ -16,10 +16,9 @@ class DataCollectionSetupController extends Controller
 {
     public function index()
     {
-        $dataCollectionSetups = DataCollectionSetup::all();
+        $setups = DataCollectionSetup::all();
 
-
-        return view('admin.data_collection_setup.index', compact('dataCollectionSetups'));
+        return view('admin.data_collection_setup.index', compact('setups'));
     }
     public function create()
     {
@@ -57,7 +56,7 @@ class DataCollectionSetupController extends Controller
         $cutoffFrequencies = CutOffFrequency::all()->pluck('value')->toArray();
         $resolutions = Resolution::all()->pluck('value')->toArray();
         $transducerTypes = Transducer::all()->pluck('title')->toArray();
-        $sensitivityUnits = Units::all()->pluck('title')->toArray();
+        $sensitivityUnits = Units::all()->pluck('unit')->toArray();
         $averageTypes = getAverageType();
         $averageOverlapPercentages = getAverageOverlapPercentages();
         $windowTypes = getWindowType();
