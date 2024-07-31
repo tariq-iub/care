@@ -51,25 +51,21 @@
                                     <label for="service-rep-contact-title" class="form-label">Contact Title</label>
                                     <input type="text" class="form-control" id="service-rep-contact-title" name="contact_title">
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="service-rep-phone-number" class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" id="service-rep-phone-number" name="phone_number" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="service-rep-alt-phone-number" class="form-label">Alt Phone Number</label>
-                                        <input type="text" class="form-control" id="service-rep-alt-phone-number" name="alt_phone_number">
-                                    </div>
+                                <div class="col-md-6">
+                                    <label for="service-rep-phone-number" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="service-rep-phone-number" name="phone_number" required>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="service-rep-fax-number" class="form-label">Fax Number</label>
-                                        <input type="text" class="form-control" id="service-rep-fax-number" name="fax_number">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="service-rep-email-address" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" id="service-rep-email-address" name="email" autocomplete="off" onfocusout="CheckEmail(this)" required="" data-original-title="" title="" style="background-color:pink;">
-                                    </div>
+                                <div class="col-md-6">
+                                    <label for="service-rep-alt-phone-number" class="form-label">Alt Phone Number</label>
+                                    <input type="text" class="form-control" id="service-rep-alt-phone-number" name="alt_phone_number">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="service-rep-fax-number" class="form-label">Fax Number</label>
+                                    <input type="text" class="form-control" id="service-rep-fax-number" name="fax_number">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="service-rep-email-address" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="service-rep-email-address" name="email" autocomplete="off" onfocusout="CheckEmail(this)" required="" data-original-title="" title="" style="background-color:pink;">
                                 </div>
                             </div>
 
