@@ -41,6 +41,7 @@ class MenuController extends Controller
         $request->validate([
             'title' => 'required|string|unique:menus',
             'icon' => 'nullable|string',
+            'url' => 'nullable|string',
             'route' => 'nullable|string',
             'parent_id' => 'nullable|exists:menus,id',
             'display_order' => 'nullable|integer',
@@ -52,6 +53,7 @@ class MenuController extends Controller
         Menu::create([
             'title' => $request->input('title'),
             'icon' => $request->input('icon'),
+            'url' => $request->input('url'),
             'route' => $request->input('route'),
             'parent_id' => $request->input('parent_id'),
             'display_order' => $request->input('display_order', 0),
@@ -69,7 +71,8 @@ class MenuController extends Controller
     public function edit(Menu $menu)
     {
         $parentMenus = (new Menu())->parentsOnly();
-        return view('admin.menus.edit', compact('menu', 'parentMenus'));
+        $menus = Menu::whereNull('parent_id')->get();
+        return view('admin.menus.edit', compact('menu','menus', 'parentMenus'));
     }
 
     /**
@@ -81,22 +84,31 @@ class MenuController extends Controller
         $request->validate([
             'title' => 'required|string',
             'icon' => 'nullable|string',
-            'parent_id' => 'nullable|integer',
+            'url' => 'nullable|string',
+            'route' => 'nullable|string',
+            'parent_id' => 'nullable|exists:menus,id',
+            'display_order' => 'nullable|integer',
+            'level' => 'required|in:admin,client',
             'status' => 'required|boolean',
         ]);
 
         // Update the menu fields
         $menu->title = $request->input('title');
         $menu->icon = $request->input('icon');
+        $menu->url = $request->input('url');
+        $menu->route = $request->input('route');
         $menu->parent_id = $request->input('parent_id');
+        $menu->display_order = $request->input('display_order', 0);
+        $menu->level = $request->input('level');
         $menu->status = (bool) $request->input('status');
 
         // Save the changes
         $menu->save();
 
         // Redirect to the index route
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')->with('success', 'Menu updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

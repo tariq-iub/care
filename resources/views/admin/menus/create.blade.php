@@ -9,17 +9,24 @@
         </ol>
     </nav>
 
-    <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Create Menu</h2>
-        <p class="text-body-tertiary lead">
-            Add a new menu item.
-        </p>
-    </div>
-
     <form action="{{ route('menus.store') }}" method="POST">
         @csrf
-        <div class="row">
-            <div class="col-md-6">
+
+        <div class="row g-3 flex-between-end mb-5">
+            <div class="col-auto">
+                <h2 class="mb-2">Add a Menu</h2>
+                <h5 class="text-body-tertiary fw-semibold">
+                    Add menu for users.
+                </h5>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('menus.index') }}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Discard</a>
+                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Add menu</button>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-12 col-xl-8">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required>
@@ -34,16 +41,6 @@
                     <label for="icon" class="form-label">Icon</label>
                     <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon" value="{{ old('icon') }}">
                     @error('icon')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="route" class="form-label">Route</label>
-                    <input type="text" class="form-control @error('route') is-invalid @enderror" id="route" name="route" value="{{ old('route') }}">
-                    @error('route')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -91,7 +88,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="status" class="form-label">Status</label>
+                    <div class="d-flex flex-wrap mb-2">
+                        <h5 class="mb-0 text-body-highlight me-2">Status</h5>
+                    </div>
                     <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
                         <option value="1" {{ old('status', 1) ? 'selected' : '' }}>Active</option>
                         <option value="0" {{ old('status', 0) ? 'selected' : '' }}>Inactive</option>
@@ -102,10 +101,45 @@
                     </div>
                     @enderror
                 </div>
+            </div>
+            <div class="col-12 col-xl-4">
+                <div class="row g-2">
+                    <div class="col-12 col-xl-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Organize</h4>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-sm-6 col-xl-12">
+                                        <div class="mb-4">
+                                            <div class="d-flex flex-wrap mb-2">
+                                                <h5 class="mb-0 text-body-highlight me-2">Route</h5>
+                                            </div>
+                                            <input type="text" class="form-control @error('route') is-invalid @enderror" id="route" name="route" value="{{ old('route') }}">
+                                            @if($errors->has('route'))
+                                                <div class="text-danger small">
+                                                    {{ $errors->first('route') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
 
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Create Menu</button>
-                    <a href="{{ route('menus.index') }}" class="btn btn-secondary">Cancel</a>
+                                    <div class="col-12 col-sm-6 col-xl-12">
+                                        <div class="mb-4">
+                                            <div class="d-flex flex-wrap mb-2">
+                                                <h5 class="mb-0 text-body-highlight me-2">URL</h5>
+                                            </div>
+                                            <input type="text" class="form-control @error('route') is-invalid @enderror" id="url" name="url" value="{{ old('url') }}">
+                                            @if($errors->has('url'))
+                                                <div class="text-danger small">
+                                                    {{ $errors->first('url') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
