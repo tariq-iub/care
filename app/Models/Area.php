@@ -11,18 +11,13 @@ class Area extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
         'plant_id',
-        'status'
+        'name',
+        'line_frequency',
     ];
 
     public function plant()
     {
         return $this->belongsTo(Plant::class);
-    }
-
-    public function components()
-    {
-        return $this->hasMany(Component::class);
     }
 }

@@ -3,11 +3,11 @@
         <div class="row g-3 justify-content-between align-items-center">
             <div class="col col-md">
                 <h4 class="text-body mb-0">
-                    {{ ucwords($company->company_name) }}
+                    {{ ucwords($plant->title) }}
                 </h4>
             </div>
             <div class="col-12 col-md text-md-end">
-                <a class="float-md-end" href="{{ route('plant.create',['id' => $company->id]) }}">
+                <a class="float-md-end" href="javascript:void(0)" data-id="{{$plant->id}}" onclick="openCreateAreaModal(event,{{$plant->id}})">
                     <span class="fas fa-plus me-2"></span>
                 </a>
             </div>
@@ -18,16 +18,16 @@
             <table class="table table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Plant Name</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Area Name</th>
+                    <th scope="col">Line Frequency</th>
                     <th scope="col" class="align-middle text-end white-space-nowrap text-body-tertiary">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($plants as $row)
+                @foreach($areas as $row)
                     <tr>
-                        <td>{{$row->title}}</td>
-                        <td>{{$row->status === 1 ? 'Active' : 'Inactive'}}</td>
+                        <td>{{$row->name}}</td>
+                        <td>{{$row->line_frequency}}</td>
                         <td class="align-middle text-end white-space-nowrap text-body-tertiary">
                             <div class="btn-reveal-trigger position-static">
                                 <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
@@ -41,10 +41,8 @@
                                     </svg>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                    <a class="dropdown-item" href="{{ route('plant.edit', $row->id) }}">Edit</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openShowPlantModal(event, {{ $row->id }})">Show</a>
-
-                                    <button class="dropdown-item" onclick="openLinkServiceRepModal({{$row->id}})">Link Service Representative</button>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openEditAreaModal(event, {{ $row->id }})">Edit</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openShowAreaModal(event, {{ $row->id }})">Show</a>
                                 </div>
                             </div>
                         </td>

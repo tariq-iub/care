@@ -18,9 +18,9 @@ class AreaFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->word(),
+            'name' => fake()->word(),
             'plant_id' => Plant::factory(),
-            'status' => true,
+            'line_frequency' => fake()->randomElement(['50 Hz', '60 Hz']),
         ];
     }
 }

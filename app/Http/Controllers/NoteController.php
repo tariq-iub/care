@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use App\Models\Plant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NoteController extends Controller
 {
@@ -43,13 +44,43 @@ class NoteController extends Controller
         $plant->note_id = $note->id;
         $plant->save();
 
-
-
         return response()->json(['success' => true, 'notes' => $notes]);
     }
 
     function updateNotesPictures(Request $request)
     {
+        if ($request->input('note_id') == null) {
+            $validator = $request->validate([
+                'plant_id' => 'required|integer',
+                'notes' => 'nullable|string',
+                'pictures.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            $filepath = null;
+            // Save notes
+            $notes = $request->input('notes');
+
+            // Handle picture uploads
+            if ($request->hasFile('pictures')) {
+                foreach ($request->file('pictures') as $file) {
+                    $filename = time() . '-' . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+
+                    $filepath = $filename;
+                }
+            }
+
+            $note = Note::updateOrCreate(
+                ['note' => $notes,
+                    'picture_path' => $filepath
+                ],
+            );
+            $plant = Plant::where('id', $request->input('plant_id'))->firstOrFail();
+
+            $plant->note_id = $note->id;
+            $plant->save();
+
+            return response()->json(['success' => true, 'notes' => $notes]);
+        }
 
         $note = Note::where('id', $request->input('note_id'))->firstOrFail();
 
