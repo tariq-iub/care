@@ -15,14 +15,14 @@
 
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
-                <h2 class="mb-2">Add a Menu</h2>
+                <h2 class="mb-2">Edit Menu</h2>
                 <h5 class="text-body-tertiary fw-semibold">
-                    Add menu for users.
+                    Edit menu for users.
                 </h5>
             </div>
             <div class="col-auto">
                 <a href="{{ route('menus.index') }}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Discard</a>
-                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Add menu</button>
+                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Update menu</button>
             </div>
         </div>
 
