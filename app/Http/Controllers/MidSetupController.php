@@ -19,7 +19,6 @@ class MidSetupController extends Controller
     public function create()
     {
         $questions = MidQuestions::with('answers')->get();
-        // questions have column sort_order, reorder them by sort_order
         $questions = $questions->sortBy('sort_order');
 
         return view('admin.mid_setup.create', compact('questions'));
