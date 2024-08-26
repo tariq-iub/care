@@ -2,10 +2,15 @@
     <div class="w-100">
         <div class="d-flex flex-between-center dual-nav-first-layer">
             <div class="navbar-logo">
-                <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+                <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation">
+                    <span class="navbar-toggle-icon">
+                        <span class="toggle-line"></span>
+                    </span>
+                </button>
                 <a class="navbar-brand me-1 me-sm-3" href="{{ url('/home') }}">
                     <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center"><img src="{{ asset('assets/img/icons/logo.png') }}" alt="{{ config('app.name', 'Care') }}" width="27" />
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('assets/img/icons/logo.png') }}" alt="{{ config('app.name', 'Care') }}" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">{{ config('app.name', 'Care') }}</p>
                         </div>
                     </div>
@@ -44,15 +49,29 @@
                                     <div class="px-2 px-sm-3 py-3 notification-card position-relative read border-bottom">
                                         <div class="d-flex align-items-center justify-content-between position-relative">
                                             <div class="d-flex">
-                                                <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="../assets/img/team/40x40/30.webp" alt="" /></div>
+                                                <div class="avatar avatar-m status-online me-3">
+                                                    <img class="rounded-circle" src="../assets/img/team/40x40/30.webp" alt="" />
+                                                </div>
                                                 <div class="flex-1 me-sm-3">
                                                     <h4 class="fs-9 text-body-emphasis">Jessie Samson</h4>
-                                                    <p class="fs-9 text-body-highlight mb-2 mb-sm-3 fw-normal"><span class='me-1 fs-10'>💬</span>Mentioned you in a comment.<span class="ms-2 text-body-quaternary text-opacity-75 fw-bold fs-10">10m</span></p>
-                                                    <p class="text-body-secondary fs-9 mb-0"><span class="me-1 fas fa-clock"></span><span class="fw-bold">10:41 AM </span>August 7,2021</p>
+                                                    <p class="fs-9 text-body-highlight mb-2 mb-sm-3 fw-normal">
+                                                        <span class='me-1 fs-10'>💬</span>
+                                                        Mentioned you in a comment.
+                                                        <span class="ms-2 text-body-quaternary text-opacity-75 fw-bold fs-10">10m</span>
+                                                    </p>
+                                                    <p class="text-body-secondary fs-9 mb-0">
+                                                        <span class="me-1 fas fa-clock"></span>
+                                                        <span class="fw-bold">10:41 AM </span>August 7,2021
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div class="dropdown notification-dropdown"><button class="btn fs-10 btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs-10 text-body"></span></button>
-                                                <div class="dropdown-menu py-2"><a class="dropdown-item" href="#!">Mark as unread</a></div>
+                                            <div class="dropdown notification-dropdown">
+                                                <button class="btn fs-10 btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                                    <span class="fas fa-ellipsis-h fs-10 text-body"></span>
+                                                </button>
+                                                <div class="dropdown-menu py-2">
+                                                    <a class="dropdown-item" href="#!">Mark as unread</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +110,7 @@
                                     <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom">
                                         <div class="d-flex align-items-center justify-content-between position-relative">
                                             <div class="d-flex">
-                                                <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="{{ asset({{ $Auth->user() }}) }}" alt="" /></div>
+                                                <div class="avatar avatar-m status-online me-3"><img class="rounded-circle" src="{{ asset(auth()->user()->avatar) }}" alt="" /></div>
                                                 <div class="flex-1 me-sm-3">
                                                     <h4 class="fs-9 text-body-emphasis">Kiera Anderson</h4>
                                                     <p class="fs-9 text-body-highlight mb-2 mb-sm-3 fw-normal"><span class='me-1 fs-10'>💬</span>Mentioned you in a comment.<span class="ms-2 text-body-quaternary text-opacity-75 fw-bold fs-10"></span></p>
@@ -207,30 +226,30 @@
                     <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <span class="uil fs-8 me-2 uil-cube"></span>Clients
                     </a>
-                    <ul class="dropdown-menu navbar-dropdown-caret">
-                        @foreach($factories as $row)
-                        <li class="dropdown">
-                            <a class="dropdown-item dropdown-toggle" id="e-commerce" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                                <div class="dropdown-item-wrapper">
-                                    <span class="uil fs-8 uil-angle-right lh-1 dropdown-indicator-icon"></span>
-                                    <span><span class="me-2 uil" data-feather="trello"></span>{{ $row->title }}</span>
-                                </div>
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach($row->sites as $site)
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('sites.show', $site->id) }}">
-                                            <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>{{ $site->title }}</div>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        @endforeach
-                    </ul>
+{{--                    <ul class="dropdown-menu navbar-dropdown-caret">--}}
+{{--                        @foreach($factories as $row)--}}
+{{--                        <li class="dropdown">--}}
+{{--                            <a class="dropdown-item dropdown-toggle" id="e-commerce" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">--}}
+{{--                                <div class="dropdown-item-wrapper">--}}
+{{--                                    <span class="uil fs-8 uil-angle-right lh-1 dropdown-indicator-icon"></span>--}}
+{{--                                    <span><span class="me-2 uil" data-feather="trello"></span>{{ $row->title }}</span>--}}
+{{--                                </div>--}}
+{{--                            </a>--}}
+{{--                            <ul class="dropdown-menu">--}}
+{{--                                @foreach($row->sites as $site)--}}
+{{--                                    <li>--}}
+{{--                                        <a class="dropdown-item" href="{{ route('sites.show', $site->id) }}">--}}
+{{--                                            <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>{{ $site->title }}</div>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                @endforeach--}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
+{{--                        @endforeach--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item lh-1">
-                    <a class="nav-link" href="{{ route('reports') }}" role="button">
+                    <a class="nav-link" href="#!" role="button">
                         <span class="uil fs-8 me-2 uil-document-layout-right"></span>Reports
                     </a>
                 </li>

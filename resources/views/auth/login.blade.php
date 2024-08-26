@@ -16,8 +16,8 @@
                 <span class="fas fa-user text-body fs-9 form-icon"></span>
                 @error('email')
                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                    <strong>{{ $message }}</strong>
+                </span>
                 @enderror
             </div>
         </div>

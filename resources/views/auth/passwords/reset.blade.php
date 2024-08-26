@@ -5,7 +5,7 @@
         <div class="text-center mb-6">
             <h4 class="text-body-highlight">Reset Password</h4>
             <p class="text-body-tertiary mb-5">Enter your email and password below and change your <br class="d-sm-none" />password.</p>
-            <form class="d-flex align-items-center mb-5" method="POST" action="{{ route('password.update') }}">
+            <form class="mb-5" method="POST" action="{{ route('password.update') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
 

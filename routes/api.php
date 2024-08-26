@@ -8,7 +8,9 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ServiceRepresentativeController;
+use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,7 +50,6 @@ Route::get('/get-units/{key}', function ($key) {
 
 Route::post('/check-email/{email}', [ServiceRepresentativeController::class, 'checkEmail']);
 
-
 Route::post('/company/save-company-info', [CompanyController::class, 'saveCompanyInfo']);
 Route::post('/plant/save-plant-info', [PlantController::class, 'savePlantInfo']);
 Route::post('/note/save-note', [NoteController::class, 'saveNotesPictures']);
@@ -58,7 +59,6 @@ Route::post('/company/update-company-info', [CompanyController::class, 'updateCo
 Route::post('/plant/update-plant-info', [PlantController::class, 'updatePlantInfo']);
 Route::post('/note/update-note', [NoteController::class, 'updateNotesPictures']);
 Route::post('/service-rep/update-service-representative', [ServiceRepresentativeController::class, 'updateServiceRepresentative']);
-
 
 Route::get('/plant/fetch-plants/{id}', [PlantController::class, 'showPlants']);
 Route::get('/plant/fetch-plant/{id}', [PlantController::class, 'showPlant']);

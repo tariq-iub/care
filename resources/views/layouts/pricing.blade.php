@@ -1,24 +1,8 @@
-@include('layouts.partial.admin_head')
+@include('layouts.partial.head')
 
 <main class="main" id="top">
-    @include('layouts.partial.sidebar')
-    @include('layouts.partial.navbar')
     <div class="content">
         @yield('content')
-        @include('layouts.partial.footer')
-
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div class="toast fade" role="alert" id="toast-message"
-                 aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Notification</strong>
-                    <button class="btn ms-2 p-0" type="button" data-bs-dismiss="toast" aria-label="Close"><span class="uil uil-times fs-7"></span></button>
-                </div>
-                <div class="toast-body">
-                    {{ session('message') }}
-                </div>
-            </div>
-        </div>
     </div>
 </main>
 
@@ -44,31 +28,21 @@
 <script src="{{ asset('assets/js/phoenix.js') }}"></script>
 <script src="{{ asset('assets/vendors/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/sweetalert2/sweetalert2.js') }}"></script>
-<script src="{{ asset('assets/js/projectmanagement-dashboard.js') }}"></script>
+<script src="{{ asset('assets/js/config.js') }}"></script>
+<script src="{{ asset('assets/vendors/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
 
-@if(Session::has('message'))
-    <script>
-        Swal.fire({
-            title: 'Success',
-            text: '{{ Session::get('message') }}',
-            icon: 'success',
-            confirmButtonText: 'OK',
-            timer: 3000
-        })
-    </script>
-@endif
 
-@if(Session::has('error-message'))
-    <script>
-        Swal.fire({
-            title: 'Error',
-            text: '{{ Session::get('error-message') }}',
-            icon: 'error',
-            confirmButtonText: 'OK',
-            timer: 3000
-        })
-    </script>
-@endif
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
+      rel="stylesheet">
+
+<link rel="stylesheet" href="{{ asset('assets/css/line.css') }}">
+<link href="{{ asset('assets/css/theme-rtl.min.css') }}" type="text/css" rel="stylesheet" id="style-rtl">
+<link href="{{ asset('assets/css/theme.min.css') }}" type="text/css" rel="stylesheet" id="style-default">
+<link href="{{ asset('assets/css/user-rtl.min.css') }}" type="text/css" rel="stylesheet" id="user-style-rtl">
+<link href="{{ asset('assets/css/user.min.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
+
 
 <!-- Stacking JavaScript -->
 @stack('scripts')

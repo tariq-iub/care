@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             InspectionsTableSeeder::class,
             NotesTableSeeder::class,
             DataFileSeeder::class,
+            UserRegistrationSeeder::class,
         ]);
     }
 }

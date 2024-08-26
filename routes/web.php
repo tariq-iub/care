@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\SetPasswordController;
+use App\Http\Controllers\Billing\StripePaymentController;
+use App\Http\Controllers\Billing\StripeWebhookController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\HomeController;
@@ -11,6 +14,8 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ServiceRepresentativeController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRegistrationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
@@ -30,7 +35,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Route for custom redirection after registration
+Route::get('/user_registered', function () {
+    return view('auth.user_registered'); // Replace with the actual view you want to show
+})->name('auth.user_registered');
+
+// Route for pricing plans view, since anyone can view pricing, it's not protected by any middleware.
+Route::view('/pricing', 'payment.pricing.index')->name('pricing');
+
+Auth::routes(['verify' => true]);
+
+Route::get('/enter-new-password', [SetPasswordController::class, 'showSetPasswordForm'])
+    ->name('show.new.password.form');
+Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'])
+    ->name('update.new.password')->middleware(['guest']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -39,6 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
     Route::put('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
 
+    Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/menus', MenuController::class)->except(['show']);
     Route::resource('/roles', RoleController::class)->except(['show']);
     Route::resource('/factories', FactoryController::class)->except(['show', 'destroy']);
@@ -67,4 +86,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/plant/create-plant/{id}', [PlantController::class, 'create'])->name('plant.create');
     Route::get('/plant/{plant}/edit-plant', [PlantController::class, 'edit'])->name('plant.edit');
+
+    Route::post('/client/update-responder', [UserRegistrationController::class, 'updateResponderId']);
+    Route::post('/client/update-remarks', [UserRegistrationController::class, 'updateRemarks']);
+    Route::post('/client/create-user', [UserRegistrationController::class, 'createClient']);
+    Route::post('/client/create-company', [UserRegistrationController::class, 'createCompany']);
+    Route::post('/client/email-client', [UserRegistrationController::class, 'emailClient']);
+
+    Route::get('/billing', [StripePaymentController::class, 'showPaymentForm'])->name('billing.payment');
+    Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent'])->name('billing.createPaymentIntent');
+    Route::post('/payment-webhook', [StripeWebhookController::class, 'handleWebhook'])->name('billing.webhook');
 });
