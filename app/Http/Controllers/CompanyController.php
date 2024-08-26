@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyUser;
 use App\Models\Note;
 use App\Models\Plant;
 use App\Models\PlantServiceRep;
+use App\Models\Role;
 use App\Models\ServiceRepresentative;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -60,13 +66,9 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        $plant = Plant::where('company_id', $company->id)->first();
-        $note = Note::where('id', $plant->note_id)->first();
-        $plantServiceRep = PlantServiceRep::where('plant_id', $plant->id)->first();
-        $serviceRepresentative = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
 
         return view('admin.plants.edit', compact(
-            'company','plant', 'note', 'serviceRepresentative'));
+            'company',));
     }
 
     /**
@@ -146,5 +148,98 @@ class CompanyController extends Controller
         $company->update($request->all());
 
         return response()->json(['success' => true, 'company' => $company]);
+    }
+
+    function fetchCompanies(Request $request, $id)
+    {
+        $company = Company::where('id', $id)->first()->toArray();
+
+        return response()->json(['company' => $company]);
+    }
+
+    function manageUsersIndex($id)
+    {
+        $users = User::join('company_users', 'users.id', '=', 'company_users.user_id')
+            ->where('company_users.company_id', $id)
+            ->get();
+
+        return view('admin.plants.manage-users', compact('users', 'id'));
+    }
+
+    function storeUser(Request $request)
+    {
+        $photoPath = null;
+        if ($request->hasFile('photo_path')) {
+            $file = $request->file('photo_path');
+            $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $photoPath = $file->storeAs('users', $filename, 'public');
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'avatar' => $photoPath,
+            'status' => $request->status,
+        ]);
+
+        $companyUser = CompanyUser::create([
+            'company_id' => $request->company_id,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('company.manage_users', $request->company_id)->with('message', 'User created successfully.');
+    }
+
+    function updateUser(Request $request)
+    {
+        $companyUser = CompanyUser::where('user_id', $request->user_id)->first();
+
+        $companyUser->update([
+            'access_level' => $request->access_level,
+        ]);
+
+        $user = User::where('id', $request->user_id)->first();
+
+        if ($request->hasFile('photo_path')) {
+            $file = $request->file('photo_path');
+            $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $photoPath = $file->storeAs('users', $filename, 'public');
+            $user->update([
+                'avatar' => $photoPath,
+            ]);
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'status' => $request->status,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function statusToggle(User $user, Request $request)
+    {
+        if($user->status)
+        {
+            $user->status = false;
+        }
+        else
+        {
+            $user->status = true;
+        }
+        $user->save();
+
+        return redirect()->route('company.manage_users', $request->company_id);
+    }
+
+    public function fetchUser(Request $request, $userId){
+        $user = User::join('company_users', 'users.id', '=', 'company_users.user_id')
+            ->where('company_users.user_id', $userId)
+            ->first()->toArray();
+
+        return response()->json(['user' => $user]);
     }
 }

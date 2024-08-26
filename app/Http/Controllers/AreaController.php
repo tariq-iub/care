@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AreaController extends Controller
 {
@@ -21,7 +22,7 @@ class AreaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.area.create');
     }
 
     /**
@@ -29,7 +30,19 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'plant_id' => 'required',
+            'area_name' => 'required',
+            'line_frequency' => 'required',
+        ]);
+
+        $area = Area::updateOrCreate([
+            'plant_id' => $validated['plant_id'],
+            'name' => $validated['area_name'],
+            'line_frequency' => $validated['line_frequency'],
+        ]);
+
+        return response()->json(['success' => true, 'area' => $area], 200);
     }
 
     /**
@@ -53,7 +66,20 @@ class AreaController extends Controller
      */
     public function update(Request $request, Area $area)
     {
-        //
+        Log::info('data',$request->all());
+
+        $validated = $request->validate([
+            'area_id' => 'required',
+            'area_name' => 'required',
+            'line_frequency' => 'required',
+        ]);
+
+        $area = Area::find($validated['area_id']);
+        $area->name = $validated['area_name'];
+        $area->line_frequency = $validated['line_frequency'];
+        $area->save();
+
+        return response()->json(['success' => true, 'area' => $area], 200);
     }
 
     /**
@@ -64,24 +90,16 @@ class AreaController extends Controller
         //
     }
 
-    public function fetch(Request $request)
+    public function fetch(Request $request, $id)
     {
-        if($request->input('id'))
-        {
-            $data = Area::where('id', $request->input('id'))
-                ->with(['components'])
+        $data = Area::where('id',$id)
+                ->with(['plant'])
                 ->first();
 
-            if($data) return response()->json($data, 200);
-            else return response()->json(['message' => 'Site is not registered in the system.'], 404);
-        }
-        else
-        {
-            $data = Area::with(['components'])
-                ->get();
+        return response()->json([
+            'success' => true,
+            'area' => $data
+        ], 200);
 
-            if($data) return response()->json($data, 200);
-            else return response()->json(['message' => 'No sites registered in the system.'], 404);
-        }
     }
 }

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Company;
 use App\Models\Plant;
 use App\Models\PlantServiceRep;
 use App\Models\ServiceRepresentative;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PlantController extends Controller
 {
-    public function index()
+    public function index($company)
     {
+        $plants = Plant::where('company_id', $company)->get();
+
+        return view('admin.plants.plant-index', compact('plants', 'company'));
     }
 
     public function create($company_id)
@@ -94,10 +99,11 @@ class PlantController extends Controller
 
     public function showPlants(Request $request, $company_id)
     {
-        $company = Company::where('id', $company_id)->firstOrFail();
-        $plants = Plant::where('company_id', $company_id)->get();
 
-        return view('admin.plants.partial.handlers_table', compact('plants', 'company'));
+        $plant = Plant::where('id', $company_id)->firstOrFail();
+        $areas = Area::where('plant_id', $company_id)->get();
+
+        return view('admin.plants.partial.handlers_table', compact('plant', 'areas', 'company_id'));
     }
 
     public function showPlant(Request $request, $id)

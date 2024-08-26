@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
@@ -31,8 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/data/upload', [DataFileController::class, 'upload'])->name('upload');
 Route::post('/data/edit', [DataFileController::class, 'edit'])->name('edit');
 Route::post('/data/replace', [DataFileController::class, 'replace'])->name('replace');
-Route::get('/factories', [FactoryController::class, 'fetch']);
-Route::get('/sites', [SiteController::class, 'fetch']);
 
 Route::post('/admin/data-setup/general', [DataCollectionSetupController::class, 'saveGeneralData'])->name('api.data-setup.general');
 Route::post('/admin/data-setup/measurement', [DataCollectionSetupController::class, 'saveMeasurementData'])->name('api.data-setup.measurement');
@@ -59,6 +58,14 @@ Route::post('/company/update-company-info', [CompanyController::class, 'updateCo
 Route::post('/plant/update-plant-info', [PlantController::class, 'updatePlantInfo']);
 Route::post('/note/update-note', [NoteController::class, 'updateNotesPictures']);
 Route::post('/service-rep/update-service-representative', [ServiceRepresentativeController::class, 'updateServiceRepresentative']);
+
+Route::get('/company/fetch-company/{id}', [CompanyController::class, 'fetchCompanies']);
+Route::get('/company/users/{id}', [CompanyController::class, 'fetchUser']);
+Route::post('/company/update-user', [CompanyController::class, 'updateUser'])->name('company.update_user');
+
+Route::post('/area/store',[AreaController::class, 'store']);
+Route::post('/area/update',[AreaController::class, 'update']);
+Route::get('/area/fetch-area/{id}', [AreaController::class, 'fetch']);
 
 Route::get('/plant/fetch-plants/{id}', [PlantController::class, 'showPlants']);
 Route::get('/plant/fetch-plant/{id}', [PlantController::class, 'showPlant']);

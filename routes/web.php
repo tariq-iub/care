@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\SetPasswordController;
 use App\Http\Controllers\Billing\StripePaymentController;
 use App\Http\Controllers\Billing\StripeWebhookController;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\HomeController;
@@ -60,11 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/menus', MenuController::class)->except(['show']);
     Route::resource('/roles', RoleController::class)->except(['show']);
-    Route::resource('/factories', FactoryController::class)->except(['show', 'destroy']);
-    Route::resource('/sites', SiteController::class)->except(['show', 'destroy']);
     Route::resource('/inspections', InspectionController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
+    Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
 
     Route::controller(DataFileController::class)
         ->as('data.')
@@ -82,8 +82,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/data-setup/{data_collection_setup}/show', [DataCollectionSetupController::class, 'show'])->name('setup.show');
     Route::post('/data-setup/complete', [DataCollectionSetupController::class, 'complete'])->name('setup.complete');
 
-    Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store', 'edit', 'show']);
-
+    Route::get('/plant/{company}', [PlantController::class, 'index'])->name('plant.index');
     Route::get('/plant/create-plant/{id}', [PlantController::class, 'create'])->name('plant.create');
     Route::get('/plant/{plant}/edit-plant', [PlantController::class, 'edit'])->name('plant.edit');
 
@@ -96,4 +95,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/billing', [StripePaymentController::class, 'showPaymentForm'])->name('billing.payment');
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent'])->name('billing.createPaymentIntent');
     Route::post('/payment-webhook', [StripeWebhookController::class, 'handleWebhook'])->name('billing.webhook');
+
+    Route::get('/area/create', [AreaController::class, 'create'])->name('area.create');
+
+    Route::get('/company/manage-users/{id}', [CompanyController::class, 'manageUsersIndex'])->name('company.manage_users');
+    Route::post('/company/create-users', [CompanyController::class, 'storeUser'])->name('company.store_user');
+    Route::put('/company/status/{user}', [CompanyController::class, 'statusToggle'])->name('company_users.status');
+
+    Route::get('/mid-setups', function (){
+        return view('admin.mid_setup.index');
+    });
+    Route::get('/mid-setups/create', function (){
+        return view('admin.mid_setup.create');
+    });
 });

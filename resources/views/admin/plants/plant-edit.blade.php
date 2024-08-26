@@ -117,8 +117,8 @@
                                         <div class="col-md-12">
                                             <label for="plant-status" class="form-label">Plant Status<span class="text-danger">*</span></label>
                                             <select class="form-select" id="plant-status" name="plant_status" required>
-                                                <option value="1" {{$plant->plant_status == '1' ? 'selected' : ''}}>Active</option>
-                                                <option value="0" {{$plant->plant_status == '0' ? 'selected' : ''}}>Inactive</option>
+                                                <option value="1" {{$plant->plant_status === 1 ? 'selected' : ''}}>Active</option>
+                                                <option value="0" {{$plant->plant_status === 0 ? 'selected' : ''}}>Inactive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                                     <div class="row g-3">
                                         <div class="col-md-12">
                                             <label for="notes" class="form-label">Notes<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" id="notes" name="notes" rows="4">{{$note->note}}</textarea>
+                                            <textarea class="form-control" id="notes" name="notes" rows="4">@if(isset($note)){{$note->note}}@endif</textarea>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="pictures" class="form-label">Pictures</label>
@@ -165,7 +165,7 @@
                                             <p class="text-body-emphasis fs-9">
                                                 Now you can access your account<br>anytime anywhere
                                             </p>
-                                            <a class="btn btn-primary px-6" href="{{route('company.index')}}">
+                                            <a class="btn btn-primary px-6" href="{{route('plant.index', $plant->company_id)}}">
                                                 Go Back
                                             </a>
                                         </div>
@@ -251,7 +251,11 @@
                 }
                 if (getActiveStep() == 3) {
                     const formData = new FormData(form2);
-                    formData.append('note_id', {{$note->id}});
+                    @if(isset($note))
+                    formData.append('note_id', {{ $note->id }});
+                    @else
+                    formData.append('plant_id', plant_id);
+                    @endif
                     $.ajax({
                         url: '/api/note/update-note',
                         type: 'POST',
