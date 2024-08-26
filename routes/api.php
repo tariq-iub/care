@@ -3,15 +3,11 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
-use App\Http\Controllers\FactoryController;
-use App\Http\Controllers\SiteController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ServiceRepresentativeController;
-use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
