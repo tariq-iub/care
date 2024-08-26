@@ -7,6 +7,8 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\MidSetupController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SensorDataController;
@@ -63,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
+    Route::resource('/question', QuestionController::class)->except(['edit']);
 
     Route::controller(DataFileController::class)
         ->as('data.')
@@ -72,6 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::put('/data/{data_file}', 'update')->name('update');
             Route::delete('/data/{data_file}', 'destroy')->name('delete');
             Route::get('/data/download/{data_file}', 'download')->name('download');
+            Route::get('/data/files', [DataFileController::class, 'getData'])->name('data');
         });
 
     Route::get('/data-setup', [DataCollectionSetupController::class, 'index'])->name('setup.index');
@@ -100,10 +104,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/company/create-users', [CompanyController::class, 'storeUser'])->name('company.store_user');
     Route::put('/company/status/{user}', [CompanyController::class, 'statusToggle'])->name('company_users.status');
 
-    Route::get('/mid-setups', function (){
-        return view('admin.mid_setup.index');
-    });
-    Route::get('/mid-setups/create', function (){
-        return view('admin.mid_setup.create');
-    });
+    Route::get('/mid-setups', [MidSetupController::class, 'index'])->name('mid_setups.index');
+    Route::get('/mid-setups/create', [MidSetupController::class, 'create'])->name('mid_setups.create');
+    Route::get('/mid-setups/edit/{id}', [MidSetupController::class, 'edit'])->name('mid_setups.edit');
 });
