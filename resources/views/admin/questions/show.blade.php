@@ -17,14 +17,34 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="answers">Answers:</label>
-                    <div id="show-answers-container">
+                <div class="col-md-12 mb-2">
+                    <label for="sort_order" class="form-label">Sort Order <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="show-sort_order" name="show-sort_order" required value="0">
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label for="sort_order" class="form-label">Group</label>
+                    <input type="text" class="form-control" id="show-group" name="show-group" required value="general">
+                </div>
+
+                <div class="form-group mb-2" id="general-group">
+                    <label class="fw-bold" id="general-group-label">Answers:</label>
+                    <div id="general-answers-container">
+                        <div class="answer-group d-flex align-items-center mb-2">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-2" id="custom-group" style="display: none">
+                    <label class="fw-bold"><span id="custom-group-label">Custom Group</span> Answers:</label>
+                    <div id="custom-answers-container">
 
                     </div>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button">Okay</button>
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Okay</button>
                     <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>

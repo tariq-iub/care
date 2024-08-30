@@ -9,7 +9,7 @@ class MidQuestions extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'sort_order'];
+    protected $fillable = ['title', 'body', 'sort_order', 'group'];
 
     public function answers()
     {

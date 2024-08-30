@@ -6,7 +6,7 @@ use App\Models\MidQuestions;
 use App\Models\MidSetup;
 use App\Models\MidSetupAnswers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MidSetupController extends Controller
 {
@@ -21,6 +21,18 @@ class MidSetupController extends Controller
         $questions = MidQuestions::with('answers')->get();
         $questions = $questions->sortBy('sort_order');
 
+        foreach ($questions as $question) {
+            $question_answers = DB::table('question_answers')
+                ->where('mid_question_id', $question->id)
+                ->get();
+
+            foreach ($question_answers as $answer) {
+                $question->group = $answer->group;
+            }
+            $question->question_answers = $question_answers;
+
+        }
+
         return view('admin.mid_setup.create', compact('questions'));
     }
 
@@ -29,6 +41,8 @@ class MidSetupController extends Controller
         $midSetup = MidSetup::with('bodies')->findOrFail($id);
         $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
         $questions = MidQuestions::with('answers')->get();
+
+        $questions = $questions->sortBy('sort_order');
 
         foreach ($questions as $question) {
             foreach ($midSetupAnswers as $answer) {
@@ -41,7 +55,7 @@ class MidSetupController extends Controller
         return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions'));
     }
 
-    public function saveMidSetup(Request $request)
+    public function store(Request $request)
     {
         $inputData = $request->all();
 
@@ -50,7 +64,6 @@ class MidSetupController extends Controller
         ]);
 
         foreach ($inputData as $key => $value) {
-            Log::info($value);
             if (strpos($key, 'flexRadioDefault')===0) {
                 $question_id = str_replace('flexRadioDefault', '', $key);
                 MidSetupAnswers::create([
@@ -63,7 +76,7 @@ class MidSetupController extends Controller
         return response()->json(['message' => 'Mid setup created successfully']);
     }
 
-    public function updateMidSetup(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $inputData = $request->all();
 
@@ -84,6 +97,20 @@ class MidSetupController extends Controller
                 ]);
             }
         }
-        return response()->json(['message' => 'Mid setup updated successfully']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Mid setup updated successfully']);
+    }
+
+    public function destroy($id)
+    {
+        $midSetup = MidSetup::findOrFail($id);
+
+        $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
+        $midSetupAnswers->each->delete();
+
+        $midSetup->delete();
+
+        return redirect()->route('mid_setups.index');
     }
 }

@@ -107,4 +107,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/mid-setups', [MidSetupController::class, 'index'])->name('mid_setups.index');
     Route::get('/mid-setups/create', [MidSetupController::class, 'create'])->name('mid_setups.create');
     Route::get('/mid-setups/edit/{id}', [MidSetupController::class, 'edit'])->name('mid_setups.edit');
+    Route::delete('/mid-setups/{id}', [MidSetupController::class, 'destroy'])->name('mid_setups.destroy');
 });

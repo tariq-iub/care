@@ -6,12 +6,15 @@ use App\Models\MidAnswers;
 use App\Models\MidQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class QuestionController extends Controller
 {
     public function index()
     {
         $questions = MidQuestions::with('answers')->get();
+        $questions = $questions->sortBy('sort_order');
 
         return view('admin.questions.index', compact('questions'));
     }
@@ -26,19 +29,30 @@ class QuestionController extends Controller
         $question = MidQuestions::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
-            'sort_order' => $request->input('sort_order', 0), // Default to 0 if not provided
+            'sort_order' => $request->input('sort_order', 0),
         ]);
 
         if ($request->has('answers')) {
-            $answerIds = [];
-            foreach ($request->input('answers') as $answerBody) {
-                $answer = MidAnswers::create([
-                    'body' => $answerBody,
-                ]);
-                $answerIds[] = $answer->id;
-            }
+            if ($request->input('group') == 'general') {
+                for ($i = 0; $i < count($request->input('answers')); $i++) {
+                    $answer = MidAnswers::create([
+                        'body' => $request->input('answers')[$i],
+                        'answer_type' => $request->input('answer_type')[$i],
+                    ]);
+                    $question->answers()->attach($answer->id, ['group' => $request->input('group')]);
+                }
+            } else {
+                foreach ($request->input('answers') as $groupName => $groupAnswers) {
+                    foreach ($groupAnswers as $index => $answerBody) {
+                        $answer = MidAnswers::create([
+                            'body' => $answerBody,
+                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                        ]);
 
-            $question->answers()->attach($answerIds);
+                        $question->answers()->attach($answer->id, ['group' => $groupName == 'custom' ? $request->input('group') : $groupName]);
+                    }
+                }
+            }
         }
 
         return redirect()->route('question.index')->with('success', 'Question and answers saved successfully.');
@@ -55,23 +69,33 @@ class QuestionController extends Controller
     public function update(Request $request, $id)
     {
         $question = MidQuestions::findOrFail($id);
-        $question->update($request->only('title', 'body'));
+        $question->update($request->only('title', 'body', 'sort_order'));
+
+        DB::table('question_answers')->where('mid_question_id', $id)->delete();
 
         if ($request->has('answers')) {
-            $answerIds = [];
-            // Update existing answers
+            if ($request->input('group') == 'general') {
+                for ($i = 0; $i < count($request->input('answers')); $i++) {
+                    $answer = MidAnswers::create([
+                        'body' => $request->input('answers')[$i],
+                        'answer_type' => $request->input('answer_type')[$i],
+                    ]);
+                    $question->answers()->attach($answer->id, ['group' => $request->input('group')]);
+                }
+            } else {
+                foreach ($request->input('answers') as $groupName => $groupAnswers) {
+                    foreach ($groupAnswers as $index => $answerBody) {
+                        $answer = MidAnswers::create([
+                            'body' => $answerBody,
+                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                        ]);
 
-            foreach ($request->input('answer_ids') as $key => $answerId) {
-                $answer = MidAnswers::findOrFail($answerId);
-                $answer->update([
-                    'body' => $request->input('answers')[$key],
-                ]);
-                $answerIds[] = $answer->id;
+                        $question->answers()->attach($answer->id, ['group' => $groupName == 'custom' ? $request->input('group') : $groupName]);
+                    }
+                }
             }
-
-            // Attach answers to the question using the pivot table
-            $question->answers()->sync($answerIds);
         }
+
 
         return redirect()->back();
     }
@@ -96,6 +120,10 @@ class QuestionController extends Controller
     {
         $question = MidQuestions::with('answers')->findOrFail($id);
 
-        return response()->json(['question' => $question]);
+        $question_answers = DB::table('question_answers')
+            ->where('mid_question_id', $id)
+            ->get();
+
+        return response()->json(['question' => $question, 'question_answers' => $question_answers]);
     }
 }

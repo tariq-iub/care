@@ -88,7 +88,7 @@
                                         <a class="dropdown-item" href="{{route('mid_setups.edit', $row->id)}}">Edit</a>
                                         <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openShowModal(event, {{ $row->id }})">Show</a>
                                         <div class="dropdown-divider"></div>
-                                        <form action="{{ route('question.destroy', $row->id) }}" method="POST">
+                                        <form action="{{ route('mid_setups.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item text-danger">Delete</button>

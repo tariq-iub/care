@@ -41,14 +41,8 @@
                         <th class="sort align-middle" scope="col" data-sort="question" style="width:15%; min-width:200px;">
                             QUESTIONS
                         </th>
-                        <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
+                        <th class="sort align-middle" scope="col" style="width:12%; min-width:100px;">
                             BODY
-                        </th>
-                        <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
-
-                        </th>
-                        <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
-
                         </th>
                         <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:100px;">
                             ACTIONS
@@ -63,14 +57,6 @@
                         </td>
                         <td class="city align-middle white-space-nowrap">
                             <span class="text-body">{{ $row->body }}</span>
-                        </td>
-                        <td class="city align-middle white-space-nowrap">
-                            <span class="text-body">{{ $row->city }}</span>
-                        </td>
-                        <td class="email align-middle white-space-nowrap">
-                            <span class="text-body">{{ $row->phone_number }}</span>
-                            <br>
-                            <a class="fw-semibold" href="mailto:{{ $row->email }}">{{ $row->email }}</a>
                         </td>
                         <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
                             <div class="btn-reveal-trigger position-static">
@@ -144,13 +130,11 @@
 
             answersContainer.appendChild(newAnswerGroup);
 
-            // Add event listener to remove button
             newAnswerGroup.querySelector('.remove-answer').addEventListener('click', function() {
                 this.parentElement.remove();
             });
         });
 
-        // Add event listener to existing remove button
         document.querySelectorAll('.remove-answer').forEach(function(button) {
             button.addEventListener('click', function() {
                 this.parentElement.remove();
@@ -163,25 +147,92 @@
         $.get(`/api/questions/fetch-question/${id}`, function(response) {
             let question = response.question;
             let answers = question.answers;
+            let question_answers = response.question_answers;
+            let generalGroupLabel = document.getElementById('general-group-label');
+
+            question_answers.forEach(function(question_answer) {
+                question.group = question_answer.group == 'general' ? 'general' : question_answer.group;
+            });
+
+            let form = document.getElementById('edit-question-form');
 
             $('#edit-question-form').attr('action', `/question/${id}`);
 
-            $('#edit-title').val(question.title);
-            $('#edit-body').val(question.body);
+            form.querySelector('input[name="title"]').value = question.title;
+            form.querySelector('input[name="body"]').value = question.body;
+            form.querySelector('input[name="sort_order"]').value = question.sort_order;
+            form.querySelector('input[name="group"]').value = question.group;
 
-            $('#edit-answers-container').empty();
+            let customGroup = document.getElementById('custom-group');
+            customGroup.style.display = 'none';
 
-            answers.forEach(answer => {
-                let answerGroup = `
-                    <div class="edit-answer-group d-flex align-items-center mb-2">
+            $('#edit-general-answers-container').empty();
+            $('#edit-custom-answers-container').empty();
+
+            if (question.group != 'general') {
+                for (let i = 0; i < question_answers.length; i++) {
+                    for (let j = 0; j < answers.length; j++) {
+                        if (question_answers[i].mid_answer_id === answers[j].id) {
+                            if (question_answers[i].group == 'general') {
+                                generalGroupLabel.innerHTML = 'General Answers:';
+                                let answerGroup = `
+                                <div class="show-answer-group d-flex align-items-center mb-2">
+                                    <input type="hidden" name="answer_ids[general][]" value="${answers[j].id}">
+                                    <input type="text" name="answers[general][]" class="form-control me-2" value="${answers[j].body}">
+                                    <select name="answer_type[${question_answers[i].group}][]" class="form-control me-2" required>
+                                        <option value="text" ${answers[j].answer_type == 'text' ? 'selected' : ''}>Text</option>
+                                        <option value="number" ${answers[j].answer_type == 'number' ? 'selected' : ''}>Number</option>
+                                        <option value="checkbox" ${answers[j].answer_type == 'checkbox' ? 'selected' : ''}>Checkbox</option>
+                                        <option value="radio" ${answers[j].answer_type == 'radio' ? 'selected' : ''}>Radio</option>
+                                    </select>
+                                    <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                                </div>
+                                `;
+                                $('#edit-general-answers-container').append(answerGroup);
+                            } else {
+                                let customGroupLabel = document.getElementById('custom-group-label');
+                                customGroupLabel.innerText = question_answers[i].group.charAt(0).toUpperCase() + question_answers[i].group.slice(1);
+                                let customGroup = document.getElementById('custom-group');
+                                customGroup.style.display = 'block';
+                                let answerGroup = `
+                                    <div class="custom-answer-group d-flex align-items-center mb-2">
+                                        <input type="hidden" name="answer_ids[${question_answers[i].group}][]" value="${answers[j].id}">
+                                        <input type="text" name="answers[${question_answers[i].group}][]" class="form-control me-2" value="${answers[j].body}">
+                                        <select name="answer_type[${question_answers[i].group}][]" class="form-control me-2" required>
+                                            <option value="text" ${answers[j].answer_type == 'text' ? 'selected' : ''}>Text</option>
+                                            <option value="number" ${answers[j].answer_type == 'number' ? 'selected' : ''}>Number</option>
+                                            <option value="checkbox" ${answers[j].answer_type == 'checkbox' ? 'selected' : ''}>Checkbox</option>
+                                            <option value="radio" ${answers[j].answer_type == 'radio' ? 'selected' : ''}>Radio</option>
+                                        </select>
+                                        <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                                    </div>
+                                `;
+
+                                $('#edit-custom-answers-container').append(answerGroup);
+                            }
+                        }
+                    }
+                }
+            } else {
+                generalGroupLabel.innerHTML = 'Answers:';
+                answers.forEach(answer => {
+                    let answerGroup = `
+                    <div class="show-answer-group d-flex align-items-center mb-2">
                         <input type="hidden" name="answer_ids[]" value="${answer.id}">
-                        <input type="text" name="answers[]" class="form-control me-2" value="${answer.body}" required>
+                        <input type="text" name="answers[]" class="form-control me-2" value="${answer.body}">
+                        <select name="answer_type[]" class="form-control me-2" required>
+                            <option value="text" ${answer.answer_type == 'text' ? 'selected' : ''}>Text</option>
+                            <option value="number" ${answer.answer_type == 'number' ? 'selected' : ''}>Number</option>
+                            <option value="checkbox" ${answer.answer_type == 'checkbox' ? 'selected' : ''}>Checkbox</option>
+                            <option value="radio" ${answer.answer_type == 'radio' ? 'selected' : ''}>Radio</option>
+                        </select>
                         <button type="button" class="btn btn-danger remove-answer">Remove</button>
                     </div>
                 `;
 
-                $('#edit-answers-container').append(answerGroup);
-            });
+                    $('#edit-general-answers-container').append(answerGroup);
+                });
+            }
             document.querySelectorAll('.remove-answer').forEach(function(button) {
                 button.addEventListener('click', function() {
                     this.parentElement.remove();
@@ -197,27 +248,68 @@
         $.get(`/api/questions/fetch-question/${id}`, function(response) {
             let question = response.question;
             let answers = question.answers;
+            let question_answers = response.question_answers;
+            let generalGroupLabel = document.getElementById('general-group-label');
+
+            question_answers.forEach(function(question_answer) {
+                question.group = question_answer.group == 'general' ? 'general' : question_answer.group;
+            });
 
             $('#show-title').val(question.title);
             $('#show-body').val(question.body);
+            $('#show-sort_order').val(question.sort_order);
+            $('#show-group').val(question.group);
+            let customGroup = document.getElementById('custom-group');
+            customGroup.style.display = 'none';
+            $('#general-answers-container').empty();
+            $('#custom-answers-container').empty();
+            if (question.group != 'general') {
+                for (let i = 0; i < question_answers.length; i++) {
+                    for (let j = 0; j < answers.length; j++) {
+                        if (question_answers[i].mid_answer_id === answers[j].id) {
+                            if (question_answers[i].group == 'general') {
+                                generalGroupLabel.innerHTML = 'General Answers:';
+                                let answerGroup = `
+                                <div class="show-answer-group d-flex align-items-center mb-2">
+                                    <input type="hidden" name="answer_ids[]" value="${answers[j].id}">
+                                    <input type="text" name="answers[]" class="form-control me-2" value="${answers[j].body}" readonly>
+                                    <input type="text" name="answers_type[]" class="form-control me-2" value="${answers[j].answer_type}" readonly>
+                                </div>
+                                `;
+                                $('#general-answers-container').append(answerGroup);
+                            } else {
+                                let customGroupLabel = document.getElementById('custom-group-label');
+                                customGroupLabel.innerText = question_answers[i].group.charAt(0).toUpperCase() + question_answers[i].group.slice(1);
+                                let customGroup = document.getElementById('custom-group');
+                                customGroup.style.display = 'block';
+                                let answerGroup = `
+                                    <div class="custom-answer-group d-flex align-items-center mb-2">
+                                        <input type="hidden" name="answer_ids[]" value="${answers[j].id}">
+                                        <input type="text" name="custom_answers[]" class="form-control me-2" value="${answers[j].body}" readonly>
+                                        <input type="text" name="answers_type[]" class="form-control me-2" value="${answers[j].answer_type}" readonly>
+                                    </div>
+                                `;
 
-            $('#show-answers-container').empty();
-
-            answers.forEach(answer => {
-                let answerGroup = `
+                                $('#custom-answers-container').append(answerGroup);
+                            }
+                        }
+                    }
+                }
+            } else {
+                generalGroupLabel.innerHTML = 'Answers:';
+                answers.forEach(answer => {
+                    let answerGroup = `
                     <div class="show-answer-group d-flex align-items-center mb-2">
                         <input type="hidden" name="answer_ids[]" value="${answer.id}">
                         <input type="text" name="answers[]" class="form-control me-2" value="${answer.body}" readonly>
+                        <input type="text" name="answers_type[]" class="form-control me-2" value="${answer.answer_type}" readonly>
                     </div>
                 `;
 
-                $('#show-answers-container').append(answerGroup);
-            });
-            document.querySelectorAll('.remove-answer').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    this.parentElement.remove();
+                    $('#general-answers-container').append(answerGroup);
                 });
-            });
+            }
+
             var modal = new bootstrap.Modal(document.getElementById('show-questions'), {});
             modal.show();
         });

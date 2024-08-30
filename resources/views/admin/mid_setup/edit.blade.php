@@ -13,6 +13,7 @@
                 <input type="text" name="mid-name" id="mid-name" class="form-control" placeholder="Enter MID Name" value="{{$midSetup->title}}">
                 @foreach($questions as $form)
                     @include('admin.mid_setup.partials.edit_question_form', [
+                        'group' => $form['group'],
                         'question_id' => $form['id'],
                         'title' => $form['title'],
                         'body' => $form['body'],

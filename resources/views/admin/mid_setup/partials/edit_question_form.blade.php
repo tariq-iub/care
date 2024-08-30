@@ -20,6 +20,13 @@
                                     {{ $body }}
                                 </p>
 
+                                @if($group != 'general')
+                                    <p class="nav nav-underline fs-9 p-1" id="myTab" role="tablist">
+                                        <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true">General</a></a>
+                                        <a class="nav-link" id="{{$group}}-{{$question_id}}-tab" data-bs-toggle="tab" href="#tab-{{$group}}-{{$question_id}}" role="tab" aria-controls="tab-{{$group}}-{{$question_id}}" aria-selected="false">{{ucfirst($group)}}</a></a>
+                                    </p>
+                                @endif
+
                                 @foreach($answers as $option)
                                     <div class="form-check">
                                         @if ($option->id == $selected_option_id)

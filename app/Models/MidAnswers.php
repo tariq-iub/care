@@ -9,7 +9,7 @@ class MidAnswers extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['body'];
+    protected $fillable = ['body', 'answer_type'];
 
     public function question()
     {
