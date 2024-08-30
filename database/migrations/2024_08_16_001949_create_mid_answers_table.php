@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mid_answers', function (Blueprint $table) {
             $table->id();
             $table->text('body');
+            $table->string('answer_type')->default('radio');
             $table->timestamps();
         });
     }

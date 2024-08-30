@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             NotesTableSeeder::class,
             DataFileSeeder::class,
             UserRegistrationSeeder::class,
+            MidQuestionSeeder::class,
         ]);
     }
 }
