@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mid_question_id')->constrained()->onDelete('cascade');
             $table->foreignId('mid_answer_id')->constrained()->onDelete('cascade');
+            $table->string('group')->default('general');
             $table->timestamps();
         });
     }
