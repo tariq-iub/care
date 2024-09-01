@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PaymentServiceInterface;
+use App\Interfaces\PaymentGatewayInterface;
 use Illuminate\Http\Request;
+
 class PaymentController extends Controller
 {
     protected $paymentService;
 
-    public function __construct(PaymentServiceInterface $paymentService)
+    public function __construct(PaymentGatewayInterface $paymentService)
     {
         $this->paymentService = $paymentService;
     }

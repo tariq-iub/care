@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
+use App\Interfaces\PaymentGatewayInterface;
+use App\Services\StripePaymentGateway;
 use Illuminate\Support\ServiceProvider;
-use App\Services\PaymentServiceInterface;
-use App\Services\StripePaymentService;
-use App\Services\PayPalPaymentService;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -14,14 +13,12 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PaymentServiceInterface::class, function ($app) {
+        $this->app->bind(PaymentGatewayInterface::class, function ($app) {
             $paymentGateway = config('payment.gateway');
             switch ($paymentGateway) {
-                case 'paypal':
-                    return new PayPalPaymentService();
                 case 'stripe':
                 default:
-                    return new StripePaymentService();
+                    return new StripePaymentGateway();
             }
         });
     }

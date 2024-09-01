@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
+use App\Interfaces\PaymentGatewayInterface;
 use Exception;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
-class StripePaymentService implements PaymentServiceInterface
+class StripePaymentGateway implements PaymentGatewayInterface
 {
     public function __construct()
     {

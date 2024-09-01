@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\SetPasswordController;
-use App\Http\Controllers\Billing\StripePaymentController;
-use App\Http\Controllers\Billing\StripeWebhookController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MidSetupController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\CompanyController;
@@ -43,6 +42,11 @@ Route::get('/user_registered', function () {
 
 // Route for pricing plans view, since anyone can view pricing, it's not protected by any middleware.
 Route::view('/pricing', 'payment.pricing.index')->name('pricing');
+
+Route::get('/billing', [PaymentController::class, 'showPaymentForm'])->name('billing.payment');
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent'])->name('billing.createPaymentIntent');
+Route::post('/confirm-payment', [PaymentController::class, 'confirmPayment'])->name('billing.confirmPayment');
+Route::post('/payment-webhook', [PaymentController::class, 'handleWebhook'])->name('billing.webhook');
 
 Auth::routes(['verify' => true]);
 
@@ -93,10 +97,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/client/create-user', [UserRegistrationController::class, 'createClient']);
     Route::post('/client/create-company', [UserRegistrationController::class, 'createCompany']);
     Route::post('/client/email-client', [UserRegistrationController::class, 'emailClient']);
-
-    Route::get('/billing', [StripePaymentController::class, 'showPaymentForm'])->name('billing.payment');
-    Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent'])->name('billing.createPaymentIntent');
-    Route::post('/payment-webhook', [StripeWebhookController::class, 'handleWebhook'])->name('billing.webhook');
 
     Route::get('/area/create', [AreaController::class, 'create'])->name('area.create');
 

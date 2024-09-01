@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Interfaces;
 
-interface PaymentServiceInterface
+interface PaymentGatewayInterface
 {
     public function createPaymentIntent(array $data);
 
