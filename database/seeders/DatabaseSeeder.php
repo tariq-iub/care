@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             Transducer::class,
             Unit::class,
             RolesTableSeeder::class,
+            MenusTableSeeder::class,
             UsersTableSeeder::class,
             ServiceRepresentativesTableSeeder::class,
             CompaniesTableSeeder::class,
@@ -30,6 +31,10 @@ class DatabaseSeeder extends Seeder
             DataFileSeeder::class,
             UserRegistrationSeeder::class,
             MidQuestionSeeder::class,
+            StripeProductsTableSeeder::class,
+            StripePricingPlansTableSeeder::class,
+            PricingPlanFeaturesTableSeeder::class,
+            PricingPlanFeatureAssignmentsTableSeeder::class,
         ]);
     }
 }

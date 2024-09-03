@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\SubscriptionServiceInterface;
+use App\Services\CashierSubscriptionService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(SubscriptionServiceInterface::class, function ($app) {
+            return new CashierSubscriptionService();
+        });
     }
 
     /**
