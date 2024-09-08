@@ -130,6 +130,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                         <a class="dropdown-item process-user-request-btn" href="#">Process User</a>
+                                        <a class="dropdown-item resend-email-request-btn" href="#">Resend Email</a>
                                     </div>
                                 </div>
                             </td>
@@ -202,6 +203,34 @@
 
                 // Open the modal
                 $('#processUserModal').modal('show');
+            });
+
+            $('.resend-email-request-btn').on('click', function(e) {
+                e.preventDefault(); // Prevent the default action of the link
+
+                const userId = $(this).closest('tr').data('user-id');
+                const jsonData = JSON.stringify({ user_id: userId });
+                var url = '/client/email-client';
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // Assuming you have a meta tag with CSRF token
+
+                console.log(jsonData);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: jsonData,
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        console.log("Success:", response);
+                        // Finish the wizard or handle final step
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error:", textStatus, errorThrown);
+                    }
+                });
             });
         });
 
@@ -376,6 +405,5 @@
             $('#wizardForm4-user-id').val(userId);
             $('#wizardForm5-user-id').val(userId);
         }
-
     </script>
 @endpush

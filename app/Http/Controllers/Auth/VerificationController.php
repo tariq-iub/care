@@ -30,7 +30,7 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/enter-new-password';
+    protected $redirectTo = '/pricing-plans';
 
     /**
      * The user instance.
@@ -64,12 +64,18 @@ class VerificationController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
+            $this->user->status = 1;
+            $this->user->save();
+
             return $request->wantsJson()
                 ? new JsonResponse([], 204)
                 : redirect($this->redirectPath());
         }
 
         if ($user->markEmailAsVerified()) {
+            $this->user->status = 1;
+            $this->user->save();
+
             event(new Verified($user));
         }
 
@@ -85,6 +91,9 @@ class VerificationController extends Controller
      */
     protected function redirectPath()
     {
-        return route('show.new.password.form', ['id' => $this->user->getKey()]);
+        // Store the user ID in the session
+        session(['verified_user_id' => $this->user->id]);
+
+        return route('pricing.plans');
     }
 }

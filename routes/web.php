@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SetPasswordController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
-use Laravel\Cashier\Http\Controllers\WebhookController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,19 +44,17 @@ Route::get('/user_registered', function () {
 })->name('auth.user_registered');
 
 // Route for pricing plans view, since anyone can view pricing, it's not protected by any middleware.
-Route::get('/pricing-plans', [PricingPlansController::class, 'showPricingPlans'])->name('pricing.index');
+Route::get('/pricing-plans', [PricingPlansController::class, 'showPricingPlans'])->name('pricing.plans');
 
-Route::post('/checkout', [SubscriptionController::class, 'checkout'])->name('checkout');
-Route::get('/checkout/success', [SubscriptionController::class, 'success'])->name('checkout.success');
-Route::get('/checkout/cancel', [SubscriptionController::class, 'cancel'])->name('checkout.cancel');
+Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
 Route::post('/subscribe', [SubscriptionController::class, 'createSubscription'])->name('subscribe');
 Route::post('/subscription/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('subscription.cancel');
 Route::post('/subscription/resume', [SubscriptionController::class, 'resumeSubscription'])->name('subscription.resume');
 Route::post('/subscription/swap', [SubscriptionController::class, 'swapSubscription'])->name('subscription.swap');
 Route::get('/subscription/status', [SubscriptionController::class, 'getSubscriptionStatus'])->name('subscription.status');
-
-Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook'])->name('cashier.webhook');
 
 Auth::routes(['verify' => true]);
 

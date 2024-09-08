@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StripePricingPlan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,22 +19,14 @@ class SubscriptionController extends Controller
 
     public function createSubscription(Request $request)
     {
-        $user = Auth::user();
+        $userId = $request->input('user_id');
+        $planId = $request->input('plan_id');
 
-        if (!$user) {
-            // User is not logged in, attempt to fetch the user by email
-            $email = $request->input('email');
-            $user = User::where('email', $email)->first();
-
-            // Log in the fetched user
-            Auth::login($user);
-        }
-
-        $plan = $request->input('plan');
+        $user = User::findOrFail($userId);
+        $plan = StripePricingPlan::findOrFail($planId);
 
         try {
-            $checkoutUrl = $this->subscriptionService->createSubscription($user, $plan);
-            return redirect($checkoutUrl);
+            return $this->subscriptionService->createSubscription($user, $plan);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
@@ -82,18 +75,5 @@ class SubscriptionController extends Controller
 
         $isSubscribed = $this->subscriptionService->getSubscriptionStatus($user);
         return response()->json(['is_subscribed' => $isSubscribed]);
-    }
-
-    public function success(Request $request)
-    {
-        $sessionId = $request->get('session_id');
-        $checkoutSession = $this->subscriptionService->retrieveCheckoutSession($sessionId);
-
-        return view('checkout.success', ['checkoutSession' => $checkoutSession]);
-    }
-
-    public function cancel()
-    {
-        return view('checkout.cancel');
     }
 }
