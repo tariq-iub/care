@@ -109,7 +109,29 @@
                 </table>
             </div>
 
-            {{ $menus->links('pagination::bootstrap-5') }}
+            <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
+                <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
+                    <a class="fw-semibold" href="#!" data-list-view="*">
+                        View all
+                        <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                    <a class="fw-semibold d-none" href="#!" data-list-view="less">
+                        View Less
+                        <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                </div>
+                <div class="col-auto d-flex">
+                    <button class="page-link" data-list-pagination="prev">
+                        <span class="fas fa-chevron-left"></span>
+                    </button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next">
+                        <span class="fas fa-chevron-right"></span>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -120,9 +142,19 @@
         function ChangeOrder(ctrl, id)
         {
             let value = $(ctrl).val();
-            $.post("{{ url('/api/menus/update_order') }}", { id: id, value: value }, function(response) {
-                if(response.success == true)
-                    console.log('updated...');
+
+            $.ajax({
+                url: "{{ url('/api/menus/update_order') }}",
+                type: "POST",
+                data: { id: id, value: value },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ @csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success == true) {
+                        console.log('updated...');
+                    }
+                }
             });
         }
     </script>

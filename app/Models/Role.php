@@ -34,7 +34,8 @@ class Role extends Model
             ->whereNull('parent_id')
             ->with('submenus', function($query) use($ids) {
                 $query->whereIn('id', $ids);
-            })->orderBy('display_order')
+            })
+            ->orderBy('display_order')
             ->get();
     }
 

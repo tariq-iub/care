@@ -13,7 +13,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::orderBy('display_order')->paginate(50);
+        $menus = Menu::orderBy('display_order')->get();
         $users = User::all();
 
         return view(
@@ -139,6 +139,6 @@ class MenuController extends Controller
         $menu = Menu::find($request->input('id'));
         $menu->display_order = $request->input('value');
         $menu->save();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'data' => $menu], 200);
     }
 }

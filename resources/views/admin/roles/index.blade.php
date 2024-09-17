@@ -35,7 +35,7 @@
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1 mt-3">
                 <table class="table table-sm fs-9 mb-0">
                     <thead>
                     <tr>
@@ -78,62 +78,6 @@
                 </table>
             </div>
 
-            <div class="modal fade" id="menuAttachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header justify-content-between">
-                            <h5 class="modal-title" id="staticBackdropLabel">
-                                Menu Attachment
-                            </h5>
-                            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                                <span class="fas fa-times fs-9"></span>
-                            </button>
-                        </div>
-                        <form method="POST" action="{{ route('roles.role_menu_attachment') }}">
-                            @csrf
-                            <div class="modal-body">
-                                <input type="hidden" id="role-id" name="role_id" value="">
-                                <div class="menu-list">
-
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Save</button>
-                                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="menuDetachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header justify-content-between">
-                            <h5 class="modal-title" id="staticBackdropLabel">
-                                Menu Detachment
-                            </h5>
-                            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                                <span class="fas fa-times fs-9"></span>
-                            </button>
-                        </div>
-                        <form method="POST" action="{{ route('roles.role_menu_detachment') }}">
-                            @csrf
-                            <div class="modal-body">
-                                <input type="hidden" id="detach-role-id" name="role_id" value="">
-                                <div class="menu-list">
-
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Save</button>
-                                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                 <div class="col-auto d-flex">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
@@ -151,6 +95,63 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="menuAttachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-between">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            Menu Attachment
+                        </h5>
+                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <span class="fas fa-times fs-9"></span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('roles.role_menu_attachment') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" id="role-id" name="role_id" value="">
+                            <div class="menu-list">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="menuDetachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-between">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            Menu Detachment
+                        </h5>
+                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <span class="fas fa-times fs-9"></span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('roles.role_menu_detachment') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" id="detach-role-id" name="role_id" value="">
+                            <div class="menu-list">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
 

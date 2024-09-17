@@ -1,34 +1,38 @@
-@extends('layouts.care')
+@extends('layouts.app')
 
 @section('content')
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item">
-                <a href="{{ url('/home') }}">Home</a>
-            </li>
+            <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
             <li class="breadcrumb-item active">Data Files</li>
         </ol>
     </nav>
 
-    <h2 class="text-bold text-body-emphasis mb-5">Data Files</h2>
-
-    <div class="table-responsive scrollbar ms-n1 ps-1">
-        <table class="table data-table">
-            <thead>
-            <tr>
-                <th class="sort align-middle" style="width:15%; min-width:50px;">NO</th>
-                <th class="sort align-middle" style="width:15%; min-width:200px;">FILE TITLE</th>
-                <th class="sort align-middle" style="width:15%; min-width:200px;">DEVICE</th>
-                <th class="sort align-middle" style="width:15%; min-width:200px;">AREA</th>
-                <th class="sort align-middle" style="width:15%; min-width:200px;">FACTORY</th>
-                <th class="sort align-middle" style="width:15%; min-width:200px;">UPLOADED AT</th>
-                <th class="sort align-middle" style="width:15%; min-width:50px;">ACTIONS</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <div class="mb-5">
+        <h2 class="text-bold text-body-emphasis">Data Files</h2>
+        <p class="text-body-tertiary lead">Manage the files pushed by devices.</p>
     </div>
+
+    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
+        <div class="table-responsive scrollbar mt-3 mb-3">
+            <table class="table data-table table-sm fs-9 mt-3 mb-0">
+                <thead>
+                <tr>
+                    <th class="sort align-middle" style="width:15%; min-width:50px;">Sr#</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">File Title</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Device</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Area</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Factory</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Uploaded At</th>
+                    <th class="no-sort"></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <div class="modal fade bd-edit-modal-lg" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -132,8 +136,8 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(function () {
+    <script>
+        $(document).ready(function () {
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
