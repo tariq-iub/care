@@ -25,7 +25,6 @@ class CompanyController extends Controller
         $companies = Company::all();
         $serviceReps = ServiceRepresentative::all();
 
-
         return view('admin.plants.index', compact('companies', 'serviceReps'));
     }
 

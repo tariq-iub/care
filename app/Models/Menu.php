@@ -10,17 +10,12 @@ class Menu extends Model
 {
     use HasFactory;
     use Loggable;
+    protected $fillable = ['title'];
 
-    protected $fillable = [
-        'title',
-        'icon',
-        'url',
-        'route',
-        'parent_id',
-        'display_order',
-        'level',
-        'status',
-    ];
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'menus_roles');
+    }
 
     public function subMenus()
     {

@@ -21,17 +21,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -54,17 +43,24 @@ Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('/users', UserController::class);
-    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::resource('/menus', MenuController::class)->except(['show']);
+    Route::put('/menus/status/{menu}', [MenuController::class, 'statusToggle'])->name('menus.toggle');
+
+    Route::resource('/roles', RoleController::class)->except(['show']);
+    Route::post('/roles/role_menu_attachment', [RoleController::class, 'roleMenuAttachment'])->name('roles.role_menu_attachment');
+    Route::post('/roles/role_menu_detachment', [RoleController::class, 'roleMenuDetachment'])->name('roles.role_menu_detachment');
+
+    Route::resource('/users', UserController::class)->except(['show']);
     Route::put('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
+    Route::get('/users/profile/{user}', [UserController::class, 'profile'])->name('users.profile');
 
     Route::resource('/user_register', UserRegistrationController::class);
-    Route::resource('/menus', MenuController::class)->except(['show']);
-    Route::resource('/roles', RoleController::class)->except(['show']);
+
+    Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
+
     Route::resource('/inspections', InspectionController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
-    Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
     Route::resource('/question', QuestionController::class)->except(['edit']);
 
     Route::controller(DataFileController::class)

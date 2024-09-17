@@ -2,55 +2,122 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\Menu;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::with('menus')->get();
         return view('admin.roles.index', compact('roles'));
     }
 
     public function create()
     {
-        $menus = Menu::all();
-        return view('admin.roles.create', compact('menus'));
+        return view('admin.roles.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
+        $this->validate(request(), [
+            'title' => 'required|string',
         ]);
 
-        $role = Role::create($request->only('title'));
-        // Attach menus if necessary
-        $role->menus()->sync($request->menus);
+        $role = new Role();
+        $role->title = $request->input('title');
+        $role->save();
 
-        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+        return redirect()->route('roles.index');
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
-        $menus = Menu::all();
+        $menus = Menu::where('status', true)
+            ->orderBy('id', 'asc')
+            ->orderBy('display_order', 'asc')
+            ->get();
+
         return view('admin.roles.edit', compact('role', 'menus'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Role $role)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
+        // Validate the title field
+        $this->validate($request, [
+            'title' => 'required|string',
         ]);
 
-        $role = Role::findOrFail($id);
-        $role->update($request->only('title'));
-        // Update menus if necessary
-        $role->menus()->sync($request->menus);
+        // Update the role's title
+        $role->title = $request->input('title');
+        $role->save();
 
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+        // Redirect back with a success message
+        return redirect()->route('roles.index')->with(['message' => 'Role title updated successfully.']);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Role $role)
+    {
+        //
+    }
+
+    public function attachModalBody($id)
+    {
+        $role = Role::find($id);
+        $ids = $role->menus()
+            ->where('status', true)
+            ->pluck('menus.id')
+            ->toArray();
+
+        $menus = Menu::whereNotIn('id', $ids)->where('id', '!=', 1)->get();
+        return response()->json([
+            'list' => view('admin.roles.partials.menus_attachment_body', ['menus' => $menus])->render(),
+            'message' => 'success',
+        ]);
+    }
+
+    public function detachModalBody($id)
+    {
+        $role = Role::find($id);
+        $menus = $role->menus()
+            ->where('status', true)
+            ->where('menus.id', '!=', 1)
+            ->get();
+
+        return response()->json([
+            'list' => view('admin.roles.partials.menus_attachment_body', ['menus' => $menus])->render(),
+            'message' => 'success',
+        ]);
+    }
+
+    public function roleMenuAttachment(Request $request)
+    {
+        $role = Role::find($request->input('role_id'));
+        $role->menus()->attach($request->input('menu_ids'));
+        return redirect()->route('roles.index')->with(['message' => 'Menus has been attached successfully.']);
+    }
+
+    public function roleMenuDetachment(Request $request)
+    {
+        $role = Role::find($request->input('role_id'));
+        $role->menus()->detach($request->input('menu_ids'));
+        return redirect()->route('roles.index')->with(['message' => 'Menus has been detached successfully.']);
     }
 }

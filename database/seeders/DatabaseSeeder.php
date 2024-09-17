@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            Sensitivity::class,
-            Transducer::class,
-            Unit::class,
+            MenuTableSeeder::class,
+            SensitivityTableSeeder::class,
+            TransducerTableSeeder::class,
+            UnitTableSeeder::class,
             RolesTableSeeder::class,
             UsersTableSeeder::class,
             ServiceRepresentativesTableSeeder::class,
