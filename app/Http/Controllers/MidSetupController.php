@@ -7,6 +7,7 @@ use App\Models\MidSetup;
 use App\Models\MidSetupAnswers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MidSetupController extends Controller
 {
@@ -18,62 +19,162 @@ class MidSetupController extends Controller
 
     public function create()
     {
-        $questions = MidQuestions::with('answers')->get();
-        $questions = $questions->sortBy('sort_order');
+        $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
+
+        $parentQuestions = DB::table('question_answers')
+            ->whereNotNull('parent_id')
+            ->pluck('mid_question_id')
+            ->unique()
+            ->toArray();
 
         foreach ($questions as $question) {
             $question_answers = DB::table('question_answers')
                 ->where('mid_question_id', $question->id)
                 ->get();
 
+            $groups = [];
             foreach ($question_answers as $answer) {
-                $question->group = $answer->group;
+                $groups[] = $answer->group;
             }
-            $question->question_answers = $question_answers;
 
+            $groups = array_unique($groups);
+
+            $question->groups = $groups;
+            $question->group_count = count($groups);
+            $question->question_answers = $question_answers;
         }
 
-        return view('admin.mid_setup.create', compact('questions'));
+        $questions = $questions->reject(function ($question) use ($parentQuestions) {
+            return in_array($question->id, $parentQuestions);
+        });
+
+        return view('admin.mid_setup.create', compact('questions', 'parentQuestions' ));
     }
 
     public function edit($id)
     {
         $midSetup = MidSetup::with('bodies')->findOrFail($id);
         $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
-        $questions = MidQuestions::with('answers')->get();
-
-        $questions = $questions->sortBy('sort_order');
+        $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
 
         foreach ($questions as $question) {
-            foreach ($midSetupAnswers as $answer) {
-                if ($question->id == $answer->mid_question_id) {
-                    $question->selected_answer = $answer->mid_answer_id;
+            $relatedAnswers = $midSetupAnswers->where('mid_question_id', $question->id);
+            if ($relatedAnswers->count() > 1){
+                $questionAnswersRelation = [];
+                foreach ($relatedAnswers as $answer) {
+                    $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
                 }
+                $question->selected_answer = $questionAnswersRelation;
+            } elseif ($relatedAnswers->count() == 1) {
+                $question->selected_answer = [$relatedAnswers->first()->mid_answer_id => $relatedAnswers->first()->value];
             }
+
+            $question_answers = DB::table('question_answers')
+                ->where('mid_question_id', $question->id)
+                ->get();
+
+            $groups = [];
+            foreach ($question_answers as $answer) {
+                $groups[] = $answer->group;
+            }
+
+            $groups = array_unique($groups);
+
+            $question->groups = $groups;
+            $question->group_count = count($groups);
+            $question->question_answers = $question_answers;
         }
 
         return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions'));
     }
 
+    public function show($id)
+    {
+        $midSetup = MidSetup::with('bodies')->findOrFail($id);
+        $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
+        $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
+
+        foreach ($questions as $question) {
+            $relatedAnswers = $midSetupAnswers->where('mid_question_id', $question->id);
+            if ($relatedAnswers->count() > 1){
+                $questionAnswersRelation = [];
+                foreach ($relatedAnswers as $answer) {
+                    $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
+                }
+                $question->selected_answer = $questionAnswersRelation;
+
+            } elseif ($relatedAnswers->count() == 1) {
+                $question->selected_answer = [$relatedAnswers->first()->mid_answer_id => $relatedAnswers->first()->value];
+            }
+
+            $question_answers = DB::table('question_answers')
+                ->where('mid_question_id', $question->id)
+                ->get();
+
+            $groups = [];
+            foreach ($question_answers as $answer) {
+                $groups[] = $answer->group;
+            }
+
+            $groups = array_unique($groups);
+
+            $question->groups = $groups;
+            $question->group_count = count($groups);
+            $question->question_answers = $question_answers;
+        }
+
+        return view('admin.mid_setup.show', compact('midSetup', 'midSetupAnswers', 'questions'));
+    }
+
+
     public function store(Request $request)
     {
-        $inputData = $request->all();
+        $data = $request->all();
 
-        $midSetup = MidSetup::create([
-            'title' => $inputData['midName'],
-        ]);
+        $groupedData = [];
+        $currentQuestion = null;
 
-        foreach ($inputData as $key => $value) {
-            if (strpos($key, 'flexRadioDefault')===0) {
-                $question_id = str_replace('flexRadioDefault', '', $key);
-                MidSetupAnswers::create([
-                    'mid_setup_id' => $midSetup->id,
-                    'mid_question_id' => $question_id,
-                    'mid_answer_id' => $value,
-                ]);
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'question') === 0) {
+                $currentQuestion = $value;
+
+                $groupedData[$currentQuestion] = [
+                    'question_id' => $currentQuestion,
+                    'answers' => []
+                ];
+            } elseif ($currentQuestion !== null) {
+                $groupedData[$currentQuestion]['answers'][$key] = $value;
             }
         }
-        return response()->json(['message' => 'Mid setup created successfully']);
+
+        $midSetup = MidSetup::create([
+            'title' => $data['midName'],
+        ]);
+
+        // grouped_data = [{"question_id": "1", "answers": {"input1": "1", "input2": "2"}}, {"question_id": "2", "answers": {"flexRadioDefaultTest3": "3", "flexRadioDefaultBearing4": "7"}}]
+
+        foreach ($groupedData as $question) {
+            foreach ($question['answers'] as $key => $value) {
+                if (strpos($key, 'flexRadioDefault') === 0) {
+                    MidSetupAnswers::create([
+                        'mid_setup_id' => $midSetup->id,
+                        'mid_question_id' => $question['question_id'],
+                        'mid_answer_id' => $value,
+                    ]);
+                } else {
+                    $answer = preg_replace('/\d+/', '', $key);
+                    $answer_id = str_replace($answer, '', $key);
+                      MidSetupAnswers::create([
+                        'mid_setup_id' => $midSetup->id,
+                        'mid_question_id' => $question['question_id'],
+                        'mid_answer_id' => $answer_id,
+                        'value' => $value,
+                    ]);
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Mid setup created successfully']);
     }
 
     public function update(Request $request, $id)
@@ -111,6 +212,55 @@ class MidSetupController extends Controller
 
         $midSetup->delete();
 
-        return redirect()->route('mid_setups.index');
+        return redirect()->route('mid-setups.index');
+    }
+
+    public function fetchChildQuestion(Request $request)
+    {
+        $requestData = $request->all();
+        if (isset($requestData['answer_id'])) {
+            $question_answer = DB::table('question_answers')
+                ->where('mid_question_id', $requestData['question_id'])
+                ->where('mid_answer_id', $requestData['answer_id'])
+                ->first();
+        } else {
+            $question_answer = DB::table('question_answers')
+            ->where('mid_question_id', $requestData['question_id'])
+            ->first();
+        }
+
+        $child_question_answer = DB::table('question_answers')
+            ->where('parent_id', $question_answer->id)
+            ->pluck('mid_question_id')
+            ->unique()
+            ->toArray();
+
+        $child_questions = MidQuestions::with('answers')->where('id', $child_question_answer)->get();
+
+        $question_answers = DB::table('question_answers')
+            ->where('mid_question_id', $child_questions[0]->id)
+            ->get();
+
+        foreach ($child_questions as $question) {
+            $groups = [];
+            foreach ($question_answers as $answer) {
+                $groups[] = $answer->group;
+            }
+            $groups = array_unique($groups);
+
+            $question->groups = $groups;
+            $question->group_count = count($groups);
+            $question->question_answers = $question_answers;
+        }
+
+        $question_id = $child_questions[0]->id;
+        $groups = $child_questions[0]->groups;
+        $group_count = $child_questions[0]->group_count;
+        $title = $child_questions[0]->title;
+        $body = $child_questions[0]->body;
+        $answers = $child_questions[0]->answers;
+        $question_answers = $child_questions[0]->question_answers;
+
+        return view('admin.mid_setup.partials.question_form', compact('question_id', 'groups', 'group_count', 'title', 'body', 'answers', 'question_answers'));
     }
 }

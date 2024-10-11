@@ -4,12 +4,12 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item active">Questions</li>
+            <li class="breadcrumb-item active">MIDs</li>
         </ol>
     </nav>
 
     <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Manage Questions</h2>
+        <h2 class="text-bold text-body-emphasis">Manage MIDs</h2>
     </div>
 
     <div id="companies" data-list='{"valueNames":["question"],"page":10,"pagination":true}'>
@@ -26,7 +26,7 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <a class="btn btn-primary" href="{{ route('mid_setups.create') }}">
+                    <a class="btn btn-primary" href="{{ route('mid-setups.create') }}">
                         <span class="fas fa-plus me-2"></span>Create MID Setup
                     </a>
                 </div>
@@ -85,10 +85,10 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                        <a class="dropdown-item" href="{{route('mid_setups.edit', $row->id)}}">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" onclick="openShowModal(event, {{ $row->id }})">Show</a>
+                                        <a class="dropdown-item" href="{{route('mid-setups.edit', $row->id)}}">Edit</a>
+                                        <a class="dropdown-item" href="{{route('mid-setups.show', $row->id)}}">Show</a>
                                         <div class="dropdown-divider"></div>
-                                        <form action="{{ route('mid_setups.destroy', $row->id) }}" method="POST">
+                                        <form action="{{ route('mid-setups.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item text-danger">Delete</button>

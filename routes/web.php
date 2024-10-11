@@ -55,13 +55,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/users/profile/{user}', [UserController::class, 'profile'])->name('users.profile');
 
     Route::resource('/user_register', UserRegistrationController::class);
-
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
-
     Route::resource('/inspections', InspectionController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
-    Route::resource('/question', QuestionController::class)->except(['edit']);
+    Route::resource('/question', QuestionController::class)->except(['show']);
+    Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
 
     Route::controller(DataFileController::class)
         ->as('data.')
@@ -99,9 +98,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/company/manage-users/{id}', [CompanyController::class, 'manageUsersIndex'])->name('company.manage_users');
     Route::post('/company/create-users', [CompanyController::class, 'storeUser'])->name('company.store_user');
     Route::put('/company/status/{user}', [CompanyController::class, 'statusToggle'])->name('company_users.status');
-
-    Route::get('/mid-setups', [MidSetupController::class, 'index'])->name('mid_setups.index');
-    Route::get('/mid-setups/create', [MidSetupController::class, 'create'])->name('mid_setups.create');
-    Route::get('/mid-setups/edit/{id}', [MidSetupController::class, 'edit'])->name('mid_setups.edit');
-    Route::delete('/mid-setups/{id}', [MidSetupController::class, 'destroy'])->name('mid_setups.destroy');
 });

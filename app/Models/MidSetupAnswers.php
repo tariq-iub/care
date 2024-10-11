@@ -9,7 +9,7 @@ class MidSetupAnswers extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mid_setup_id', 'mid_question_id', 'mid_answer_id'];
+    protected $fillable = ['mid_setup_id', 'mid_question_id', 'mid_answer_id', 'value'];
 
     public function midSetup()
     {

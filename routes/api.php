@@ -71,3 +71,4 @@ Route::get('/questions/fetch-question/{id}', [QuestionController::class, 'fetchQ
 
 Route::post('/mid-setup/save', [MidSetupController::class, 'store']);
 Route::post('/mid-setup/update/{id}', [MidSetupController::class, 'update']);
+Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetchChildQuestion']);
