@@ -12,7 +12,7 @@
 
     <h2 class="text-bold text-body-emphasis mb-5">User Requests</h2>
 
-    <div id="users" data-list='{"valueNames":["user","email","status","role"],"page":10,"pagination":true}'>
+    <div id="users" data-list='{"valueNames":["name","email","process","status"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -37,25 +37,24 @@
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1 mt-3">
                 <table class="table table-sm fs-9 mb-0">
                     <thead>
                     <tr>
-                        <th class="sort align-middle" scope="col" data-sort="user" style="width:15%; min-width:200px;">
-                            USER NAME
+                        <th class="sort align-middle" scope="col" data-sort="name" style="width:20%; min-width:200px;">
+                            Client Name
                         </th>
-                        <th class="sort align-middle" scope="col" data-sort="email" style="width:15%; min-width:200px;">
-                            EMAIL
+                        <th class="sort align-middle" scope="col" data-sort="email" style="width:20%; min-width:200px;">
+                            Email
                         </th>
-                        <th class="sort align-middle" scope="col" data-sort="role" style="width:10%;">
-                            PROCESSES DONE
+                        <th class="sort align-middle" scope="col" data-sort="process" style="width:40%; min-width:200px;">
+                            Process Done
                         </th>
-                        <th class="sort align-middle pe-3" scope="col" data-sort="status"
-                            style="width:20%; min-width:200px;">
-                            STATUS
+                        <th class="sort align-middle pe-3" scope="col" data-sort="status" style="width:10%;">
+                            Status
                         </th>
-                        <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:200px;">
-                            ACTIONS
+                        <th class="align-middle text-end" scope="col" style="width:10%;">
+                            Action
                         </th>
                     </tr>
                     </thead>
@@ -74,17 +73,17 @@
                             data-company-zip="{{ $row->company_zip }}"
                             data-contact-name="{{ $row->username }}"
                             data-contact-title="{{ $row->username }}">
-                            <td class="customer align-middle white-space-nowrap">
+                            <td class="align-middle white-space-nowrap name">
                                 <a class="d-flex align-items-center text-body text-hover-1000 ps-2" href="#">
                                     <h6 class="mb-0 ms-3 fw-semibold">{{ $row->username }}</h6>
                                 </a>
                             </td>
 
-                            <td class="email align-middle white-space-nowrap">
+                            <td class="align-middle white-space-nowrap email">
                                 <a class="fw-semibold" href="mailto:{{ $row->email }}">{{ $row->email }}</a>
                             </td>
 
-                            <td class="processes-done align-middle white-space-nowrap text-body">
+                            <td class="align-middle text-body process">
                                 @php
                                     $tasks = [
                                         'Respond' => $row->responder_id,
@@ -104,7 +103,7 @@
                             </td>
 
 
-                            <td class="mobile_number align-middle white-space-nowrap">
+                            <td class="align-middle white-space-nowrap status">
                                 @if($row->client_registered)
                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                     <span class="badge-label">Active</span>

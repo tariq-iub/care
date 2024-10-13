@@ -1,4 +1,4 @@
-@extends('layouts.care')
+@extends('layouts.app')
 
 @section('content')
     <nav class="mb-3" aria-label="breadcrumb">
@@ -10,10 +10,10 @@
 
     <div class="mb-5">
         <h2 class="text-bold text-body-emphasis">Menus</h2>
-        <p class="text-body-tertiary lead">Manage the menu items.</p>
+        <p class="text-body-tertiary lead">Manage the system menus.</p>
     </div>
 
-    <div id="menus" data-list='{"valueNames":["title","route","parent_id","display_order","level","status"],"page":10,"pagination":true}'>
+    <div id="menus" data-list='{"valueNames":["title","route","icon","parent_id","display_order","status"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -27,61 +27,79 @@
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <a class="btn btn-primary" href="{{ route('menus.create') }}">
-                        <span class="fas fa-plus me-2"></span>
-                        Add Menu
+                        <span class="fas fa-plus me-2"></span>Add Menu
                     </a>
                 </div>
             </div>
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
-                <table class="table table-sm fs-9 mb-0">
+            <div class="table-responsive scrollbar ms-n1 ps-1 mt-3">
+                <table class="table table-sm fs-9">
                     <thead>
                     <tr>
                         <th class="sort align-middle" scope="col" data-sort="title" style="width:15%; min-width:150px;">Title</th>
                         <th class="sort align-middle" scope="col" data-sort="route" style="width:15%; min-width:150px;">Route</th>
+                        <th class="sort align-middle" scope="col" data-sort="icon" style="width:10%; min-width:100px;">Icon</th>
                         <th class="sort align-middle" scope="col" data-sort="parent_id" style="width:15%; min-width:150px;">Parent Menu</th>
                         <th class="sort align-middle" scope="col" data-sort="display_order" style="width:10%;">Display Order</th>
-                        <th class="sort align-middle" scope="col" data-sort="level" style="width:10%;">Level</th>
                         <th class="sort align-middle" scope="col" data-sort="status" style="width:3%;">Status</th>
-                        <th class="sort align-middle text-end" scope="col" style="width:10%;">Actions</th>
+                        <th class="sort align-middle text-end" scope="col" style="width:10%;">Action</th>
                     </tr>
                     </thead>
-                    <tbody class="list" id="menus-table-body">
+                    <tbody class="list">
                     @foreach($menus as $menu)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="align-middle ps-3">
+                            <td class="align-middle ps-3 title">
                                 <h6 class="fw-semibold">{{ $menu->title }}</h6>
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle route">
                                 <a class="fw-semibold" href="{{ $menu->route }}">{{ $menu->route }}</a>
                             </td>
-                            <td class="align-middle">
-                                {{ $menu->parent_id && $menu->parent ? $menu->parent->title : 'None' }}
-                            </td>
-                            <td class="align-middle text-body">
-                                {{ $menu->display_order }}
-                            </td>
-                            <td class="align-middle text-body">
-                                {{ $menu->level }}
-                            </td>
-                            <td class="align-middle text-body">
-                                @if($menu->status)
-                                    <span class="badge bg-success">Active</span>
+                            <td class="align-middle icon">
+                                @if($menu->icon)
+                                    <span data-feather="{{ $menu->icon }}"></span>
+                                    <span class="ms-2">
+                                        {{ $menu->icon }}
+                                    </span>
                                 @else
-                                    <span class="badge bg-danger">Inactive</span>
+                                    -
+                                @endif
+                            </td>
+                            <td class="align-middle parent_id">
+                                {{ $menu->parent_id ? $menu->parent->title : '-' }}
+                            </td>
+                            <td class="align-middle">
+                                <input type="number" id="display_order" class="form-control form-control-sm" style="width: 100px;"
+                                       value="{{ $menu->display_order }}" onclick="ChangeOrder(this, {{ $menu->id }})">
+                            </td>
+                            <td class="py-2 align-middle text-body status">
+                                @if($menu->status)
+                                    <div class="badge fs-10 badge-phoenix badge-phoenix-success">
+                                        <span class="fw-bold">Active</span>
+                                    </div>
+                                @else
+                                    <div class="badge fs-10 badge-phoenix badge-phoenix-danger">
+                                        <span class="fw-bold">Blocked</span>
+                                    </div>
                                 @endif
                             </td>
                             <td class="align-middle text-end white-space-nowrap text-body-tertiary">
                                 <div class="btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                            <path fill="currentColor" d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
-                                        </svg>
+                                        <span class="fas fa-ellipsis fs-10"></span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2">
                                         <a class="dropdown-item" href="{{ route('menus.edit', $menu->id) }}">Edit</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="document.getElementById('toggle-form{{ $menu->id }}').submit();">
+                                            Change Status
+                                        </a>
+                                        <form method="POST" action="{{ route('menus.toggle', $menu->id) }}"
+                                              class="d-none" id="toggle-form{{$menu->id}}">
+                                            @csrf
+                                            @method('PUT')
+                                        </form>
                                     </div>
                                 </div>
                             </td>
@@ -94,8 +112,14 @@
             <div class="row align-items-center justify-content-between py-2 pe-0 fs-9">
                 <div class="col-auto d-flex">
                     <p class="mb-0 d-none d-sm-block me-3 fw-semibold text-body" data-list-info="data-list-info"></p>
-                    <a class="fw-semibold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
-                    <a class="fw-semibold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    <a class="fw-semibold" href="#!" data-list-view="*">
+                        View all
+                        <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                    <a class="fw-semibold d-none" href="#!" data-list-view="less">
+                        View Less
+                        <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
                 </div>
                 <div class="col-auto d-flex">
                     <button class="page-link" data-list-pagination="prev">
@@ -107,6 +131,31 @@
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
+
 @endsection
+
+@push('scripts')
+    <script>
+        function ChangeOrder(ctrl, id)
+        {
+            let value = $(ctrl).val();
+
+            $.ajax({
+                url: "{{ url('/api/menus/update_order') }}",
+                type: "POST",
+                data: { id: id, value: value },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ @csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success == true) {
+                        console.log('updated...');
+                    }
+                }
+            });
+        }
+    </script>
+@endpush

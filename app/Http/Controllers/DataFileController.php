@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DataFile;
 use App\Models\Device;
-use App\Models\Factory;
 use App\Models\Plant;
 use App\Models\SensorData;
 use Illuminate\Http\Request;

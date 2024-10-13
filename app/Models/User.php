@@ -3,21 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use Loggable;
     use VerifiesEmails;
     use Billable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -28,8 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'status',
-        'avatar',
         'role_id',
     ];
 
@@ -51,10 +49,30 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'deleted_at' => 'datetime'
     ];
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function stores($accessLevel = null)
+    {
+        if (in_array($accessLevel, ['owner', 'client'])) {
+            return $this->belongsToMany(Store::class, 'store_user')
+                ->withTimestamps()
+                ->wherePivot('access_level', $accessLevel);
+        }
+
+        return $this->belongsToMany(Store::class, 'store_user')
+            ->withTimestamps();
+    }
+
+
+
+    public function devices()
+    {
+        return $this->belongsToMany(Device::class, 'device_user')->withTimestamps();
     }
 }

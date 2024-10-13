@@ -1,24 +1,24 @@
-@extends('layouts.care')
+@extends('layouts.app')
 
 @section('content')
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item active">Menus</li>
+            <li class="breadcrumb-item active">Roles</li>
         </ol>
     </nav>
 
     <div class="mb-5">
         <h2 class="text-bold text-body-emphasis">Roles</h2>
-        <p class="text-body-tertiary lead">Manage the user roles.</p>
+        <p class="text-body-tertiary lead">Manage user roles and menu attachment.</p>
     </div>
 
-    <div id="menus" data-list='{"valueNames":["id","title","menu-count"],"page":10,"pagination":true}'>
+    <div id="roles" data-list='{"valueNames":["title"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative">
-                        <input class="form-control search-input search" type="search" placeholder="Search menus" aria-label="Search"/>
+                        <input class="form-control search-input search" type="search" placeholder="Search roles" aria-label="Search"/>
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
                 </div>
@@ -35,31 +35,27 @@
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1 mt-3">
                 <table class="table table-sm fs-9 mb-0">
                     <thead>
                     <tr>
-                        <th class="sort align-middle" scope="col" data-sort="id" style="width:15%; min-width:150px;">ROLE ID</th>
-                        <th class="sort align-middle" scope="col" data-sort="title" style="width:15%; min-width:150px;">ROLE TITLE</th>
-                        <th class="sort align-middle" scope="col" data-sort="menu-count" style="width:15%; min-width:150px;">MENUS ATTACHED</th>
-                        <th class="sort align-middle" scope="col" style="width:15%; min-width:150px;">CREATED AT</th>
-                        <th class="sort align-middle text-end" scope="col" style="width:10%;">Actions</th>
+                        <th class="sort align-middle" scope="col" data-sort="title" style="width:15%; min-width:150px;">Title</th>
+                        <th class="sort align-middle" scope="col" data-sort="route" style="width:75%; min-width:200px;">Menus Attached</th>
+                        <th class="sort align-middle text-end" scope="col" style="width:10%;">Action</th>
                     </tr>
                     </thead>
-                    <tbody class="list" id="menus-table-body">
+                    <tbody class="list">
                     @foreach($roles as $role)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="align-middle ps-3">
-                                <h6 class="fw-semibold">{{ $role->id }}</h6>
+                            <td class="align-middle ps-3 title">
+                                <h6 class="fw-semibold">{{ $role->title }}</h6>
                             </td>
                             <td class="align-middle">
-                                {{ $role->title }}
-                            </td>
-                            <td class="align-middle">
-                                {{ ($role->id == 1) ? "All" : $role->menus->count() }}
-                            </td>
-                            <td class="align-middle text-body">
-                                {{ $role->created_at->format('d-m-Y h:i:s A') }}
+                                @forelse($role->menus as $menu)
+                                    <span class="badge badge-phoenix badge-phoenix-success">{{ $menu->title }}</span>
+                                @empty
+                                    <span class="text-warning">No menu is attached to this {{ $role->title }}.</span>
+                                @endforelse
                             </td>
                             <td class="align-middle text-end white-space-nowrap text-body-tertiary">
                                 <div class="btn-reveal-trigger position-static">
@@ -69,7 +65,10 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" href="{{ route('roles.edit', $role->id) }}">Edit</a>
+                                        <a class="dropdown-item" href="{{ route('menus.edit', $role->id) }}">Edit</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $role->id }}" data-bs-toggle="modal" data-bs-target="#menuAttachmentModal">Attach Manus</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $role->id }}" data-bs-toggle="modal" data-bs-target="#menuDetachmentModal">Detach Manus</a>
                                     </div>
                                 </div>
                             </td>
@@ -96,5 +95,94 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="menuAttachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-between">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            Menu Attachment
+                        </h5>
+                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <span class="fas fa-times fs-9"></span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('roles.role_menu_attachment') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" id="role-id" name="role_id" value="">
+                            <div class="menu-list">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="menuDetachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-between">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            Menu Detachment
+                        </h5>
+                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <span class="fas fa-times fs-9"></span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('roles.role_menu_detachment') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="hidden" id="detach-role-id" name="role_id" value="">
+                            <div class="menu-list">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $('#menuAttachmentModal').on('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            var button = $(event.relatedTarget);
+            // Extract info from data-* attributes
+            var id = button.data('id');
+            $('#role-id').val(id);
+            // Body of modal
+            var menu_list = $(this).find('.menu-list');
+
+            $.get(`{{ url('/api/roles/attach_menus/${id}') }}`, function(response) {
+                $(menu_list).html(response.list);
+            });
+        });
+
+        $('#menuDetachmentModal').on('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            var button = $(event.relatedTarget);
+            // Extract info from data-* attributes
+            var id = button.data('id');
+            $('#detach-role-id').val(id);
+            // Body of modal
+            var menu_list = $(this).find('.menu-list');
+
+            $.get(`{{ url('/api/roles/detach_menus/${id}') }}`, function(response) {
+                $(menu_list).html(response.list);
+            });
+        });
+    </script>
+@endpush

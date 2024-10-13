@@ -13,7 +13,8 @@
                 @foreach($questions as $form)
                     @include('admin.mid_setup.partials.question_form', [
                         'question_answers' => $form['question_answers'],
-                        'group' => $form['group'],
+                        'groups' => $form['groups'],
+                        'group_count' => $form['group_count'],
                         'question_id' => $form['id'],
                         'title' => $form['title'],
                         'body' => $form['body'],
@@ -76,19 +77,80 @@
 
 @push('scripts')
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (e) {
+                if (e.target && e.target.id === 'next-button') {
+                    e.preventDefault();
+                    let form = $(e.target).closest('form');
+
+                    let question_id = form.find('input[type="hidden"][id^="question"]').val();
+
+                    let selectedRadio = form.find('input[type="radio"]:checked');
+
+                    if (selectedRadio.length) {
+                        let answer_id = selectedRadio.val();
+
+                        $.post('/api/mid-setup/fetch-child-question', {
+                            _token: '{{ csrf_token() }}',
+                            question_id: question_id,
+                            answer_id: answer_id
+                        }, function (response) {
+                            $(`#${question_id}`).after(response);
+
+                            let newQuestionTitle = $(response).find('h4').text().trim();
+                            let newQuestionHref = newQuestionTitle.replace(/\s+/g, '-').toLowerCase();
+
+                            let currentQuestionTitle = $(`#${question_id}`).find('h4').text().trim();
+                            let currentHref = currentQuestionTitle.replace(/\s+/g, '-').toLowerCase();
+
+                            $(`.doc-nav a[href="#${currentHref}"]`).closest('li').after(`
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#${newQuestionHref}">${newQuestionTitle}</a>
+                                </li>
+                            `);
+                        });
+                    }
+                } else if(e.target && e.target.id === 'groups-next-button') {
+                    e.preventDefault();
+                    let form = $(e.target).closest('form');
+
+                    let question_id = form.find('input[type="hidden"][id^="question"]').val();
+
+                    $.post('/api/mid-setup/fetch-child-question', {
+                        _token: '{{ csrf_token() }}',
+                        question_id: question_id,
+                    }, function (response) {
+                        $(`#${question_id}`).after(response);
+
+                        let newQuestionTitle = $(response).find('h4').text().trim();
+                        let newQuestionHref = newQuestionTitle.replace(/\s+/g, '-').toLowerCase();
+
+                        let currentQuestionTitle = $(`#${question_id}`).find('h4').text().trim();
+                        let currentHref = currentQuestionTitle.replace(/\s+/g, '-').toLowerCase();
+
+                        $(`.doc-nav a[href="#${currentHref}"]`).closest('li').after(`
+                            <li class="nav-item">
+                                <a class="nav-link" href="#${newQuestionHref}">${newQuestionTitle}</a>
+                            </li>
+                        `);
+                    });
+
+                }
+            });
+
+        });
         function saveMidSetup() {
             const midName = document.getElementById('mid-name').value;
             const forms = document.querySelectorAll('form');
 
             let allData = [];
+            allData.push({midName: midName});
 
             forms.forEach(form => {
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
                 allData.push(data);
             });
-
-            allData.push({midName: midName});
 
             $.post('/api/mid-setup/save',
                 Object.assign({}, ...allData)

@@ -1,138 +1,216 @@
 @extends('layouts.care')
 
 @section('content')
-    <div class="col-12 col-xxl-auto">
-        <div class="card shadow-none border" data-component-card="data-component-card">
-            <div class="card-header p-4 border-bottom bg-body">
-                <div class="row g-3 justify-content-between align-items-center">
-                    <div class="col-12 col-md">
-                        <h4 class="text-body mb-0" id="vertical-wizard">
-                            Question Creation Setup
-                        </h4>
+    <form id="create-question-form" action="{{ route('question.store') }}" method="POST">
+        @csrf
+        <div class="row g-3 flex-between-end mb-5">
+            <div class="col-auto">
+                <h2 class="mb-2">Create Question</h2>
+                <h5 class="text-body-tertiary fw-semibold">
+                    Add a new question item for MID.
+                </h5>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('question.index') }}" class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Discard</a>
+                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Add Question</button>
+            </div>
+        </div>
+        <div class="row g-5">
+            <div class="col-12 col-xl-8" id="question-form">
+
+                <div class="mb-5">
+                    <h5>Title <span class="text-danger">*</span></h5>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+
+                <div class="mb-5">
+                    <h5>Body <span class="text-danger">*</span></h5>
+                    <input type="text" class="form-control" id="body" name="body" required>
+                </div>
+
+                <div class="mb-5">
+                    <h5>Sort Order <span class="text-danger">*</span></h5>
+                    <input type="number" class="form-control" id="sort_order" name="sort_order" required value="0">
+                </div>
+
+                <div class="form-group mb-5" id="groups-name">
+                    <h5>Groups:</h5>
+                    <div id="groups-container">
+                        <div class="group-name d-flex align-items-center mb-2">
+                            <input type="text" name="groups[]" id="group-name" class="form-control me-2" placeholder="Group" value="general" required>
+                            <button type="button" class="btn btn-danger remove-group">Remove</button>
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-primary add-group">Add Group</button>
+                </div>
+
+                <div class="form-group mb-5" id="general-group">
+                    <h5>General Answers:</h5>
+                    <div id="general-container">
+                        <div class="answer-group d-flex align-items-center mb-2">
+                            <input type="text" name="answers[general][]" class="form-control me-2" placeholder="Answer" required>
+                            <select name="answer_type[general][]" class="form-select me-2" required>
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio</option>
+                            </select>
+                            <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary add-answer" data-group="general">Add Answer</button>
                 </div>
             </div>
 
-            <div class="card-body mb-0">
-                <div class="row justify-content-between">
-                    <div class="col-md-12">
-                        <div class="tab-content">
-                            <form id="create-question-form" action="{{ route('question.store') }}" method="POST">
-                                @csrf
-                                <div class="row g-3 mb-2">
-                                    <div class="col-md-12">
-                                        <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="title" name="title" required>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="body" class="form-label">Body <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="body" name="body" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 mb-2">
-                                    <label for="sort_order" class="form-label">Sort Order <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="sort_order" name="sort_order" required value="0">
-                                </div>
-
-                                <div class="col-md-12 mb-2">
-                                    <label for="group" class="form-label">Group</label>
-                                    <input type="text" class="form-control" id="group" name="group" value="general" required>
-                                </div>
-
-                                <div class="form-group mb-2" id="general-group">
-                                    <label class="fw-bold">Answers:</label>
-                                    <div id="general-answers-container">
-                                        <div class="answer-group d-flex align-items-center mb-2">
-                                            <input type="text" name="answers[]" class="form-control me-2" placeholder="Answer" required>
-                                            <select name="answer_type[]" class="form-select me-2" required>
-                                                <option value="text">Text</option>
-                                                <option value="number">Number</option>
-                                                <option value="checkbox">Checkbox</option>
-                                                <option value="radio">Radio</option>
-                                            </select>
-                                            <button type="button" class="btn btn-danger remove-answer">Remove</button>
+            <div class="col-12 col-xl-4">
+                <div class="row g-2">
+                    <div class="col-12 col-xl-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Parent Question</h4>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-sm-6 col-xl-12">
+                                        <div class="d-flex flex-wrap mb-2">
+                                            <h5 class="mb-0 text-body-highlight me-2">Select Parent Question & Answer</h5>
                                         </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary add-answer" data-group="general">Add Answer</button>
-                                </div>
+                                        <select class="form-select" name="parent_question_id" id="organizerSingle" data-choices="data-choices" data-options='{"removeItemButton":true,"placeholder":true}'>
+                                            <option value="">None</option>
+                                            @foreach($midQuestions as $question)
+                                                <option value="{{ $question->id }}">{{ $question->title }}</option>
+                                            @endforeach
+                                        </select>
 
-                                <div class="form-group mb-2" id="custom-group" style="display: none">
-                                    <label class="fw-bold"><span id="custom-group-label">Custom Group</span> Answers:</label>
-                                    <div id="custom-answers-container">
-                                        <div class="answer-group d-flex align-items-center mb-2">
-                                            <input type="text" name="answers[custom][]" class="form-control me-2" placeholder="Answer" required>
-                                            <select name="answer_type[custom][]" class="form-select me-2" required>
-                                                <option value="text">Text</option>
-                                                <option value="number">Number</option>
-                                                <option value="checkbox">Checkbox</option>
-                                                <option value="radio">Radio</option>
-                                            </select>
-                                            <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                                        <div class="d-flex flex-wrap mb-2">
                                         </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary add-answer" data-group="custom">Add Answer</button>
-                                </div>
 
-                                <div class="d-flex list-inline mb-0">
-                                    <div class="flex-1 text-end">
-                                        <button class="btn btn-primary px-6 px-sm-6" type="submit">
-                                            Create
-                                        </button>
+                                        <select class="form-select" name="parent_answer_id">
+                                            <option value="">None</option>
+
+                                        </select>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 @endsection()
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let groupInput = document.getElementById('group');
+            document.querySelector('select[name="parent_question_id"]').addEventListener('change', function () {
+                let selectedQuestionId = this.value;
+                let parentAnswerSelect = document.querySelector('select[name="parent_answer_id"]');
+                let parentAnswers = @json($midAnswers);
+                let parentQuestions = @json($parentQuestions);
 
-            let generalGroupLabel = document.getElementById('general-group-label');
-            let generalGroupSection = document.getElementById('general-group');
-            let generalGroupInputs = generalGroupSection.querySelectorAll('input');
-            let generalSelect = generalGroupSection.querySelector('select');
+                parentAnswerSelect.innerHTML = '<option value="">None</option>';
 
-            let customGroupLabel = document.getElementById('custom-group-label');
-            let customGroupSection = document.getElementById('custom-group');
-            let customGroupInputs = customGroupSection.querySelectorAll('input');
-            let customSelect = customGroupSection.querySelector('select');
-
-            // Update custom group label and show/hide custom group section based on group input
-            groupInput.addEventListener('input', function () {
-                let groupValue = groupInput.value.trim();
-                if (groupValue.toLowerCase() === 'general') {
-                    customGroupSection.style.display = 'none';
-                    customGroupInputs.forEach(input => input.disabled = true);
-                    customSelect.disabled = true;
-                } else {
-                    generalGroupSection.getElementsByTagName('label')[0].textContent = 'General Answers:';
-                    generalGroupInputs.forEach(input => input.name = 'answers[general][]');
-                    generalSelect.name = 'answer_type[general][]';
-                    customGroupSection.style.display = 'block';
-                    customGroupLabel.textContent = groupValue;
-                    customGroupInputs.forEach(input => input.disabled = false);
-                    customSelect.disabled = false;
+                for (let i = 0; i < parentQuestions.length; i++) {
+                    if (parentQuestions[i].mid_question_id == selectedQuestionId) {
+                        let answer = parentAnswers.find(answer => answer.id === parentQuestions[i].mid_answer_id);
+                        parentAnswerSelect.innerHTML += `<option value="${answer.id}">${answer.body}</option>`;
+                    }
                 }
             });
 
-            // Initial check on page load
-            groupInput.dispatchEvent(new Event('input'));
+            document.querySelector('.add-group').addEventListener('click', function () {
+                let groupsContainer = document.getElementById('groups-container');
+                let newGroup = document.createElement('div');
+                newGroup.className = 'group-name d-flex align-items-center mb-2';
+                newGroup.innerHTML = `
+                    <input type="text" name="groups[]" class="form-control me-2" placeholder="Group" required>
+                    <button type="button" class="btn btn-danger remove-group">Remove</button>
+                `;
+                groupsContainer.appendChild(newGroup);
 
-            // Function to add answer input
-            function addAnswerInput(groupName, container) {
+                let groupInput = newGroup.querySelector('input[name="groups[]"]');
+                groupInput.addEventListener('input', function () {
+                    if (this.value.trim() !== '') {
+                        addAnswerContainer(this.value);
+                    }
+                });
+
+                newGroup.querySelector('.remove-group').addEventListener('click', function () {
+                    this.parentElement.remove();
+                });
+            });
+
+            let groupName = document.getElementById('group-name');
+            groupName.addEventListener('input', function () {
+                if (this.value.trim() !== '') {
+                    addAnswerContainer(this.value);
+                }
+            });
+
+            document.querySelectorAll('.remove-group').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    this.parentElement.remove();
+                    document.getElementById('general-group').remove();
+                });
+            });
+
+            function addAnswerContainer(groupName) {
+                if (document.getElementById(`${groupName.slice(0, -1)}-group`) !== null) {
+                    document.getElementById(`${groupName.slice(0, -1)}-group`).remove();
+                }
+                let answersContainer = document.createElement('div');
+                answersContainer.className = 'form-group mb-5';
+                answersContainer.setAttribute('id', `${groupName}-group`);
+
+                answersContainer.innerHTML = `
+                    <h5>${groupName} Answers:</h5>
+                    <div id="${groupName}-container">
+                        <div class="answer-group d-flex align-items-center mb-2">
+                            <input type="text" name="answers[${groupName}][]" class="form-control me-2" placeholder="Answer" required>
+                            <select name="answer_type[${groupName}][]" class="form-select me-2" required>
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio</option>
+                            </select>
+                            <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary add-answer" data-group="${groupName}">Add Answer</button>
+                `;
+                document.getElementById('question-form').appendChild(answersContainer);
+
+                answersContainer.querySelector('.add-answer').addEventListener('click', function () {
+                    let group = this.getAttribute('data-group');
+                    let answersContainer = document.getElementById(`${group}-container`);
+                    let newAnswerGroup = document.createElement('div');
+                    newAnswerGroup.className = 'answer-group d-flex align-items-center mb-2';
+                    newAnswerGroup.innerHTML = `
+                        <input type="text" name="answers[${group}][]" class="form-control me-2" placeholder="Answer" required>
+                        <select name="answer_type[${group}][]" class="form-select me-2" required>
+                            <option value="text">Text</option>
+                            <option value="number">Number</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="radio">Radio</option>
+                        </select>
+                        <button type="button" class="btn btn-danger remove-answer">Remove</button>
+                    `;
+                    answersContainer.appendChild(newAnswerGroup);
+
+                    // Attach remove button functionality for new answers
+                    newAnswerGroup.querySelector('.remove-answer').addEventListener('click', function () {
+                        this.parentElement.remove();
+                    });
+                });
+            }
+
+            document.querySelector('.add-answer').addEventListener('click', function () {
+                let group = this.getAttribute('data-group');
+                let answersContainer = document.getElementById(`${group}-container`);
                 let newAnswerGroup = document.createElement('div');
                 newAnswerGroup.className = 'answer-group d-flex align-items-center mb-2';
                 newAnswerGroup.innerHTML = `
-                    <input type="text" name="answers[${groupName}][]" class="form-control me-2" placeholder="Answer" required>
-                    <select name="answer_type[${groupName}][]" class="form-select me-2" required>
+                    <input type="text" name="answers[${group}][]" class="form-control me-2" placeholder="Answer" required>
+                    <select name="answer_type[${group}][]" class="form-select me-2" required>
                         <option value="text">Text</option>
                         <option value="number">Number</option>
                         <option value="checkbox">Checkbox</option>
@@ -140,44 +218,16 @@
                     </select>
                     <button type="button" class="btn btn-danger remove-answer">Remove</button>
                 `;
-                container.appendChild(newAnswerGroup);
+                answersContainer.appendChild(newAnswerGroup);
 
-                // Add event listener to remove button
+                // Attach remove button functionality for new answers
                 newAnswerGroup.querySelector('.remove-answer').addEventListener('click', function () {
                     this.parentElement.remove();
                 });
-            }
-
-            // Event listener for adding answers
-            document.querySelectorAll('.add-answer').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    if (groupInput.value.trim().toLowerCase() === 'general') {
-                        let generalAnswersContainer = document.getElementById('general-answers-container');
-                        generalAnswersContainer.innerHTML += `
-                            <div class="answer-group d-flex align-items-center mb-2">
-                                <input type="text" name="answers[]" class="form-control me-2" placeholder="Answer" required>
-                                <select name="answer_type[]" class="form-select me-2" required>
-                                    <option value="text">Text</option>
-                                    <option value="number">Number</option>
-                                    <option value="checkbox">Checkbox</option>
-                                    <option value="radio">Radio</option>
-                                </select>
-                                <button type="button" class="btn btn-danger remove-answer">Remove</button>
-                            </div>
-                        `;
-                        return;
-                    }
-                    let group = this.getAttribute('data-group');
-                    let container = document.getElementById(group + '-answers-container');
-                    addAnswerInput(group, container);
-                });
             });
 
-            // Event listener to remove existing answer
-            document.querySelectorAll('.remove-answer').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    this.parentElement.remove();
-                });
+            document.querySelector('.remove-answer').addEventListener('click', function () {
+                this.parentElement.remove();
             });
         });
     </script>

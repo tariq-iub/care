@@ -45,9 +45,6 @@
                                             @endforeach
                                         @endforeach
                                     @endforeach
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-primary" id="next-button">Next</button>
-                                    </div>
                                 @endif
                             </div>
                         </form>
@@ -69,19 +66,17 @@
                                                         <input type="hidden" class="form-control" id="question{{$question_id}}" name="question{{ $question_id }}" value="{{$question_id}}" required>
                                                         @if($option->answer_type == 'number' || $option->answer_type == 'text')
                                                             <div class="form-group d-flex mb-3">
-
                                                                 <label for="input{{ $option->id }}" class="form-label-sm me-2">{{ $option->body }}</label>
-                                                                <input type="number" class="form-control" id="input{{ $option->id }}" name="input{{ $option->id }}" value="{{ array_key_exists($option->id, $selected_option_id) ? $selected_option_id[$option->id] : '' }}" required>
+                                                                <input type="number" class="form-control" id="input{{ $option->id }}" name="input{{ $option->id }}" value="{{ array_key_exists($option->id, $selected_option_id) ? $selected_option_id[$option->id] : '' }}" readonly>
                                                             </div>
                                                         @elseif($option->answer_type == 'checkbox')
                                                             <div class="form-check">
-                                                                <input type="hidden" name="checkbox{{ $option->id }}" value="0">
-                                                                <input class="form-check-input" id="checkbox{{ $option->id }}" type="checkbox" name="checkbox{{ $option->id }}" value="1" {{ array_key_exists($option->id, $selected_option_id) && $selected_option_id[$option->id] == 1 ? 'checked' : '' }}>
+                                                                <input class="form-check-input" id="checkbox{{ $option->id }}" type="checkbox" name="checkbox{{ $option->id }}" value="1" {{ array_key_exists($option->id, $selected_option_id) && $selected_option_id[$option->id] == 1 ? 'checked' : '' }} onclick="return false;">
                                                                 <label class="form-check-label fs-8" for="checkbox{{ $option->id }}">{{ $option->body }}</label>
                                                             </div>
                                                         @else
                                                             <div class="form-check">
-                                                                <input class="form-check-input" id="flexRadioDefault{{ $group }}{{ $question_id }}{{ $option->id }}" type="{{ $option->answer_type }}" name="flexRadioDefault{{ $group }}{{ $question_id }}" value="{{ $option->id }}" {{ array_key_exists($option->id, $selected_option_id) ? 'checked' : '' }}>
+                                                                <input class="form-check-input" id="flexRadioDefault{{ $group }}{{ $question_id }}{{ $option->id }}" type="{{ $option->answer_type }}" name="flexRadioDefault{{ $group }}{{ $question_id }}" value="{{ $option->id }}" {{ array_key_exists($option->id, $selected_option_id) ? 'checked' : '' }} onclick="return false;">
                                                                 <label class="form-check-label fs-8" for="flexRadioDefault{{ $group }}{{ $question_id }}{{ $option->id }}">{{ $option->body }}</label>
                                                             </div>
                                                         @endif
@@ -90,9 +85,6 @@
                                                 @endforeach
                                             @endif
                                         @endforeach
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary" id="groups-next-button">Next</button>
-                                        </div>
                                     </div>
                                 </form>
                             </div>

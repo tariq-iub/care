@@ -3,9 +3,9 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
-use App\Http\Controllers\FactoryController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
-use App\Http\Controllers\SiteController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\CompanyController;
@@ -14,20 +14,13 @@ use App\Http\Controllers\ServiceRepresentativeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/roles/attach_menus/{role}', [RoleController::class, 'attachModalBody']);
+Route::get('/roles/detach_menus/{role}', [RoleController::class, 'detachModalBody']);
+Route::post('/menus/update_order', [MenuController::class, 'updateOrder']);
 
 Route::post('/data/upload', [DataFileController::class, 'upload'])->name('upload');
 Route::post('/data/edit', [DataFileController::class, 'edit'])->name('edit');
@@ -78,3 +71,4 @@ Route::get('/questions/fetch-question/{id}', [QuestionController::class, 'fetchQ
 
 Route::post('/mid-setup/save', [MidSetupController::class, 'store']);
 Route::post('/mid-setup/update/{id}', [MidSetupController::class, 'update']);
+Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetchChildQuestion']);

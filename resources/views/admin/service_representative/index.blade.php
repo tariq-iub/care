@@ -12,7 +12,7 @@
 
     <h2 class="text-bold text-body-emphasis mb-5">Service Representatives</h2>
 
-    <div id="users" data-list='{"valueNames":["user","email","status","role"],"page":10,"pagination":true}'>
+    <div id="users" data-list='{"valueNames":["name","email","contact","address"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -34,35 +34,31 @@
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
+            <div class="table-responsive scrollbar ms-n1 ps-1 mt-3">
                 <table class="table table-sm fs-9 mb-0">
                     <thead>
                     <tr>
-                        <th class="sort align-middle" scope="col" data-sort="user" style="width:15%; min-width:200px;">
-                            NAME
+                        <th class="sort align-middle" scope="col" data-sort="name" style="width:20%; min-width:200px;">
+                            Representative Name
                         </th>
-                        <th class="sort align-middle" scope="col" data-sort="email" style="width:15%; min-width:200px;">
-                            EMAIL
+                        <th class="sort align-middle" scope="col" data-sort="email" style="width:20%; min-width:200px;">
+                            Email
                         </th>
-                        <th class="sort align-middle pe-3" scope="col" data-sort="status"
-                            style="width:20%; min-width:200px;">
-                            CONTACT
+                        <th class="sort align-middle pe-3" scope="col" data-sort="contact" style="width:10%; min-width:200px;">
+                            Contact No
                         </th>
-                        <th class="sort align-middle" scope="col" data-sort="role" style="width:10%;">
-                            ADDRESS
+                        <th class="sort align-middle" scope="col" data-sort="address" style="width:30%; min-width:200px;">
+                            Address
                         </th>
-                        <th class="sort align-middle" scope="col" data-sort="email" style="width:15%; min-width:200px;">
-                            STATUS
-                        </th>
-                        <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:200px;">
-                            ACTIONS
+                        <th class="align-middle text-end" scope="col" style="width:10%;">
+                            Action
                         </th>
                     </tr>
                     </thead>
                     <tbody class="list" id="users-table-body">
                     @foreach($service_reps as $row)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="customer align-middle white-space-nowrap">
+                            <td class="align-middle white-space-nowrap name">
                                 @php
                                     $src = url('assets/img/users/user1.png');
                                     if($row->avatar)
@@ -76,18 +72,18 @@
                                 </a>
                             </td>
 
-                            <td class="email align-middle white-space-nowrap">
+                            <td class="align-middle white-space-nowrap email">
                                 <a class="fw-semibold" href="mailto:{{ $row->email }}">{{ $row->email }}</a>
                             </td>
 
-                            <td class="city align-middle white-space-nowrap text-body">
+                            <td class="align-middle white-space-nowrap text-body contact">
                                 <h6>{{ $row->phone_number }}</h6>
                                 <div class="small">
                                     <h6>{{ $row->fax_number }}</h6>
                                 </div>
                             </td>
 
-                            <td class="city align-middle white-space-nowrap text-body">
+                            <td class="align-middle white-space-nowrap text-body city">
                                 <h6>{{ $row->address }}</h6>
                                 <div class="small">
                                     <div class="row">
@@ -107,28 +103,12 @@
                                 </div>
                             </td>
 
-                            <td class="mobile_number align-middle white-space-nowrap">
-{{--                                @if($row->status)--}}
-{{--                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">--}}
-{{--                                    <span class="badge-label">Active</span>--}}
-{{--                                </span>--}}
-{{--                                @else--}}
-{{--                                    <span class="badge badge-phoenix fs-10 badge-phoenix-warning">--}}
-{{--                                    <span class="badge-label">Blocked</span>--}}
-{{--                                </span>--}}
-{{--                                @endif--}}
-                            </td>
                             <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
                                 <div class="btn-reveal-trigger position-static">
                                     <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
                                             type="button" data-bs-toggle="dropdown" data-boundary="window"
                                             aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                        <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true"
-                                             focusable="false" data-prefix="fas" data-icon="ellipsis" role="img"
-                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                  d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
-                                        </svg>
+                                        <span class="fas fa-ellipsis fs-10"></span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                         <a class="dropdown-item" href="{{ route('service-reps.edit', $row->id) }}">Edit</a>

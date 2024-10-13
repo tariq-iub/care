@@ -6,26 +6,54 @@ use App\Models\MidAnswers;
 use App\Models\MidQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 
 class QuestionController extends Controller
 {
     public function index()
     {
-        $questions = MidQuestions::with('answers')->get();
-        $questions = $questions->sortBy('sort_order');
+        $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
 
         return view('admin.questions.index', compact('questions'));
     }
 
     public function create()
     {
-        return view('admin.questions.create');
+        $parentQuestions = DB::table('question_answers')->get();
+
+        $midQuestionIds = $parentQuestions->pluck('mid_question_id')->unique()->toArray();
+        $midAnswerIds = $parentQuestions->pluck('mid_answer_id')->toArray();
+
+        $midQuestions = MidQuestions::whereIn('id', $midQuestionIds)->get();
+        $midAnswers = MidAnswers::whereIn('id', $midAnswerIds)->get();
+
+        return view('admin.questions.create', compact('parentQuestions',  'midQuestions', 'midAnswers'));
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'sort_order' => 'nullable|integer',
+            'groups' => 'required|array',
+            'answers' => 'required|array',
+            'answer_type' => 'required|array',
+            'parent_question_id' => 'nullable|integer',
+            'parent_answer_id' => 'nullable|integer',
+        ]);
+
+        if ($request->input('parent_question_id') && $request->input('parent_answer_id')) {
+            $questionAnswer = DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->where('mid_answer_id', $request->input('parent_answer_id'))
+                ->first();
+        } elseif ($request->input('parent_answer_id') == null) {
+            $questionAnswer = DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->first();
+        }
+
         $question = MidQuestions::create([
             'title' => $request->input('title'),
             'body' => $request->input('body'),
@@ -33,71 +61,119 @@ class QuestionController extends Controller
         ]);
 
         if ($request->has('answers')) {
-            if ($request->input('group') == 'general') {
-                for ($i = 0; $i < count($request->input('answers')); $i++) {
+            foreach ($request->input('answers') as $groupName => $groupAnswers) {
+                foreach ($groupAnswers as $index => $answerBody) {
                     $answer = MidAnswers::create([
-                        'body' => $request->input('answers')[$i],
-                        'answer_type' => $request->input('answer_type')[$i],
+                        'body' => $answerBody,
+                        'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
                     ]);
-                    $question->answers()->attach($answer->id, ['group' => $request->input('group')]);
-                }
-            } else {
-                foreach ($request->input('answers') as $groupName => $groupAnswers) {
-                    foreach ($groupAnswers as $index => $answerBody) {
-                        $answer = MidAnswers::create([
-                            'body' => $answerBody,
-                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
-                        ]);
 
-                        $question->answers()->attach($answer->id, ['group' => $groupName == 'custom' ? $request->input('group') : $groupName]);
-                    }
+                    $question->answers()->attach($answer->id, ['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
                 }
             }
         }
 
-        return redirect()->route('question.index')->with('success', 'Question and answers saved successfully.');
+        return redirect()->route('question.index')->with('success', 'Question and answers created successfully.');
     }
 
-
-    public function show($id)
+    public function edit($id)
     {
-        $question = MidQuestions::with('mid_answers')->findOrFail($id);
+        $question = MidQuestions::with('answers')->findOrFail($id);
 
-        return view('admin.questions.show', compact('question'));
+        $question_answers = DB::table('question_answers')
+            ->where('mid_question_id', $id)
+            ->get();
+
+        $parent_question_answer = DB::table('question_answers')
+            ->where('id', $question_answers[0]->parent_id)
+            ->first();
+
+        foreach ($question_answers as $question_answer) {
+            $groups[] = $question_answer->group;
+        }
+
+        $groups = array_unique($groups);
+
+        $question->groups = $groups;
+        $question->question_answers = $question_answers;
+
+        $parentQuestions = DB::table('question_answers')->where('mid_question_id', '!=', $id)->get();
+
+        $midQuestionIds = $parentQuestions->pluck('mid_question_id')->unique()->toArray();
+        $midAnswerIds = $parentQuestions->pluck('mid_answer_id')->toArray();
+
+        $midQuestions = MidQuestions::whereIn('id', $midQuestionIds)->get();
+        $midAnswers = MidAnswers::whereIn('id', $midAnswerIds)->get();
+
+
+        return view('admin.questions.edit', compact('question', 'parentQuestions', 'midQuestions', 'midAnswers', 'parent_question_answer'));
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'sort_order' => 'nullable|integer',
+            'groups' => 'required|array',
+            'answers' => 'required|array',
+            'answer_type' => 'required|array',
+            'parent_question_id' => 'nullable|integer',
+            'parent_answer_id' => 'nullable|integer',
+        ]);
+
+        if ($request->input('parent_question_id') && $request->input('parent_answer_id')) {
+            $questionAnswer = DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->where('mid_answer_id', $request->input('parent_answer_id'))
+                ->first();
+        } elseif ($request->input('parent_answer_id') == null) {
+            $questionAnswer = DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->first();
+        }
+
         $question = MidQuestions::findOrFail($id);
         $question->update($request->only('title', 'body', 'sort_order'));
 
-        DB::table('question_answers')->where('mid_question_id', $id)->delete();
+        $question_answers = DB::table('question_answers')
+            ->where('mid_question_id', $id)
+            ->get();
 
         if ($request->has('answers')) {
-            if ($request->input('group') == 'general') {
-                for ($i = 0; $i < count($request->input('answers')); $i++) {
-                    $answer = MidAnswers::create([
-                        'body' => $request->input('answers')[$i],
-                        'answer_type' => $request->input('answer_type')[$i],
-                    ]);
-                    $question->answers()->attach($answer->id, ['group' => $request->input('group')]);
-                }
-            } else {
-                foreach ($request->input('answers') as $groupName => $groupAnswers) {
-                    foreach ($groupAnswers as $index => $answerBody) {
-                        $answer = MidAnswers::create([
+            foreach ($request->input('answers') as $groupName => $groupAnswers) {
+                foreach ($groupAnswers as $index => $answerBody) {
+                    $answer_id = null;
+                    foreach ($question_answers as $question_answer) {
+                        if ($question_answer->mid_answer_id == $index && $question_answer->group == $groupName) {
+                            $answer_id = $index;
+                        }
+                    }
+
+                    if ($answer_id) {
+                        $answer = MidAnswers::findOrFail($answer_id);
+                        $answer->update([
                             'body' => $answerBody,
                             'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
                         ]);
 
-                        $question->answers()->attach($answer->id, ['group' => $groupName == 'custom' ? $request->input('group') : $groupName]);
+                        DB::table('question_answers')
+                            ->where('mid_question_id', $id)
+                            ->where('mid_answer_id', $answer_id)
+                            ->update(['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
+                    } else {
+                        $answer = MidAnswers::create([
+                            'body' => $answerBody,
+                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                        ]);
+                        $question->answers()->attach($answer->id, ['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
                     }
+
                 }
             }
         }
 
-
-        return redirect()->back();
+        return redirect()->route('question.index')->with('success', 'Question and answers updated successfully.');
     }
 
 
