@@ -79,7 +79,7 @@
                                             <select class="form-select" id="parent_id" name="parent_id">
                                                 <option value="">None</option>
                                                 @foreach($menus as $menu)
-                                                    <option value="{{ $menu->id }} value="{{ (old('parent_id') == $menu->id) ? 'selected' : '' }}">
+                                                    <option value="{{ $menu->id }} {{ (old('parent_id') == $menu->id) ? 'selected' : '' }}">
                                                         {{ $menu->title }}
                                                     </option>
                                                 @endforeach
