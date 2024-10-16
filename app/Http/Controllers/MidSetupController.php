@@ -21,8 +21,8 @@ class MidSetupController extends Controller
     {
         $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
 
-        $parentQuestions = DB::table('question_answers')
-            ->whereNotNull('parent_id')
+        $childQuestions = DB::table('question_answers')
+            ->whereNotNull('child_id')
             ->pluck('mid_question_id')
             ->unique()
             ->toArray();
@@ -44,11 +44,23 @@ class MidSetupController extends Controller
             $question->question_answers = $question_answers;
         }
 
-        $questions = $questions->reject(function ($question) use ($parentQuestions) {
-            return in_array($question->id, $parentQuestions);
+        $questions = $questions->reject(function ($question) use ($childQuestions) {
+            if (in_array($question->id, $childQuestions)) {
+                $questionAnswerIds = DB::table('question_answers')
+                    ->where('mid_question_id', $question->id)
+                    ->pluck('id')
+                    ->toArray();
+                $childIds = DB::table('question_answers')
+                    ->whereIn('child_id', $questionAnswerIds)
+                    ->pluck('mid_question_id')
+                    ->toArray();
+                return count($childIds) > 0;
+            } else {
+                return true;
+            }
         });
 
-        return view('admin.mid_setup.create', compact('questions', 'parentQuestions' ));
+        return view('admin.mid_setup.create', compact('questions', 'childQuestions' ));
     }
 
     public function edit($id)
@@ -151,26 +163,15 @@ class MidSetupController extends Controller
             'title' => $data['midName'],
         ]);
 
-        // grouped_data = [{"question_id": "1", "answers": {"input1": "1", "input2": "2"}}, {"question_id": "2", "answers": {"flexRadioDefaultTest3": "3", "flexRadioDefaultBearing4": "7"}}]
-
         foreach ($groupedData as $question) {
             foreach ($question['answers'] as $key => $value) {
-                if (strpos($key, 'flexRadioDefault') === 0) {
-                    MidSetupAnswers::create([
-                        'mid_setup_id' => $midSetup->id,
-                        'mid_question_id' => $question['question_id'],
-                        'mid_answer_id' => $value,
-                    ]);
-                } else {
-                    $answer = preg_replace('/\d+/', '', $key);
-                    $answer_id = str_replace($answer, '', $key);
-                      MidSetupAnswers::create([
-                        'mid_setup_id' => $midSetup->id,
-                        'mid_question_id' => $question['question_id'],
-                        'mid_answer_id' => $answer_id,
-                        'value' => $value,
-                    ]);
-                }
+                $answer_id = str_starts_with($key, 'flexRadioDefault') ? $value : str_replace(preg_replace('/\d+/', '', $key), '', $key);
+                MidSetupAnswers::create([
+                    'mid_setup_id' => $midSetup->id,
+                    'mid_question_id' => $question['question_id'],
+                    'mid_answer_id' => $answer_id,
+                    'value' => str_starts_with($key, 'flexRadioDefault') ? null : $value,
+                ]);
             }
         }
 
@@ -218,7 +219,7 @@ class MidSetupController extends Controller
     public function fetchChildQuestion(Request $request)
     {
         $requestData = $request->all();
-        if (isset($requestData['answer_id'])) {
+        if ($requestData['answer_id'] != null) {
             $question_answer = DB::table('question_answers')
                 ->where('mid_question_id', $requestData['question_id'])
                 ->where('mid_answer_id', $requestData['answer_id'])
@@ -230,7 +231,7 @@ class MidSetupController extends Controller
         }
 
         $child_question_answer = DB::table('question_answers')
-            ->where('parent_id', $question_answer->id)
+            ->where('id', $question_answer->child_id)
             ->pluck('mid_question_id')
             ->unique()
             ->toArray();

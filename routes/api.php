@@ -68,6 +68,7 @@ Route::get('/plant/fetch-plant-service-rep/{id}', [ServiceRepresentativeControll
 Route::post('/service-rep/link-service-rep', [ServiceRepresentativeController::class, 'linkServiceRepresentative']);
 
 Route::get('/questions/fetch-question/{id}', [QuestionController::class, 'fetchQuestion']);
+Route::post('/questions/link-child-question', [QuestionController::class, 'linkChildQuestion']);
 
 Route::post('/mid-setup/save', [MidSetupController::class, 'store']);
 Route::post('/mid-setup/update/{id}', [MidSetupController::class, 'update']);

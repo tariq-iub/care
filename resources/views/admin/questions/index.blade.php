@@ -72,6 +72,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                     <a class="dropdown-item" href="{{ route('question.edit', $row->id) }}">Edit</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-id="{{$row->id}}" onclick="showLinkChildQuestionModal(event, {{$row->id}})">Link Child Question</a>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{ route('question.destroy', $row->id) }}" method="POST">
                                         @csrf
@@ -106,8 +107,54 @@
     </div>
 </div>
 
+    @include('admin.questions.partials.link_child_question_form')
+
 @endsection
 
 @push("scripts")
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('linkChildQuestion').addEventListener('click', function () {
+                let childQuestionSelect = document.querySelector('select[name="child_question_id"]');
+                if (childQuestionSelect.value === '') {
+                    alert('Please select a child question');
+                    return;
+                }
+
+                let form = document.querySelector('#link-child-question form');
+
+                form.submit();
+            });
+        });
+        function showLinkChildQuestionModal(event, id) {
+            let parentAnswerSelect = document.querySelector('select[name="parent_answer_id"]');
+            let childQuestionSelect = document.querySelector('select[name="child_question_id"]');
+
+            parentAnswerSelect.innerHTML = '';
+            childQuestionSelect.innerHTML = '';
+
+            $.get(`/api/questions/fetch-question/${id}`, function (data) {
+                let answers = data.question['answers'];
+                let childQuestions = data.childQuestions;
+
+                document.querySelector('.modal-title').innerText = `${data.question.title}`;
+                document.querySelector('input[name="parent_question_id"]').value = `${data.question.id}`;
+
+                parentAnswerSelect.innerHTML += `<option value="">None</option>`;
+                childQuestionSelect.innerHTML += `<option value="">None</option>`;
+
+                answers.forEach(answer => {
+                    parentAnswerSelect.innerHTML += `<option value="${answer.id}">${answer.body}</option>`;
+                });
+
+                childQuestions.forEach(question => {
+                    childQuestionSelect.innerHTML += `<option value="${question.id}">${question.title}</option>`;
+                });
+            });
+
+            var modal = new bootstrap.Modal(document.getElementById('link-child-question'), {});
+            modal.show();
+        }
+    </script>
 
 @endpush

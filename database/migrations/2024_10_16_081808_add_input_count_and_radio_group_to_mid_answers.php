@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('question_answers', function (Blueprint $table) {
-            // TODO: Change parent_id column to child_id
-            $table->unsignedBigInteger('parent_id')->nullable()->after('group');
+        Schema::table('mid_answers', function (Blueprint $table) {
+            $table->integer('input_count')->nullable()->after('answer_type');
+            $table->string('radio_group')->nullable();
         });
     }
 
@@ -22,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('question_answers', function (Blueprint $table) {
-            $table->dropColumn('parent_id');
+        Schema::table('mid_answers', function (Blueprint $table) {
+            $table->dropColumn('input_count');
+            $table->dropColumn('radio_group');
         });
     }
 };

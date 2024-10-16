@@ -6,6 +6,7 @@ use App\Models\MidAnswers;
 use App\Models\MidQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class QuestionController extends Controller
@@ -19,15 +20,7 @@ class QuestionController extends Controller
 
     public function create()
     {
-        $parentQuestions = DB::table('question_answers')->get();
-
-        $midQuestionIds = $parentQuestions->pluck('mid_question_id')->unique()->toArray();
-        $midAnswerIds = $parentQuestions->pluck('mid_answer_id')->toArray();
-
-        $midQuestions = MidQuestions::whereIn('id', $midQuestionIds)->get();
-        $midAnswers = MidAnswers::whereIn('id', $midAnswerIds)->get();
-
-        return view('admin.questions.create', compact('parentQuestions',  'midQuestions', 'midAnswers'));
+        return view('admin.questions.create');
     }
 
     public function store(Request $request)
@@ -38,21 +31,7 @@ class QuestionController extends Controller
             'sort_order' => 'nullable|integer',
             'groups' => 'required|array',
             'answers' => 'required|array',
-            'answer_type' => 'required|array',
-            'parent_question_id' => 'nullable|integer',
-            'parent_answer_id' => 'nullable|integer',
         ]);
-
-        if ($request->input('parent_question_id') && $request->input('parent_answer_id')) {
-            $questionAnswer = DB::table('question_answers')
-                ->where('mid_question_id', $request->input('parent_question_id'))
-                ->where('mid_answer_id', $request->input('parent_answer_id'))
-                ->first();
-        } elseif ($request->input('parent_answer_id') == null) {
-            $questionAnswer = DB::table('question_answers')
-                ->where('mid_question_id', $request->input('parent_question_id'))
-                ->first();
-        }
 
         $question = MidQuestions::create([
             'title' => $request->input('title'),
@@ -62,13 +41,21 @@ class QuestionController extends Controller
 
         if ($request->has('answers')) {
             foreach ($request->input('answers') as $groupName => $groupAnswers) {
-                foreach ($groupAnswers as $index => $answerBody) {
+                foreach ($groupAnswers as $index => $answerDetails) {
                     $answer = MidAnswers::create([
-                        'body' => $answerBody,
-                        'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                        'body' => $answerDetails['body'],
+                        'answer_type' => $answerDetails['type'],
                     ]);
-
-                    $question->answers()->attach($answer->id, ['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
+                    if ($answerDetails['type'] == 'radio') {
+                        $answer->update([
+                            'radio_group' => $answerDetails['radio_value'],
+                        ]);
+                    } else if ($answerDetails['type'] == 'number' || $answerDetails['type'] == 'text') {
+                        $answer->update([
+                            'input_count' => $answerDetails['input_count'],
+                        ]);
+                    }
+                    $question->answers()->attach($answer->id, ['group' => $groupName]);
                 }
             }
         }
@@ -84,10 +71,6 @@ class QuestionController extends Controller
             ->where('mid_question_id', $id)
             ->get();
 
-        $parent_question_answer = DB::table('question_answers')
-            ->where('id', $question_answers[0]->parent_id)
-            ->first();
-
         foreach ($question_answers as $question_answer) {
             $groups[] = $question_answer->group;
         }
@@ -97,16 +80,7 @@ class QuestionController extends Controller
         $question->groups = $groups;
         $question->question_answers = $question_answers;
 
-        $parentQuestions = DB::table('question_answers')->where('mid_question_id', '!=', $id)->get();
-
-        $midQuestionIds = $parentQuestions->pluck('mid_question_id')->unique()->toArray();
-        $midAnswerIds = $parentQuestions->pluck('mid_answer_id')->toArray();
-
-        $midQuestions = MidQuestions::whereIn('id', $midQuestionIds)->get();
-        $midAnswers = MidAnswers::whereIn('id', $midAnswerIds)->get();
-
-
-        return view('admin.questions.edit', compact('question', 'parentQuestions', 'midQuestions', 'midAnswers', 'parent_question_answer'));
+        return view('admin.questions.edit', compact('question'));
     }
 
     public function update(Request $request, $id)
@@ -117,21 +91,7 @@ class QuestionController extends Controller
             'sort_order' => 'nullable|integer',
             'groups' => 'required|array',
             'answers' => 'required|array',
-            'answer_type' => 'required|array',
-            'parent_question_id' => 'nullable|integer',
-            'parent_answer_id' => 'nullable|integer',
         ]);
-
-        if ($request->input('parent_question_id') && $request->input('parent_answer_id')) {
-            $questionAnswer = DB::table('question_answers')
-                ->where('mid_question_id', $request->input('parent_question_id'))
-                ->where('mid_answer_id', $request->input('parent_answer_id'))
-                ->first();
-        } elseif ($request->input('parent_answer_id') == null) {
-            $questionAnswer = DB::table('question_answers')
-                ->where('mid_question_id', $request->input('parent_question_id'))
-                ->first();
-        }
 
         $question = MidQuestions::findOrFail($id);
         $question->update($request->only('title', 'body', 'sort_order'));
@@ -142,33 +102,48 @@ class QuestionController extends Controller
 
         if ($request->has('answers')) {
             foreach ($request->input('answers') as $groupName => $groupAnswers) {
-                foreach ($groupAnswers as $index => $answerBody) {
-                    $answer_id = null;
-                    foreach ($question_answers as $question_answer) {
-                        if ($question_answer->mid_answer_id == $index && $question_answer->group == $groupName) {
-                            $answer_id = $index;
-                        }
-                    }
+                foreach ($groupAnswers as $index => $answerDetails) {
+                    $answer = MidAnswers::where('id', $index)->first();
 
-                    if ($answer_id) {
-                        $answer = MidAnswers::findOrFail($answer_id);
+                    $question_answer =  DB::table('question_answers')
+                        ->where('mid_question_id', $id)
+                        ->where('mid_answer_id', $answer->id)
+                        ->first();
+
+                    if ($question_answer) {
                         $answer->update([
-                            'body' => $answerBody,
-                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                            'body' => $answerDetails['body'],
+                            'answer_type' => $answerDetails['type'],
                         ]);
-
+                        if ($answerDetails['type'] == 'radio') {
+                            $answer->update([
+                                'radio_group' => $answerDetails['radio_value'],
+                            ]);
+                        } else if ($answerDetails['type'] == 'number' || $answerDetails['type'] == 'text') {
+                            $answer->update([
+                                'input_count' => $answerDetails['input_count'],
+                            ]);
+                        }
                         DB::table('question_answers')
                             ->where('mid_question_id', $id)
-                            ->where('mid_answer_id', $answer_id)
-                            ->update(['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
+                            ->where('mid_answer_id', $answer->id)
+                            ->update(['group' => $groupName]);
                     } else {
                         $answer = MidAnswers::create([
-                            'body' => $answerBody,
-                            'answer_type' => $request->input('answer_type')[$groupName][$index] ?? null,
+                            'body' => $answerDetails['body'],
+                            'answer_type' => $answerDetails['type']
                         ]);
-                        $question->answers()->attach($answer->id, ['group' => $groupName, 'parent_id' => $questionAnswer->id ?? null]);
+                        if ($answerDetails['type'] == 'radio') {
+                            $answer->update([
+                                'radio_group' => $answerDetails['radio_value'],
+                            ]);
+                        } else if ($answerDetails['type'] == 'number' || $answerDetails['type'] == 'text') {
+                            $answer->update([
+                                'input_count' => $answerDetails['input_count'],
+                            ]);
+                        }
+                        $question->answers()->attach($answer->id, ['group' => $groupName]);
                     }
-
                 }
             }
         }
@@ -200,6 +175,35 @@ class QuestionController extends Controller
             ->where('mid_question_id', $id)
             ->get();
 
-        return response()->json(['question' => $question, 'question_answers' => $question_answers]);
+        $childQuestions = MidQuestions::where('id', '!=', $id)->get();
+
+        return response()->json(['question' => $question, 'question_answers' => $question_answers, 'childQuestions' => $childQuestions]);
+    }
+
+    public function linkChildQuestion(Request $request)
+    {
+        $request->validate([
+            'parent_question_id' => 'required|integer',
+            'parent_answer_id' => 'nullable|integer',
+            'child_question_id' => 'required|integer',
+        ]);
+
+        $childQuestionAnswer = DB::table('question_answers')
+            ->where('mid_question_id', $request->input('child_question_id'))
+            ->first();
+
+        if ($request->input('parent_answer_id')) {
+            DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->where('mid_answer_id', $request->input('parent_answer_id'))
+                ->update(['child_id' => $childQuestionAnswer->id]);
+        } else {
+            DB::table('question_answers')
+                ->where('mid_question_id', $request->input('parent_question_id'))
+                ->update(['child_id' => $childQuestionAnswer->id]);
+        }
+
+        return redirect()->route('question.index')->with('success', 'Child question linked successfully.');
     }
 }
+
