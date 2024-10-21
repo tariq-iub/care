@@ -58,9 +58,9 @@
                                         <div class="answer-group d-flex align-items-center mb-2" data-index="{{$answers->id}}">
                                             <input type="text" name="answers[{{$group}}][{{$answers->id}}][body]" class="form-control me-2" placeholder="Answer" required value="{{$answers->body}}">
                                             @if ($answers->answer_type == 'radio')
-                                                <input type="text" class="form-control me-2" name="answers[{{$group}}][{{$answers->id}}][radio_value]" value="{{$answers->radio_group}}">
+                                                <input type="text" class="form-control me-2" name="answers[{{$group}}][{{$answers->id}}][radio_value]" value="{{$answers->radio_group}}" placeholder="Enter radio Group">
                                             @elseif ($answers->answer_type == 'number' || $answers->answer_type == 'text')
-                                                <input type="number" class="form-control me-2" name="answers[{{$group}}][{{$answers->id}}][input_count]" value="{{$answers->input_count}}">
+                                                <input type="number" class="form-control me-2" name="answers[{{$group}}][{{$answers->id}}][input_count]" value="{{$answers->input_count}}" placeholder="Number of inputs to show" required>
                                             @endif
                                             <select name="answers[{{$group}}][{{$answers->id}}][type]" class="form-select me-2 w-auto" required onchange="handleSelectChange(this)">
                                                 <option value="text" @if($answers->answer_type == 'text') selected @endif>Text</option>
