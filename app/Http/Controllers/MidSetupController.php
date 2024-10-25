@@ -67,14 +67,24 @@ class MidSetupController extends Controller
     {
         $midSetup = MidSetup::with('bodies')->findOrFail($id);
         $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
+        $questionIds = $midSetupAnswers->pluck('mid_question_id')->unique()->toArray();
         $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
+
+        $questions = $questions->reject(function ($question) use ($questionIds) {
+            return !in_array($question->id, $questionIds);
+        });
 
         foreach ($questions as $question) {
             $relatedAnswers = $midSetupAnswers->where('mid_question_id', $question->id);
             if ($relatedAnswers->count() > 1){
                 $questionAnswersRelation = [];
                 foreach ($relatedAnswers as $answer) {
-                    $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
+                    if (str_contains($answer->value, ',')) {
+                        $answerValue = explode(',', $answer->value);
+                        $questionAnswersRelation[$answer->mid_answer_id.$answerValue[0]] = $answerValue[1];
+                    } else {
+                        $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
+                    }
                 }
                 $question->selected_answer = $questionAnswersRelation;
             } elseif ($relatedAnswers->count() == 1) {
@@ -97,24 +107,33 @@ class MidSetupController extends Controller
             $question->question_answers = $question_answers;
         }
 
-        return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions'));
+        return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions', 'questionIds'));
     }
 
     public function show($id)
     {
         $midSetup = MidSetup::with('bodies')->findOrFail($id);
         $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
+        $questionIds = $midSetupAnswers->pluck('mid_question_id')->unique()->toArray();
         $questions = MidQuestions::with('answers')->get()->sortBy('sort_order');
+
+        $questions = $questions->reject(function ($question) use ($questionIds) {
+            return !in_array($question->id, $questionIds);
+        });
 
         foreach ($questions as $question) {
             $relatedAnswers = $midSetupAnswers->where('mid_question_id', $question->id);
             if ($relatedAnswers->count() > 1){
                 $questionAnswersRelation = [];
                 foreach ($relatedAnswers as $answer) {
-                    $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
+                    if (str_contains($answer->value, ',')) {
+                        $answerValue = explode(',', $answer->value);
+                        $questionAnswersRelation[$answer->mid_answer_id.$answerValue[0]] = $answerValue[1];
+                    } else {
+                        $questionAnswersRelation[$answer->mid_answer_id] = $answer->value;
+                    }
                 }
                 $question->selected_answer = $questionAnswersRelation;
-
             } elseif ($relatedAnswers->count() == 1) {
                 $question->selected_answer = [$relatedAnswers->first()->mid_answer_id => $relatedAnswers->first()->value];
             }
@@ -165,13 +184,24 @@ class MidSetupController extends Controller
 
         foreach ($groupedData as $question) {
             foreach ($question['answers'] as $key => $value) {
-                $answer_id = str_starts_with($key, 'flexRadioDefault') ? $value : str_replace(preg_replace('/\d+/', '', $key), '', $key);
-                MidSetupAnswers::create([
-                    'mid_setup_id' => $midSetup->id,
-                    'mid_question_id' => $question['question_id'],
-                    'mid_answer_id' => $answer_id,
-                    'value' => str_starts_with($key, 'flexRadioDefault') ? null : $value,
-                ]);
+                if (str_starts_with($key, 'flexRadioDefault')) {
+                    MidSetupAnswers::create([
+                        'mid_setup_id' => $midSetup->id,
+                        'mid_question_id' => $question['question_id'],
+                        'mid_answer_id' => $value,
+                    ]);
+                } else {
+                    $keyParts = preg_split('/(\d+)/', $key, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                    if (count($keyParts) >= 4) {
+                        $value = $keyParts[3] . ',' . $value;
+                    }
+                    MidSetupAnswers::create([
+                        'mid_setup_id' => $midSetup->id,
+                        'mid_question_id' => $question['question_id'],
+                        'mid_answer_id' => $keyParts[1],
+                        'value' => $value,
+                    ]);
+                }
             }
         }
 
@@ -181,27 +211,96 @@ class MidSetupController extends Controller
     public function update(Request $request, $id)
     {
         $inputData = $request->all();
+        $groupedData = [];
+        $currentQuestion = null;
+
+        foreach ($inputData as $key => $value) {
+            if (strpos($key, 'question') === 0) {
+                $currentQuestion = $value;
+
+                $groupedData[$currentQuestion] = [
+                    'question_id' => $currentQuestion,
+                    'answers' => []
+                ];
+            } elseif ($currentQuestion !== null) {
+                $groupedData[$currentQuestion]['answers'][$key] = $value;
+            }
+        }
 
         $midSetup = MidSetup::findOrFail($id);
         $midSetup->update([
             'title' => $inputData['midName'],
         ]);
 
-        MidSetupAnswers::where('mid_setup_id', $midSetup->id)->delete();
+        $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)->get();
 
-        foreach ($inputData as $key => $value) {
-            if (strpos($key, 'flexRadioDefault')===0) {
-                $question_id = str_replace('flexRadioDefault', '', $key);
-                MidSetupAnswers::create([
-                    'mid_setup_id' => $midSetup->id,
-                    'mid_question_id' => $question_id,
-                    'mid_answer_id' => $value,
-                ]);
+        $questionIds = $midSetupAnswers->pluck('mid_question_id')->unique()->toArray();
+        $requestQuestionIds = [];
+
+        foreach ($groupedData as $question) {
+            $requestQuestionIds[] = $question['question_id'];
+            foreach ($question['answers'] as $key => $value) {
+                if (str_starts_with($key, 'flexRadioDefault')) {
+                    MidSetupAnswers::where('mid_setup_id', $midSetup->id)
+                        ->where('mid_question_id', $question['question_id'])
+                        ->where('value', "=", null)
+                        ->delete();
+                }
             }
         }
-        return response()->json([
-            'success' => true,
-            'message' => 'Mid setup updated successfully']);
+
+        $deleteQuestionIds = array_diff($questionIds, $requestQuestionIds);
+
+        foreach ($groupedData as $question) {
+            foreach ($question['answers'] as $key => $value) {
+                if (str_starts_with($key, 'flexRadioDefault')) {
+                    MidSetupAnswers::create([
+                        'mid_setup_id' => $midSetup->id,
+                        'mid_question_id' => $question['question_id'],
+                        'mid_answer_id' => $value,
+                    ]);
+                } else {
+                    $keyParts = preg_split('/(\d+)/', $key, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+                    if (count($keyParts) >= 4) {
+                        $value = $keyParts[3] . ',' . $value;
+                    }
+
+                    $midSetupAnswer = MidSetupAnswers::where('mid_setup_id', $midSetup->id)
+                        ->where('mid_question_id', $question['question_id'])
+                        ->where('mid_answer_id', $keyParts[1])
+                        ->get();
+
+                    if (count($midSetupAnswer) >= 1) {
+                        for ($i = 0; $i < count($midSetupAnswer); $i++) {
+                            if (str_contains($midSetupAnswer[$i]->value, ',')) {
+                                $value_parts = explode(',', $midSetupAnswer[$i]->value);
+                                if ($value_parts[0] == $keyParts[3]) {
+                                    $midSetupAnswer[$i]->update([
+                                        'value' => $value,
+                                    ]);
+                                }
+                            }
+                        }
+                    } else {
+                        MidSetupAnswers::create([
+                            'mid_setup_id' => $midSetup->id,
+                            'mid_question_id' => $question['question_id'],
+                            'mid_answer_id' => $keyParts[1],
+                            'value' => $value,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        foreach ($deleteQuestionIds as $questionId) {
+            $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetup->id)
+                ->where('mid_question_id', $questionId)
+                ->get();
+            $midSetupAnswers->each->delete();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Mid setup updated successfully']);
     }
 
     public function destroy($id)
@@ -219,7 +318,7 @@ class MidSetupController extends Controller
     public function fetchChildQuestion(Request $request)
     {
         $requestData = $request->all();
-        if ($requestData['answer_id'] != null) {
+        if (isset($requestData['answer_id'])) {
             $question_answer = DB::table('question_answers')
                 ->where('mid_question_id', $requestData['question_id'])
                 ->where('mid_answer_id', $requestData['answer_id'])

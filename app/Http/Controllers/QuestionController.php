@@ -177,6 +177,10 @@ class QuestionController extends Controller
 
         foreach ($results as $result) {
             MidAnswers::where('id', $result->mid_answer_id)->delete();
+            $child_id = DB::table('question_answers')->where('child_id', $result->id)->first();
+            if ($child_id) {
+                DB::table('question_answers')->where('child_id', $result->id)->update(['child_id' => null]);
+            }
         }
 
         $question = MidQuestions::findOrFail($id);
