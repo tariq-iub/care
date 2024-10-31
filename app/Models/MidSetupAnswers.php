@@ -25,5 +25,4 @@ class MidSetupAnswers extends Model
     {
         return $this->belongsTo(MidAnswers::class);
     }
-
 }
