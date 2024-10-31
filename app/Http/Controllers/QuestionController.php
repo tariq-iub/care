@@ -100,33 +100,35 @@ class QuestionController extends Controller
             ->where('mid_question_id', $id)
             ->get();
 
+        $requestAnswerIds = [];
+        $requestAnswerGroups = [];
+
         if ($request->has('answers')) {
             foreach ($request->input('answers') as $groupName => $groupAnswers) {
                 foreach ($groupAnswers as $index => $answerDetails) {
-                    $answer = MidAnswers::where('id', $index)->first();
-
-                    $question_answer =  DB::table('question_answers')
-                        ->where('mid_question_id', $id)
-                        ->where('mid_answer_id', $answer->id)
+                    $requestAnswerIds[] = $index;
+                    $requestAnswerGroups[] = $groupName;
+                    $question_answer = $question_answers
+                        ->where('mid_answer_id', $index)
+                        ->where('group', $groupName)
                         ->first();
-
                     if ($question_answer) {
-                        $answer->update([
+                        MidAnswers::where('id', $index)->update([
                             'body' => $answerDetails['body'],
                             'answer_type' => $answerDetails['type'],
                         ]);
                         if ($answerDetails['type'] == 'radio') {
-                            $answer->update([
+                            MidAnswers::where('id', $index)->update([
                                 'radio_group' => $answerDetails['radio_value'],
                             ]);
                         } else if ($answerDetails['type'] == 'number' || $answerDetails['type'] == 'text') {
-                            $answer->update([
+                            MidAnswers::where('id', $index)->update([
                                 'input_count' => $answerDetails['input_count'],
                             ]);
                         }
                         DB::table('question_answers')
                             ->where('mid_question_id', $id)
-                            ->where('mid_answer_id', $answer->id)
+                            ->where('mid_answer_id', $index)
                             ->update(['group' => $groupName]);
                     } else {
                         $answer = MidAnswers::create([
@@ -148,6 +150,23 @@ class QuestionController extends Controller
             }
         }
 
+        foreach ($question_answers as $question_answer) {
+            if (!in_array($question_answer->mid_answer_id, $requestAnswerIds)) {
+                DB::table('question_answers')
+                    ->where('mid_question_id', $id)
+                    ->where('mid_answer_id', $question_answer->mid_answer_id)
+                    ->delete();
+                MidAnswers::where('id', $question_answer->mid_answer_id)->delete();
+            }
+            if (!in_array($question_answer->group, $requestAnswerGroups)) {
+                DB::table('question_answers')
+                    ->where('mid_question_id', $id)
+                    ->where('mid_answer_id', $question_answer->mid_answer_id)
+                    ->delete();
+                MidAnswers::where('id', $question_answer->mid_answer_id)->delete();
+            }
+        }
+
         return redirect()->route('question.index')->with('success', 'Question and answers updated successfully.');
     }
 
@@ -158,6 +177,10 @@ class QuestionController extends Controller
 
         foreach ($results as $result) {
             MidAnswers::where('id', $result->mid_answer_id)->delete();
+            $child_id = DB::table('question_answers')->where('child_id', $result->id)->first();
+            if ($child_id) {
+                DB::table('question_answers')->where('child_id', $result->id)->update(['child_id' => null]);
+            }
         }
 
         $question = MidQuestions::findOrFail($id);

@@ -43,7 +43,7 @@ class MidQuestionSeeder extends Seeder
                 'body' => 'Describe the motor. Please ensure that you check each page and answer as many questions as possible.',
                 'sort_order' => 3,
                 'answers' => [
-                    ['body' => 'Bearing Position Number', 'answer_type' => 'number'],
+                    ['body' => 'Bearing Position Number', 'answer_type' => 'number', 'input_count' => 2],
                     ['body' => 'AC Motor', 'answer_type' => 'radio'],
                     ['body' => 'DC Motor', 'answer_type' => 'radio'],
                     ['body' => 'VFD Motor', 'answer_type' => 'radio'],
@@ -109,38 +109,44 @@ class MidQuestionSeeder extends Seeder
                 'body' => 'Describe the pump. Please ensure that you check each page and answer as many questions as possible.',
                 'sort_order' => 8,
                 'answers' => [
-                    ['body' => 'Bearing Position Number', 'answer_type' => 'number'],
+                    ['body' => 'Bearing Position Number', 'answer_type' => 'number', 'input_count' => 2],
                     ['body' => 'Overhung Rotor', 'answer_type' => 'checkbox'],
                     ['body' => 'Number of vanes 1', 'answer_type' => 'number'],
                     ['body' => 'Number of vanes 2', 'answer_type' => 'number'],
-                    ['body' => 'Rolling elements bearing', 'answer_type' => 'radio', 'group' => 'bearing'],
-                    ['body' => 'Sleeve Bearing', 'answer_type' => 'radio', 'group' => 'bearing'],
-                    ['body' => 'Rolling element', 'answer_type' => 'radio', 'group' => 'bearing'],
-                    ['body' => 'Sleeve thrust', 'answer_type' => 'radio', 'group' => 'bearing'],
-                    ['body' => 'No thrust bearing', 'answer_type' => 'radio', 'group' => 'bearing'],
+                    ['body' => 'Rolling elements bearing', 'answer_type' => 'radio', 'group' => 'bearing', 'radio_group' => 'Main bearing type'],
+                    ['body' => 'Sleeve Bearing', 'answer_type' => 'radio', 'group' => 'bearing', 'radio_group' => 'Main bearing type'],
+                    ['body' => 'Rolling element', 'answer_type' => 'radio', 'group' => 'bearing', 'radio_group' => 'Thrust bearing type'],
+                    ['body' => 'Sleeve thrust', 'answer_type' => 'radio', 'group' => 'bearing', 'radio_group' => 'Thrust bearing type'],
+                    ['body' => 'No thrust bearing', 'answer_type' => 'radio', 'group' => 'bearing', 'radio_group' => 'Thrust bearing type'],
+                ],
+            ],
+            [
+                'title' => 'Setup Completed',
+                'body' => 'Congratulations',
+                'sort_order' => 0,
+                'answers' => [
+                    ['body' => "That's all there is to it. Press save to save this MID.", 'group'=>'finish', 'answer_type' => 'null'],
                 ],
             ],
         ];
 
-        // Loop through each question and its answers
         foreach ($questionsWithAnswers as $qwa) {
-            // Create the question
             $question = MidQuestions::create([
                 'title' => $qwa['title'],
                 'body' => $qwa['body'],
                 'sort_order' => $qwa['sort_order'],
             ]);
 
-            // Create answers and relate them to the question
             foreach ($qwa['answers'] as $answerData) {
                 $answer = MidAnswers::create(
                     [
                         'body' => $answerData['body'],
                         'answer_type' => $answerData['answer_type'],
+                        'input_count' => $answerData['input_count'] ?? null,
+                        'radio_group' => $answerData['radio_group'] ?? null,
                     ]
                 );
 
-                // Create the relation in question_answers table
                 DB::table('question_answers')->insert([
                     'mid_question_id' => $question->id,
                     'mid_answer_id' => $answer->id,
