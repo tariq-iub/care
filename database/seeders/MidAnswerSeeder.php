@@ -2,13 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\MidAnswers;
-use App\Models\MidQuestions;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MidQuestionSeeder extends Seeder
+class MidAnswerSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run()
     {
         $questionsWithAnswers = [
@@ -3184,29 +3186,15 @@ class MidQuestionSeeder extends Seeder
         ];
 
         foreach ($questionsWithAnswers as $questionWithAnswers) {
-            DB::table('mid_questions')->insert([
-                'id' => $questionWithAnswers['id'],
-                'title' => $questionWithAnswers['title'],
-                'body' => $questionWithAnswers['body'],
-                'sort_order' => $questionWithAnswers['sort_order'],
-            ]);
-
-//            foreach ($questionWithAnswers['answers'] as $answer) {
-//                DB::table('mid_answers')->insert([
-//                    'id' => $answer['id'],
-//                    'body' => $answer['body'],
-//                    'answer_type' => $answer['answer_type'],
-//                    'input_count' => $answer['input_count'],
-//                    'radio_group' => $answer['radio_group'],
-//                ]);
-//
-//                DB::table('question_answers')->insert([
-//                    'mid_question_id' => $questionWithAnswers['id'],
-//                    'mid_answer_id' => $answer['id'],
-//                    'group' => $answer['group'],
-//                    'child_id' => $answer['child_id'],
-//                ]);
-//            }
+            foreach ($questionWithAnswers['answers'] as $answer) {
+                DB::table('mid_answers')->insert([
+                    'id' => $answer['id'],
+                    'body' => $answer['body'],
+                    'answer_type' => $answer['answer_type'],
+                    'input_count' => $answer['input_count'],
+                    'radio_group' => $answer['radio_group'],
+                ]);
+            }
         }
     }
 }

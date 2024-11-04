@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             PricingPlanFeaturesTableSeeder::class,
             PricingPlanFeatureAssignmentsTableSeeder::class,
 //            MidQuestionSeeder::class,
+//            MidAnswerSeeder::class,
+//            MidQuestionAnswerSeeder::class,
         ]);
     }
 }
