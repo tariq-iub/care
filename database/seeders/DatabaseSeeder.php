@@ -30,12 +30,12 @@ class DatabaseSeeder extends Seeder
             NotesTableSeeder::class,
             DataFileSeeder::class,
             UserRegistrationSeeder::class,
-            MidQuestionSeeder::class,
             StripeProductsTableSeeder::class,
             StripePricingPlansTableSeeder::class,
             PricingPlanFeaturesTableSeeder::class,
             PricingPlanFeatureAssignmentsTableSeeder::class,
             FaultCodesTableSeeder::class,
+//            MidQuestionSeeder::class,
         ]);
     }
 }
