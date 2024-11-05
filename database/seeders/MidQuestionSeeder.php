@@ -19,6 +19,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 1,
                 'answers' => [
                     [
+                        'question_answer_id' => 1,
                         'id' => 1,
                         'body' => 'Motor Driven',
                         'answer_type' => 'radio',
@@ -28,6 +29,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 2,
                         'id' => 2,
                         'body' => 'Turbine Driven(including turbo-chargers)',
                         'answer_type' => 'radio',
@@ -37,6 +39,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 3,
                         'id' => 3,
                         'body' => 'Diesel engine driven',
                         'answer_type' => 'radio',
@@ -46,6 +49,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 4,
                         'id' => 4,
                         'body' => 'The Driver is not monitored',
                         'answer_type' => 'radio',
@@ -63,6 +67,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 2,
                 'answers' => [
                     [
+                        'question_answer_id' => 5,
                         'id' => 5,
                         'body' => 'Motor is close-coupled to a pump, fan or compressor',
                         'answer_type' => 'radio',
@@ -72,6 +77,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 6,
                         'id' => 6,
                         'body' => 'Default - Motor is flex-coupled to, or otherwise driving, another monitored component',
                         'answer_type' => 'radio',
@@ -81,6 +87,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 7,
                         'id' => 7,
                         'body' => 'Motor driving an integrated oil purifier assembly',
                         'answer_type' => 'radio',
@@ -90,6 +97,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 8,
                         'id' => 8,
                         'body' => 'Motor is the only component being monitored',
                         'answer_type' => 'radio',
@@ -107,6 +115,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 3,
                 'answers' => [
                     [
+                        'question_answer_id' => 49,
                         'id' => 49,
                         'body' => 'The motor is driving a pump',
                         'answer_type' => 'radio',
@@ -116,6 +125,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 50,
                         'id' => 50,
                         'body' => 'The motor is driving a fan',
                         'answer_type' => 'radio',
@@ -125,6 +135,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 51,
                         'id' => 51,
                         'body' => 'The motor is driving a compressor',
                         'answer_type' => 'radio',
@@ -142,6 +153,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 4,
                 'answers' => [
                     [
+                        'question_answer_id' => 52,
                         'id' => 52,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -151,6 +163,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 53,
                         'id' => 53,
                         'body' => 'Rolling element bearng',
                         'answer_type' => 'radio',
@@ -160,6 +173,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 54,
                         'id' => 54,
                         'body' => 'Overhung motor',
                         'answer_type' => 'checkbox',
@@ -169,6 +183,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 55,
                         'id' => 55,
                         'body' => 'Number of values',
                         'answer_type' => 'number',
@@ -178,6 +193,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 56,
                         'id' => 56,
                         'body' => 'Cooling fan on motor',
                         'answer_type' => 'checkbox',
@@ -187,6 +203,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 57,
                         'id' => 57,
                         'body' => 'Number of motor fan blades',
                         'answer_type' => 'number',
@@ -196,6 +213,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 58,
                         'id' => 58,
                         'body' => 'Journal bearings',
                         'answer_type' => 'radio',
@@ -213,6 +231,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 6,
                 'answers' => [
                     [
+                        'question_answer_id' => 69,
                         'id' => 69,
                         'body' => 'Flexible coupling',
                         'answer_type' => 'radio',
@@ -222,6 +241,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 70,
                         'id' => 70,
                         'body' => 'No coupling and Solid coupling',
                         'answer_type' => 'radio',
@@ -231,6 +251,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 71,
                         'id' => 71,
                         'body' => 'Belt drive',
                         'answer_type' => 'radio',
@@ -240,6 +261,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 72,
                         'id' => 72,
                         'body' => 'Chain drive',
                         'answer_type' => 'radio',
@@ -249,6 +271,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 73,
                         'id' => 73,
                         'body' => 'Fluid coupling',
                         'answer_type' => 'radio',
@@ -258,6 +281,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 74,
                         'id' => 74,
                         'body' => 'Magnetic coupling',
                         'answer_type' => 'radio',
@@ -275,6 +299,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 7,
                 'answers' => [
                     [
+                        'question_answer_id' => 75,
                         'id' => 75,
                         'body' => 'Single stage gearbox',
                         'answer_type' => 'radio',
@@ -284,6 +309,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 76,
                         'id' => 76,
                         'body' => 'Two stage gearbox',
                         'answer_type' => 'radio',
@@ -293,6 +319,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 77,
                         'id' => 77,
                         'body' => 'Multi-stage gearbox',
                         'answer_type' => 'radio',
@@ -302,6 +329,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 78,
                         'id' => 78,
                         'body' => 'There is no gearbox',
                         'answer_type' => 'radio',
@@ -319,6 +347,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 5,
                 'answers' => [
                     [
+                        'question_answer_id' => 85,
                         'id' => 85,
                         'body' => 'bearing position numbers',
                         'answer_type' => 'number',
@@ -328,6 +357,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 86,
                         'id' => 86,
                         'body' => 'Cooling fan on motor',
                         'answer_type' => 'checkbox',
@@ -337,6 +367,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 87,
                         'id' => 87,
                         'body' => 'Ac Motor',
                         'answer_type' => 'radio',
@@ -346,6 +377,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 88,
                         'id' => 88,
                         'body' => 'Dc Motor',
                         'answer_type' => 'radio',
@@ -355,6 +387,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 89,
                         'id' => 89,
                         'body' => 'VFD Motor',
                         'answer_type' => 'radio',
@@ -364,6 +397,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 90,
                         'id' => 90,
                         'body' => 'Number of motor bars',
                         'answer_type' => 'number',
@@ -373,6 +407,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 91,
                         'id' => 91,
                         'body' => 'Driver ID',
                         'answer_type' => 'text',
@@ -382,6 +417,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 92,
                         'id' => 92,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -391,6 +427,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 93,
                         'id' => 93,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -408,6 +445,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 8,
                 'answers' => [
                     [
+                        'question_answer_id' => 94,
                         'id' => 94,
                         'body' => 'Enter the bearing position monitored',
                         'answer_type' => 'number',
@@ -417,6 +455,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 95,
                         'id' => 95,
                         'body' => 'Physical details known',
                         'answer_type' => 'checkbox',
@@ -426,6 +465,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "details",
                     ],
                     [
+                        'question_answer_id' => 96,
                         'id' => 96,
                         'body' => 'Number of teeth on driver shaft',
                         'answer_type' => 'number',
@@ -435,6 +475,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "details",
                     ],
                     [
+                        'question_answer_id' => 97,
                         'id' => 97,
                         'body' => 'Speed ratio known',
                         'answer_type' => 'checkbox',
@@ -444,6 +485,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "details",
                     ],
                     [
+                        'question_answer_id' => 98,
                         'id' => 98,
                         'body' => 'Speed ration (output/input)',
                         'answer_type' => 'text',
@@ -453,6 +495,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "details",
                     ],
                     [
+                        'question_answer_id' => 99,
                         'id' => 99,
                         'body' => 'Bearing on drive shaft',
                         'answer_type' => 'text',
@@ -462,6 +505,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearing types",
                     ],
                     [
+                        'question_answer_id' => 100,
                         'id' => 100,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -471,6 +515,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearing types",
                     ],
                     [
+                        'question_answer_id' => 101,
                         'id' => 101,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -480,6 +525,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearing types",
                     ],
                     [
+                        'question_answer_id' => 102,
                         'id' => 102,
                         'body' => 'Bearing on drive shaft',
                         'answer_type' => 'text',
@@ -489,6 +535,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearing types",
                     ],
                     [
+                        'question_answer_id' => 103,
                         'id' => 103,
                         'body' => 'Floating element bearings',
                         'answer_type' => 'radio',
@@ -498,6 +545,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearing types",
                     ],
                     [
+                        'question_answer_id' => 104,
                         'id' => 104,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -515,6 +563,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 9,
                 'answers' => [
                     [
+                        'question_answer_id' => 105,
                         'id' => 105,
                         'body' => 'Oil pump is in line with a shaft',
                         'answer_type' => 'text',
@@ -524,6 +573,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 106,
                         'id' => 106,
                         'body' => 'On high speed shaft',
                         'answer_type' => 'radio',
@@ -533,6 +583,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 107,
                         'id' => 107,
                         'body' => 'On low speed shaft',
                         'answer_type' => 'radio',
@@ -542,6 +593,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 108,
                         'id' => 108,
                         'body' => 'Oil pump is attached to the gear box via a drive gear',
                         'answer_type' => 'text',
@@ -551,6 +603,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 109,
                         'id' => 109,
                         'body' => 'Driven by input shaft',
                         'answer_type' => 'radio',
@@ -560,6 +613,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 110,
                         'id' => 110,
                         'body' => 'Driven by output shaft',
                         'answer_type' => 'radio',
@@ -569,6 +623,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 111,
                         'id' => 111,
                         'body' => 'There is no oil pump on this gearbox',
                         'answer_type' => 'radio',
@@ -586,6 +641,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 10,
                 'answers' => [
                     [
+                        'question_answer_id' => 112,
                         'id' => 112,
                         'body' => 'Speed of oil pump rotor (rotor/input)',
                         'answer_type' => 'number',
@@ -595,6 +651,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 113,
                         'id' => 113,
                         'body' => 'Oil pump is driven off an auxiliary gear',
                         'answer_type' => 'radio',
@@ -604,6 +661,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 114,
                         'id' => 114,
                         'body' => 'Vane pump',
                         'answer_type' => 'checkbox',
@@ -613,6 +671,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 115,
                         'id' => 115,
                         'body' => 'Number of rotor vanes',
                         'answer_type' => 'number',
@@ -622,6 +681,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 116,
                         'id' => 116,
                         'body' => 'Gear tooth pump',
                         'answer_type' => 'checkbox',
@@ -639,6 +699,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 11,
                 'answers' => [
                     [
+                        'question_answer_id' => 117,
                         'id' => 117,
                         'body' => 'Flexible coupling',
                         'answer_type' => 'radio',
@@ -648,6 +709,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 118,
                         'id' => 118,
                         'body' => 'Solid coupling and no coupling',
                         'answer_type' => 'radio',
@@ -657,6 +719,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 119,
                         'id' => 119,
                         'body' => 'We are not monitoring a drive component',
                         'answer_type' => 'radio',
@@ -674,6 +737,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 12,
                 'answers' => [
                     [
+                        'question_answer_id' => 120,
                         'id' => 120,
                         'body' => 'Pump: centrifugal, piston and others',
                         'answer_type' => 'radio',
@@ -683,6 +747,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 121,
                         'id' => 121,
                         'body' => 'Single or multi-stage fan',
                         'answer_type' => 'radio',
@@ -692,6 +757,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 122,
                         'id' => 122,
                         'body' => 'Compressor: centifugal, recip, screw and others',
                         'answer_type' => 'radio',
@@ -701,6 +767,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 123,
                         'id' => 123,
                         'body' => 'Electric generator',
                         'answer_type' => 'radio',
@@ -710,6 +777,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 124,
                         'id' => 124,
                         'body' => 'Machine tool spindle/chuck or shaft',
                         'answer_type' => 'radio',
@@ -719,6 +787,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 125,
                         'id' => 125,
                         'body' => 'We are not monitoring a driven component',
                         'answer_type' => 'radio',
@@ -736,6 +805,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 13,
                 'answers' => [
                     [
+                        'question_answer_id' => 126,
                         'id' => 126,
                         'body' => 'Centrifugal pump',
                         'answer_type' => 'radio',
@@ -745,6 +815,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 127,
                         'id' => 127,
                         'body' => 'Axial flow propeller pump',
                         'answer_type' => 'radio',
@@ -754,6 +825,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 128,
                         'id' => 128,
                         'body' => 'Rotary thread pump',
                         'answer_type' => 'radio',
@@ -763,6 +835,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 129,
                         'id' => 129,
                         'body' => 'Rotary screw pump',
                         'answer_type' => 'radio',
@@ -772,6 +845,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 130,
                         'id' => 130,
                         'body' => 'Rotary gear pump',
                         'answer_type' => 'radio',
@@ -781,6 +855,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 131,
                         'id' => 131,
                         'body' => 'Rotary sliding vane pump',
                         'answer_type' => 'radio',
@@ -790,6 +865,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 132,
                         'id' => 132,
                         'body' => 'Piston pump',
                         'answer_type' => 'radio',
@@ -807,6 +883,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 14,
                 'answers' => [
                     [
+                        'question_answer_id' => 133,
                         'id' => 133,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -816,6 +893,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 134,
                         'id' => 134,
                         'body' => 'Overhung rotor',
                         'answer_type' => 'checkbox',
@@ -825,6 +903,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 135,
                         'id' => 135,
                         'body' => 'Number of vanes (1st stage)',
                         'answer_type' => 'number',
@@ -834,6 +913,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 136,
                         'id' => 136,
                         'body' => 'Number of vanes (2nd stage)',
                         'answer_type' => 'number',
@@ -843,6 +923,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 137,
                         'id' => 137,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -852,6 +933,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 138,
                         'id' => 138,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -861,6 +943,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 139,
                         'id' => 139,
                         'body' => 'Rolling element',
                         'answer_type' => 'radio',
@@ -870,6 +953,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 140,
                         'id' => 140,
                         'body' => 'Sleeve thrust',
                         'answer_type' => 'radio',
@@ -879,6 +963,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 141,
                         'id' => 141,
                         'body' => 'No trust bearings',
                         'answer_type' => 'radio',
@@ -896,6 +981,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 15,
                 'answers' => [
                     [
+                        'question_answer_id' => 142,
                         'id' => 142,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -905,6 +991,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 143,
                         'id' => 143,
                         'body' => 'Number of blades',
                         'answer_type' => 'number',
@@ -914,6 +1001,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 144,
                         'id' => 144,
                         'body' => 'Number of vanes',
                         'answer_type' => 'number',
@@ -923,6 +1011,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 145,
                         'id' => 145,
                         'body' => 'Number of diffuser vanes',
                         'answer_type' => 'number',
@@ -932,6 +1021,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 146,
                         'id' => 146,
                         'body' => 'Number of bearing shoes',
                         'answer_type' => 'number',
@@ -941,6 +1031,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 147,
                         'id' => 147,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -950,6 +1041,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 148,
                         'id' => 148,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -959,6 +1051,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 149,
                         'id' => 149,
                         'body' => 'Both bearing type exist',
                         'answer_type' => 'radio',
@@ -976,6 +1069,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 16,
                 'answers' => [
                     [
+                        'question_answer_id' => 150,
                         'id' => 150,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -985,6 +1079,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 151,
                         'id' => 151,
                         'body' => 'Pump rotor threads',
                         'answer_type' => 'number',
@@ -994,6 +1089,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 152,
                         'id' => 152,
                         'body' => 'Pump idler shaft speed',
                         'answer_type' => 'number',
@@ -1003,6 +1099,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 153,
                         'id' => 153,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1012,6 +1109,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 154,
                         'id' => 154,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1021,6 +1119,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 155,
                         'id' => 155,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1030,6 +1129,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 156,
                         'id' => 156,
                         'body' => 'Both bearing type exist',
                         'answer_type' => 'radio',
@@ -1047,6 +1147,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 17,
                 'answers' => [
                     [
+                        'question_answer_id' => 157,
                         'id' => 157,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1056,6 +1157,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 158,
                         'id' => 158,
                         'body' => 'Pump rotor threads',
                         'answer_type' => 'number',
@@ -1065,6 +1167,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 159,
                         'id' => 159,
                         'body' => 'Pump idler shaft speed',
                         'answer_type' => 'number',
@@ -1074,6 +1177,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 160,
                         'id' => 160,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1091,6 +1195,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 18,
                 'answers' => [
                     [
+                        'question_answer_id' => 161,
                         'id' => 161,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1100,6 +1205,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 162,
                         'id' => 162,
                         'body' => 'Pump rotor threads',
                         'answer_type' => 'number',
@@ -1109,6 +1215,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 163,
                         'id' => 163,
                         'body' => 'Pump idler shaft speed',
                         'answer_type' => 'number',
@@ -1118,6 +1225,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 164,
                         'id' => 164,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1127,6 +1235,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 165,
                         'id' => 165,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1136,6 +1245,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 166,
                         'id' => 166,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1153,6 +1263,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 19,
                 'answers' => [
                     [
+                        'question_answer_id' => 167,
                         'id' => 167,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1162,6 +1273,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 168,
                         'id' => 168,
                         'body' => 'Number of pump vanes',
                         'answer_type' => 'number',
@@ -1171,6 +1283,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 169,
                         'id' => 169,
                         'body' => 'Supported shaft, with rolling element bearings',
                         'answer_type' => 'radio',
@@ -1180,6 +1293,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 170,
                         'id' => 170,
                         'body' => 'Overhung rotor, with rolling element bearings',
                         'answer_type' => 'radio',
@@ -1189,6 +1303,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "bearings",
                     ],
                     [
+                        'question_answer_id' => 171,
                         'id' => 171,
                         'body' => 'All sleeve bearings',
                         'answer_type' => 'radio',
@@ -1206,6 +1321,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 20,
                 'answers' => [
                     [
+                        'question_answer_id' => 172,
                         'id' => 172,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1215,6 +1331,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 173,
                         'id' => 173,
                         'body' => 'Radical (crack-shaft)',
                         'answer_type' => 'checkbox',
@@ -1224,6 +1341,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 174,
                         'id' => 174,
                         'body' => 'Number of pistons',
                         'answer_type' => 'number',
@@ -1233,6 +1351,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 175,
                         'id' => 175,
                         'body' => 'Replenishing vanes',
                         'answer_type' => 'number',
@@ -1242,6 +1361,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 176,
                         'id' => 176,
                         'body' => 'Bearing type',
                         'answer_type' => 'text',
@@ -1251,6 +1371,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 177,
                         'id' => 177,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1260,6 +1381,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 178,
                         'id' => 178,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1269,6 +1391,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 179,
                         'id' => 179,
                         'body' => 'Thrust plate',
                         'answer_type' => 'text',
@@ -1278,6 +1401,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 180,
                         'id' => 180,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1287,6 +1411,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 181,
                         'id' => 181,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1296,6 +1421,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single pickup",
                     ],
                     [
+                        'question_answer_id' => 182,
                         'id' => 182,
                         'body' => 'Drive-end bearing type',
                         'answer_type' => 'text',
@@ -1305,6 +1431,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Two pickup",
                     ],
                     [
+                        'question_answer_id' => 183,
                         'id' => 183,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1314,6 +1441,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Two pickup",
                     ],
                     [
+                        'question_answer_id' => 184,
                         'id' => 184,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1323,6 +1451,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Two pickup",
                     ],
                     [
+                        'question_answer_id' => 185,
                         'id' => 185,
                         'body' => 'Free-end bearing type',
                         'answer_type' => 'text',
@@ -1332,6 +1461,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Two pickup",
                     ],
                     [
+                        'question_answer_id' => 186,
                         'id' => 186,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1341,6 +1471,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Two pickup",
                     ],
                     [
+                        'question_answer_id' => 187,
                         'id' => 187,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1358,6 +1489,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 21,
                 'answers' => [
                     [
+                        'question_answer_id' => 190,
                         'id' => 190,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1367,6 +1499,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 191,
                         'id' => 191,
                         'body' => 'Overhung rotor',
                         'answer_type' => 'checkbox',
@@ -1376,6 +1509,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 192,
                         'id' => 192,
                         'body' => 'Number of blades on (1st stage)',
                         'answer_type' => 'number',
@@ -1385,6 +1519,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 193,
                         'id' => 193,
                         'body' => 'Number of blades on (2nd stage)',
                         'answer_type' => 'number',
@@ -1394,6 +1529,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 194,
                         'id' => 194,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1403,6 +1539,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 195,
                         'id' => 195,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1420,6 +1557,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 22,
                 'answers' => [
                     [
+                        'question_answer_id' => 196,
                         'id' => 196,
                         'body' => 'Centrifugal compressor',
                         'answer_type' => 'radio',
@@ -1429,6 +1567,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 197,
                         'id' => 197,
                         'body' => 'Reciprocating (piston) compressor',
                         'answer_type' => 'radio',
@@ -1438,6 +1577,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 198,
                         'id' => 198,
                         'body' => 'Screw compressor',
                         'answer_type' => 'radio',
@@ -1447,6 +1587,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 199,
                         'id' => 199,
                         'body' => 'Lobed blower',
                         'answer_type' => 'radio',
@@ -1464,6 +1605,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 23,
                 'answers' => [
                     [
+                        'question_answer_id' => 200,
                         'id' => 200,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'text',
@@ -1473,6 +1615,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 201,
                         'id' => 201,
                         'body' => 'Multiple shaft compressor',
                         'answer_type' => 'checkbox',
@@ -1482,6 +1625,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 202,
                         'id' => 202,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -1491,6 +1635,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 203,
                         'id' => 203,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -1500,6 +1645,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 204,
                         'id' => 204,
                         'body' => 'Thrust bearings',
                         'answer_type' => 'checkbox',
@@ -1509,6 +1655,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 205,
                         'id' => 205,
                         'body' => 'Number of vanes in stage one',
                         'answer_type' => 'number',
@@ -1518,6 +1665,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single shaft",
                     ],
                     [
+                        'question_answer_id' => 206,
                         'id' => 206,
                         'body' => 'Number of vanes on stage two',
                         'answer_type' => 'number',
@@ -1527,6 +1675,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single shaft",
                     ],
                     [
+                        'question_answer_id' => 207,
                         'id' => 207,
                         'body' => 'Number of vanes on stage three',
                         'answer_type' => 'number',
@@ -1536,6 +1685,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Single shaft",
                     ],
                     [
+                        'question_answer_id' => 208,
                         'id' => 208,
                         'body' => 'Number of guide vanes',
                         'answer_type' => 'number',
@@ -1553,6 +1703,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 24,
                 'answers' => [
                     [
+                        'question_answer_id' => 209,
                         'id' => 209,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1562,6 +1713,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 210,
                         'id' => 210,
                         'body' => 'Number of pistons',
                         'answer_type' => 'number',
@@ -1571,6 +1723,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 211,
                         'id' => 211,
                         'body' => 'Compressor fan blades',
                         'answer_type' => 'number',
@@ -1580,6 +1733,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 212,
                         'id' => 212,
                         'body' => 'Supported only at end by sleeve bearings',
                         'answer_type' => 'radio',
@@ -1589,6 +1743,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 213,
                         'id' => 213,
                         'body' => 'Intermediate bearings, all sleeve bearings',
                         'answer_type' => 'radio',
@@ -1598,6 +1753,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 214,
                         'id' => 214,
                         'body' => 'All rolling element bearings',
                         'answer_type' => 'radio',
@@ -1615,6 +1771,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 24,
                 'answers' => [
                     [
+                        'question_answer_id' => 215,
                         'id' => 215,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1624,6 +1781,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 216,
                         'id' => 216,
                         'body' => 'Rotary threads',
                         'answer_type' => 'number',
@@ -1633,6 +1791,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 217,
                         'id' => 217,
                         'body' => 'Idler threads',
                         'answer_type' => 'number',
@@ -1642,6 +1801,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 218,
                         'id' => 218,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1651,6 +1811,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 219,
                         'id' => 219,
                         'body' => 'All rolling element bearings',
                         'answer_type' => 'radio',
@@ -1660,6 +1821,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 220,
                         'id' => 220,
                         'body' => 'All sleeve bearings',
                         'answer_type' => 'radio',
@@ -1669,6 +1831,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 221,
                         'id' => 221,
                         'body' => 'Both rolling and sleeve bearings',
                         'answer_type' => 'radio',
@@ -1678,6 +1841,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 222,
                         'id' => 222,
                         'body' => 'High pressure side of twin compressors with roller bearings',
                         'answer_type' => 'radio',
@@ -1687,6 +1851,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 223,
                         'id' => 223,
                         'body' => 'Low pressure side of twin compressors with roller bearings',
                         'answer_type' => 'radio',
@@ -1704,6 +1869,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 25,
                 'answers' => [
                     [
+                        'question_answer_id' => 224,
                         'id' => 224,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1713,6 +1879,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 225,
                         'id' => 225,
                         'body' => 'Blower lobs',
                         'answer_type' => 'number',
@@ -1722,6 +1889,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 226,
                         'id' => 226,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1731,6 +1899,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 227,
                         'id' => 227,
                         'body' => 'All roller bearings',
                         'answer_type' => 'radio',
@@ -1740,6 +1909,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 228,
                         'id' => 228,
                         'body' => 'All sleeve bearings',
                         'answer_type' => 'radio',
@@ -1749,6 +1919,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 229,
                         'id' => 229,
                         'body' => 'Both rolling and sleeve bearings',
                         'answer_type' => 'radio',
@@ -1766,6 +1937,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 26,
                 'answers' => [
                     [
+                        'question_answer_id' => 230,
                         'id' => 230,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1775,6 +1947,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 231,
                         'id' => 231,
                         'body' => 'Generator poles',
                         'answer_type' => 'number',
@@ -1784,6 +1957,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 232,
                         'id' => 232,
                         'body' => 'Exciter slots',
                         'answer_type' => 'number',
@@ -1793,6 +1967,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 233,
                         'id' => 233,
                         'body' => 'Teeth in timing gear',
                         'answer_type' => 'number',
@@ -1802,6 +1977,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 234,
                         'id' => 234,
                         'body' => 'Generator fan blades',
                         'answer_type' => 'number',
@@ -1811,6 +1987,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 235,
                         'id' => 235,
                         'body' => 'Sleeve bearing on free with overhung exciter',
                         'answer_type' => 'text',
@@ -1820,6 +1997,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 236,
                         'id' => 236,
                         'body' => 'Roller bearing in free end with supported exciter',
                         'answer_type' => 'text',
@@ -1829,6 +2007,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 237,
                         'id' => 237,
                         'body' => 'Roller bearing in free end',
                         'answer_type' => 'text',
@@ -1838,6 +2017,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 238,
                         'id' => 238,
                         'body' => 'Roller bearings on both side',
                         'answer_type' => 'text',
@@ -1847,6 +2027,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 239,
                         'id' => 239,
                         'body' => 'Sleeve bearings on both ends, no exciter, no thrust bearing',
                         'answer_type' => 'text',
@@ -1856,6 +2037,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 240,
                         'id' => 240,
                         'body' => 'Sleeve bearings on free end, no exciter',
                         'answer_type' => 'text',
@@ -1865,6 +2047,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 241,
                         'id' => 241,
                         'body' => 'Sleeve bearings on both ends, with overhung exciter',
                         'answer_type' => 'text',
@@ -1874,6 +2057,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 242,
                         'id' => 242,
                         'body' => 'Roller bearings on free ends, with overhung exciter',
                         'answer_type' => 'text',
@@ -1883,6 +2067,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 243,
                         'id' => 243,
                         'body' => 'Sleeve bearings on both ends, with supported exciter',
                         'answer_type' => 'text',
@@ -1900,6 +2085,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 27,
                 'answers' => [
                     [
+                        'question_answer_id' => 244,
                         'id' => 244,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -1909,6 +2095,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 245,
                         'id' => 245,
                         'body' => 'Machine tool spindle or chuck',
                         'answer_type' => 'radio',
@@ -1918,6 +2105,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 246,
                         'id' => 246,
                         'body' => 'Simple rotating shaft',
                         'answer_type' => 'radio',
@@ -1935,6 +2123,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 28,
                 'answers' => [
                     [
+                        'question_answer_id' => 247,
                         'id' => 247,
                         'body' => 'Enter the bearing position monitored',
                         'answer_type' => 'number',
@@ -1944,6 +2133,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 248,
                         'id' => 248,
                         'body' => 'Physical details known',
                         'answer_type' => 'radio',
@@ -1953,6 +2143,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 249,
                         'id' => 249,
                         'body' => 'Number of teeth on input shaft',
                         'answer_type' => 'number',
@@ -1962,6 +2153,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 250,
                         'id' => 250,
                         'body' => 'Number of teeth in intermediate (driven)',
                         'answer_type' => 'number',
@@ -1971,6 +2163,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 251,
                         'id' => 251,
                         'body' => 'Number of teeth in intermediate (drive)',
                         'answer_type' => 'number',
@@ -1980,6 +2173,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 252,
                         'id' => 252,
                         'body' => 'Number of teeth on output shaft',
                         'answer_type' => 'number',
@@ -1989,6 +2183,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 253,
                         'id' => 253,
                         'body' => 'Speed ration known',
                         'answer_type' => 'radio',
@@ -1998,6 +2193,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 254,
                         'id' => 254,
                         'body' => 'Intermediate shaft ratio (output/input)',
                         'answer_type' => 'number',
@@ -2007,6 +2203,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 255,
                         'id' => 255,
                         'body' => 'Output shaft ratio (output/input)',
                         'answer_type' => 'number',
@@ -2016,6 +2213,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 256,
                         'id' => 256,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2025,6 +2223,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearing types",
                     ],
                     [
+                        'question_answer_id' => 257,
                         'id' => 257,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2034,6 +2233,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearing types",
                     ],
                     [
+                        'question_answer_id' => 258,
                         'id' => 258,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2043,6 +2243,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearing types",
                     ],
                     [
+                        'question_answer_id' => 259,
                         'id' => 259,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2052,6 +2253,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearing types",
                     ],
                     [
+                        'question_answer_id' => 260,
                         'id' => 260,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2061,6 +2263,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearing types",
                     ],
                     [
+                        'question_answer_id' => 261,
                         'id' => 261,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2078,6 +2281,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 29,
                 'answers' => [
                     [
+                        'question_answer_id' => 262,
                         'id' => 262,
                         'body' => 'Enter the bearing position monitored',
                         'answer_type' => 'number',
@@ -2087,6 +2291,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 265,
                         'id' => 265,
                         'body' => '(1st mesh) Driving teeth count',
                         'answer_type' => 'number',
@@ -2096,6 +2301,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 266,
                         'id' => 266,
                         'body' => '(2nd mesh) Driving teeth count',
                         'answer_type' => 'number',
@@ -2105,6 +2311,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 267,
                         'id' => 267,
                         'body' => '(3rd mesh) Driving teeth count',
                         'answer_type' => 'number',
@@ -2114,6 +2321,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 268,
                         'id' => 268,
                         'body' => '(4th mesh) Driving teeth count',
                         'answer_type' => 'number',
@@ -2131,6 +2339,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 30,
                 'answers' => [
                     [
+                        'question_answer_id' => 269,
                         'id' => 269,
                         'body' => 'Physical details known',
                         'answer_type' => 'radio',
@@ -2140,6 +2349,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 270,
                         'id' => 270,
                         'body' => 'Driver sheave diameter',
                         'answer_type' => 'number',
@@ -2149,6 +2359,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 271,
                         'id' => 271,
                         'body' => 'Driver sheave diameter',
                         'answer_type' => 'number',
@@ -2158,6 +2369,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 272,
                         'id' => 272,
                         'body' => 'Distance between sheave centers',
                         'answer_type' => 'number',
@@ -2167,6 +2379,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 273,
                         'id' => 273,
                         'body' => 'Speed ratio known',
                         'answer_type' => 'radio',
@@ -2176,6 +2389,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 274,
                         'id' => 274,
                         'body' => 'Speed ratio (output/input)',
                         'answer_type' => 'number',
@@ -2193,6 +2407,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 31,
                 'answers' => [
                     [
+                        'question_answer_id' => 275,
                         'id' => 275,
                         'body' => 'Physical details known',
                         'answer_type' => 'radio',
@@ -2202,6 +2417,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 276,
                         'id' => 276,
                         'body' => 'Driver sheave diameter',
                         'answer_type' => 'number',
@@ -2211,6 +2427,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 277,
                         'id' => 277,
                         'body' => 'Driver sheave diameter',
                         'answer_type' => 'number',
@@ -2220,6 +2437,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 278,
                         'id' => 278,
                         'body' => 'Distance between sheave centers',
                         'answer_type' => 'number',
@@ -2229,6 +2447,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 279,
                         'id' => 279,
                         'body' => 'Number of teeth on driver sprocket',
                         'answer_type' => 'number',
@@ -2238,6 +2457,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 280,
                         'id' => 280,
                         'body' => 'Speed ratio known',
                         'answer_type' => 'radio',
@@ -2247,6 +2467,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 281,
                         'id' => 281,
                         'body' => 'Speed ratio (output/input)',
                         'answer_type' => 'number',
@@ -2264,6 +2485,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 32,
                 'answers' => [
                     [
+                        'question_answer_id' => 282,
                         'id' => 282,
                         'body' => 'Speed ratio (output/input)',
                         'answer_type' => 'number',
@@ -2273,6 +2495,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 283,
                         'id' => 283,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2282,6 +2505,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 284,
                         'id' => 284,
                         'body' => 'Number of vanes',
                         'answer_type' => 'number',
@@ -2291,6 +2515,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 285,
                         'id' => 285,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2300,6 +2525,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 286,
                         'id' => 286,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2309,6 +2535,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 287,
                         'id' => 287,
                         'body' => 'Both rolling and sleeve bearings',
                         'answer_type' => 'radio',
@@ -2326,6 +2553,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 33,
                 'answers' => [
                     [
+                        'question_answer_id' => 288,
                         'id' => 288,
                         'body' => 'Purifier relative speed (bowl/motor)',
                         'answer_type' => 'number',
@@ -2335,6 +2563,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 289,
                         'id' => 289,
                         'body' => 'Bearing position numbers (motor)',
                         'answer_type' => 'number',
@@ -2344,6 +2573,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 290,
                         'id' => 290,
                         'body' => 'Bearing position numbers (purifier)',
                         'answer_type' => 'number',
@@ -2353,6 +2583,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 291,
                         'id' => 291,
                         'body' => 'Geared, driven through clutch',
                         'answer_type' => 'radio',
@@ -2362,6 +2593,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 292,
                         'id' => 292,
                         'body' => 'Geared, driven through coupling',
                         'answer_type' => 'radio',
@@ -2371,6 +2603,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 293,
                         'id' => 293,
                         'body' => 'Number of gear teeth (motor side)',
                         'answer_type' => 'number',
@@ -2380,6 +2613,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 294,
                         'id' => 294,
                         'body' => 'Belt type',
                         'answer_type' => 'radio',
@@ -2389,6 +2623,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 295,
                         'id' => 295,
                         'body' => 'Oil pump on purifier',
                         'answer_type' => 'checkbox',
@@ -2398,6 +2633,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 296,
                         'id' => 296,
                         'body' => 'Oil pump is driven off an auxiliary gear',
                         'answer_type' => 'checkbox',
@@ -2407,6 +2643,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 297,
                         'id' => 297,
                         'body' => 'Speed of oil pump rotor (motor/input)',
                         'answer_type' => 'number',
@@ -2416,6 +2653,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 298,
                         'id' => 298,
                         'body' => 'Number of teeth on oil pump rotor',
                         'answer_type' => 'number',
@@ -2425,6 +2663,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 299,
                         'id' => 299,
                         'body' => 'Vane pump',
                         'answer_type' => 'radio',
@@ -2434,6 +2673,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 300,
                         'id' => 300,
                         'body' => 'Number of rotor vanes',
                         'answer_type' => 'number',
@@ -2443,6 +2683,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 301,
                         'id' => 301,
                         'body' => 'Gear tooth pump',
                         'answer_type' => 'radio',
@@ -2452,6 +2693,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 302,
                         'id' => 302,
                         'body' => 'Number of rotor teeth',
                         'answer_type' => 'number',
@@ -2469,6 +2711,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 34,
                 'answers' => [
                     [
+                        'question_answer_id' => 303,
                         'id' => 303,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2478,6 +2721,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 304,
                         'id' => 304,
                         'body' => 'Ac Motor',
                         'answer_type' => 'radio',
@@ -2487,6 +2731,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 305,
                         'id' => 305,
                         'body' => 'Dc Motor',
                         'answer_type' => 'radio',
@@ -2496,6 +2741,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 306,
                         'id' => 306,
                         'body' => 'VFD Motor',
                         'answer_type' => 'radio',
@@ -2505,6 +2751,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 307,
                         'id' => 307,
                         'body' => 'Cooling fan on motor?',
                         'answer_type' => 'checkbox',
@@ -2514,6 +2761,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 308,
                         'id' => 308,
                         'body' => 'Number of motor bars',
                         'answer_type' => 'number',
@@ -2523,6 +2771,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 309,
                         'id' => 309,
                         'body' => 'Driver ID',
                         'answer_type' => 'text',
@@ -2532,6 +2781,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 310,
                         'id' => 310,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2541,6 +2791,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 311,
                         'id' => 311,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2558,6 +2809,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 35,
                 'answers' => [
                     [
+                        'question_answer_id' => 312,
                         'id' => 312,
                         'body' => 'The turbine is close coupled, driving a pump, fan or compressor',
                         'answer_type' => 'radio',
@@ -2567,6 +2819,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 313,
                         'id' => 313,
                         'body' => 'It is a turbo charger',
                         'answer_type' => 'radio',
@@ -2576,6 +2829,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 314,
                         'id' => 314,
                         'body' => 'The turbine is not close coupled, or is driving a different component',
                         'answer_type' => 'radio',
@@ -2585,6 +2839,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 315,
                         'id' => 315,
                         'body' => 'There are no other components being monitored',
                         'answer_type' => 'radio',
@@ -2602,6 +2857,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 36,
                 'answers' => [
                     [
+                        'question_answer_id' => 316,
                         'id' => 316,
                         'body' => 'The turbine is driving a pump',
                         'answer_type' => 'radio',
@@ -2611,6 +2867,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 317,
                         'id' => 317,
                         'body' => 'The turbine is driving a fan',
                         'answer_type' => 'radio',
@@ -2620,6 +2877,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 318,
                         'id' => 318,
                         'body' => 'The turbine is driving a compressor',
                         'answer_type' => 'radio',
@@ -2637,6 +2895,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 37,
                 'answers' => [
                     [
+                        'question_answer_id' => 319,
                         'id' => 319,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2646,6 +2905,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 320,
                         'id' => 320,
                         'body' => 'Number of vanes',
                         'answer_type' => 'number',
@@ -2655,6 +2915,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 321,
                         'id' => 321,
                         'body' => 'Number of turbine blades',
                         'answer_type' => 'number',
@@ -2664,6 +2925,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 322,
                         'id' => 322,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2673,6 +2935,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Bearings",
                     ],
                     [
+                        'question_answer_id' => 323,
                         'id' => 323,
                         'body' => 'Sleeve bearings',
                         'answer_type' => 'radio',
@@ -2690,6 +2953,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 38,
                 'answers' => [
                     [
+                        'question_answer_id' => 324,
                         'id' => 324,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2699,6 +2963,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 325,
                         'id' => 325,
                         'body' => 'Number of fan blades',
                         'answer_type' => 'number',
@@ -2708,6 +2973,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 326,
                         'id' => 326,
                         'body' => 'Number of turbine blades',
                         'answer_type' => 'number',
@@ -2725,6 +2991,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 39,
                 'answers' => [
                     [
+                        'question_answer_id' => 327,
                         'id' => 327,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2734,6 +3001,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 328,
                         'id' => 328,
                         'body' => 'Number of compressor vanes',
                         'answer_type' => 'number',
@@ -2743,6 +3011,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 329,
                         'id' => 329,
                         'body' => 'Number of turbine blades',
                         'answer_type' => 'number',
@@ -2760,6 +3029,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 40,
                 'answers' => [
                     [
+                        'question_answer_id' => 330,
                         'id' => 330,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2769,6 +3039,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 331,
                         'id' => 331,
                         'body' => 'Number of vanes',
                         'answer_type' => 'number',
@@ -2786,6 +3057,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 41,
                 'answers' => [
                     [
+                        'question_answer_id' => 332,
                         'id' => 332,
                         'body' => 'Bearing position numbers',
                         'answer_type' => 'number',
@@ -2795,6 +3067,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 333,
                         'id' => 333,
                         'body' => 'Rolling element bearings',
                         'answer_type' => 'radio',
@@ -2804,6 +3077,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 334,
                         'id' => 334,
                         'body' => 'Sleeve element bearings',
                         'answer_type' => 'radio',
@@ -2813,6 +3087,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 335,
                         'id' => 335,
                         'body' => 'Both bearing types',
                         'answer_type' => 'radio',
@@ -2822,6 +3097,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 336,
                         'id' => 336,
                         'body' => 'Overhung rotor',
                         'answer_type' => 'checkbox',
@@ -2831,6 +3107,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 337,
                         'id' => 337,
                         'body' => 'Shaft has thrust collar',
                         'answer_type' => 'checkbox',
@@ -2840,6 +3117,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 338,
                         'id' => 338,
                         'body' => 'Turbine buckets',
                         'answer_type' => 'number',
@@ -2849,6 +3127,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 339,
                         'id' => 339,
                         'body' => 'Turbine nozzles',
                         'answer_type' => 'number',
@@ -2858,6 +3137,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 340,
                         'id' => 340,
                         'body' => 'Turbine bearing shoes',
                         'answer_type' => 'number',
@@ -2867,6 +3147,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 341,
                         'id' => 341,
                         'body' => 'Number of blades (1st stage)',
                         'answer_type' => 'number',
@@ -2876,6 +3157,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 342,
                         'id' => 342,
                         'body' => 'Number of blades (2nd stage)',
                         'answer_type' => 'number',
@@ -2885,6 +3167,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 343,
                         'id' => 343,
                         'body' => 'Number of blades (3rd stage)',
                         'answer_type' => 'number',
@@ -2894,6 +3177,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 344,
                         'id' => 344,
                         'body' => 'Oil pump on turbine',
                         'answer_type' => 'checkbox',
@@ -2903,6 +3187,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 345,
                         'id' => 345,
                         'body' => 'Speed of oil pump rotor',
                         'answer_type' => 'number',
@@ -2912,6 +3197,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 346,
                         'id' => 346,
                         'body' => 'Oil pump is driven off an auxiliary gear',
                         'answer_type' => 'checkbox',
@@ -2921,6 +3207,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 347,
                         'id' => 347,
                         'body' => 'Number of teeth on oil pump rotor',
                         'answer_type' => 'number',
@@ -2930,6 +3217,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 348,
                         'id' => 348,
                         'body' => 'Vane pump',
                         'answer_type' => 'radio',
@@ -2939,6 +3227,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 349,
                         'id' => 349,
                         'body' => 'Number of rotor vanes',
                         'answer_type' => 'number',
@@ -2948,6 +3237,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 350,
                         'id' => 350,
                         'body' => 'Gear tooth pump',
                         'answer_type' => 'radio',
@@ -2957,6 +3247,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Oil pump",
                     ],
                     [
+                        'question_answer_id' => 351,
                         'id' => 351,
                         'body' => 'Number of rotor teeth',
                         'answer_type' => 'number',
@@ -2974,6 +3265,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 42,
                 'answers' => [
                     [
+                        'question_answer_id' => 352,
                         'id' => 352,
                         'body' => 'Oil pump on turbine',
                         'answer_type' => 'checkbox',
@@ -2983,6 +3275,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 353,
                         'id' => 353,
                         'body' => 'Speed of oil pump rotor (rotor/input)',
                         'answer_type' => 'number',
@@ -2992,6 +3285,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 354,
                         'id' => 354,
                         'body' => 'Oil pump is driven off an auxiliary gear',
                         'answer_type' => 'checkbox',
@@ -3001,6 +3295,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 355,
                         'id' => 355,
                         'body' => 'Number of teeth on oil pump rotor',
                         'answer_type' => 'number',
@@ -3010,6 +3305,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 356,
                         'id' => 356,
                         'body' => 'Vane pump',
                         'answer_type' => 'radio',
@@ -3019,6 +3315,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 357,
                         'id' => 357,
                         'body' => 'Number of rotor vanes',
                         'answer_type' => 'number',
@@ -3028,6 +3325,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 358,
                         'id' => 358,
                         'body' => 'Gear tooth pump',
                         'answer_type' => 'radio',
@@ -3037,6 +3335,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 359,
                         'id' => 359,
                         'body' => 'Number of rotor tooth',
                         'answer_type' => 'number',
@@ -3046,6 +3345,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 360,
                         'id' => 360,
                         'body' => 'Turbine buckets',
                         'answer_type' => 'number',
@@ -3055,6 +3355,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 361,
                         'id' => 361,
                         'body' => 'Turbine nozzles',
                         'answer_type' => 'number',
@@ -3064,6 +3365,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 362,
                         'id' => 362,
                         'body' => 'Turbine bearing shoes',
                         'answer_type' => 'number',
@@ -3073,6 +3375,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 363,
                         'id' => 363,
                         'body' => 'Number of blades (1st stage)',
                         'answer_type' => 'number',
@@ -3082,6 +3385,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 364,
                         'id' => 364,
                         'body' => 'Number of blades (2nd stage)',
                         'answer_type' => 'number',
@@ -3091,6 +3395,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 365,
                         'id' => 365,
                         'body' => 'Number of blades (3rd stage)',
                         'answer_type' => 'number',
@@ -3108,6 +3413,7 @@ class MidQuestionSeeder extends Seeder
                 'sort_order' => 43,
                 'answers' => [
                     [
+                        'question_answer_id' => 367,
                         'id' => 367,
                         'body' => '2 - stoke',
                         'answer_type' => 'radio',
@@ -3117,6 +3423,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 368,
                         'id' => 368,
                         'body' => '4 - stoke',
                         'answer_type' => 'radio',
@@ -3126,6 +3433,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 369,
                         'id' => 369,
                         'body' => 'Number of cylinders',
                         'answer_type' => 'number',
@@ -3135,6 +3443,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 370,
                         'id' => 370,
                         'body' => 'Bearing monitored',
                         'answer_type' => 'number',
@@ -3144,6 +3453,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "general",
                     ],
                     [
+                        'question_answer_id' => 371,
                         'id' => 371,
                         'body' => 'Oil pump gear mesh',
                         'answer_type' => 'number',
@@ -3153,6 +3463,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 372,
                         'id' => 372,
                         'body' => 'Water pump gear mesh',
                         'answer_type' => 'number',
@@ -3162,6 +3473,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 373,
                         'id' => 373,
                         'body' => 'Timing gear mesh',
                         'answer_type' => 'number',
@@ -3171,6 +3483,7 @@ class MidQuestionSeeder extends Seeder
                         'group' => "Details",
                     ],
                     [
+                        'question_answer_id' => 374,
                         'id' => 374,
                         'body' => 'Auxiliary gear mesh',
                         'answer_type' => 'number',
@@ -3182,31 +3495,29 @@ class MidQuestionSeeder extends Seeder
                 ]
             ],
         ];
-
         foreach ($questionsWithAnswers as $questionWithAnswers) {
-            DB::table('mid_questions')->insert([
+            $question = MidQuestions::create([
                 'id' => $questionWithAnswers['id'],
                 'title' => $questionWithAnswers['title'],
                 'body' => $questionWithAnswers['body'],
                 'sort_order' => $questionWithAnswers['sort_order'],
             ]);
-
-//            foreach ($questionWithAnswers['answers'] as $answer) {
-//                DB::table('mid_answers')->insert([
-//                    'id' => $answer['id'],
-//                    'body' => $answer['body'],
-//                    'answer_type' => $answer['answer_type'],
-//                    'input_count' => $answer['input_count'],
-//                    'radio_group' => $answer['radio_group'],
-//                ]);
-//
-//                DB::table('question_answers')->insert([
-//                    'mid_question_id' => $questionWithAnswers['id'],
-//                    'mid_answer_id' => $answer['id'],
-//                    'group' => $answer['group'],
-//                    'child_id' => $answer['child_id'],
-//                ]);
-//            }
+            foreach ($questionWithAnswers['answers'] as $answer) {
+                MidAnswers::create([
+                    'id' => $answer['id'],
+                    'body' => $answer['body'],
+                    'answer_type' => $answer['answer_type'],
+                    'input_count' => $answer['input_count'],
+                    'radio_group' => $answer['radio_group'],
+                ]);
+                DB::table('question_answers')->insert([
+                    'id' => $answer['question_answer_id'],
+                    'mid_question_id' => $question['id'],
+                    'mid_answer_id' => $answer['id'],
+                    'group' => $answer['group'],
+                    'child_id' => $answer['child_id'],
+                ]);
+            }
         }
     }
 }
