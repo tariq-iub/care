@@ -12,7 +12,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        / $devices = Device::all(); // Fetch all devices (adjust as per your application logic)
+        $devices = Device::all(); // Fetch all devices (adjust as per your application logic)
 
         return view('devices.index', compact('devices'));
     }

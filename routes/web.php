@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
-use App\Http\Controllers\WebhookController;
-use App\Http\Controllers\SensorDataController;
 
 
 /*
