@@ -68,20 +68,16 @@ Route::get('/enter-new-password', [SetPasswordController::class, 'showSetPasswor
     ->name('show.new.password.form');
 Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'])
     ->name('update.new.password')->middleware(['guest']);
+
 Route::get('/fft', function () {
     return view('fft-graph');
 });
 
 Auth::routes();
 
-
-
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/home', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
     Route::resource('/users', UserController::class);
     Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
     Route::get('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
