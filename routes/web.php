@@ -5,6 +5,8 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MidSetupController;
 use App\Http\Controllers\PricingPlansController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\SensorDataController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ServiceRepresentativeController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +25,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\SensorDataController;
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::resource('sites', SiteController::class);
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,10 +70,23 @@ Route::get('/enter-new-password', [SetPasswordController::class, 'showSetPasswor
     ->name('show.new.password.form');
 Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'])
     ->name('update.new.password')->middleware(['guest']);
+Route::get('/fft', function () {
+    return view('fft-graph');
+});
+
+Auth::routes();
+
+
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+    Route::get('/home', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+    Route::resource('/users', UserController::class);
+    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::get('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
     Route::resource('/menus', MenuController::class)->except(['show']);
     Route::put('/menus/status/{menu}', [MenuController::class, 'statusToggle'])->name('menus.toggle');
 
@@ -68,11 +100,18 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
+    Route::resource('/roles', RoleController::class)->except(['create', 'show']);
+    Route::resource('/factories', FactoryController::class)->except(['show']);
+    Route::resource('/sites', SiteController::class);
     Route::resource('/inspections', InspectionController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/question', QuestionController::class)->except(['show']);
     Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
+
+    Route::resource('/devices', DeviceController::class, ['only' => ['index', 'show']])->names([
+        'index' => 'devices.index'
+    ]);
 
     Route::controller(DataFileController::class)
         ->as('data.')
@@ -107,3 +146,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/company/create-users', [CompanyController::class, 'storeUser'])->name('company.store_user');
     Route::put('/company/status/{user}', [CompanyController::class, 'statusToggle'])->name('company_users.status');
 });
+
+Route::resource('/sensor_data', SensorDataController::class);
+Route::post('/sensor_data/generate_plot', [SensorDataController::class, 'generatePlot'])->name('sensor_data.generate_plot');
+Route::post('/sensor-data/generate-time-domain-plot', [SensorDataController::class, 'generateTimeDomainPlot'])->name('sensor_data.generate_time_domain_plot');
+Route::post('/sensor-data/generate-frequency-domain-plot', [SensorDataController::class, 'generateFrequencyDomainPlot'])->name('sensor_data.generate_frequency_domain_plot');
