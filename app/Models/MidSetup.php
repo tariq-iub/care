@@ -16,4 +16,8 @@ class MidSetup extends Model
         return $this->hasMany(MidSetupBody::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(MidSetupAnswers::class);
+    }
 }

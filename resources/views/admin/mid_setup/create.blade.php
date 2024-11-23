@@ -125,7 +125,9 @@
             $.post('/api/mid-setup/save',
                 Object.assign({}, ...allData)
                 , function (response) {
-                    window.location.href = '/mid-setups';
+                    if (response.success) {
+                        window.location.href = '/new-mid/create';
+                    }
             });
         }
     </script>

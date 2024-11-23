@@ -4,20 +4,20 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item active">MIDs</li>
+            <li class="breadcrumb-item active">Machines</li>
         </ol>
     </nav>
 
     <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Manage MIDs</h2>
+        <h2 class="text-bold text-body-emphasis">Manage Machines</h2>
     </div>
 
-    <div id="companies" data-list='{"valueNames":["mid"],"page":10,"pagination":true}'>
+    <div id="companies" data-list='{"valueNames":["machine"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative">
-                        <input class="form-control search-input search" type="search" placeholder="Search MID"
+                        <input class="form-control search-input search" type="search" placeholder="Search Machine"
                                aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
@@ -26,8 +26,8 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <a class="btn btn-primary" href="{{ route('mid-setups.create') }}">
-                        <span class="fas fa-plus me-2"></span>Create MID Setup
+                    <a class="btn btn-primary" href="{{ route('machines.create') }}">
+                        <span class="fas fa-plus me-2"></span>Create Machine
                     </a>
                 </div>
             </div>
@@ -38,17 +38,17 @@
                 <table class="table table-sm fs-9 mb-0">
                     <thead>
                     <tr>
-                        <th class="sort align-middle" scope="col" data-sort="mid" style="width:15%; min-width:200px;">
+                        <th class="sort align-middle" scope="col" data-sort="machine" style="width:15%; min-width:200px;">
+                            Machine Name
+                        </th>
+                        <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
                             MID SETUP
                         </th>
                         <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
-                            BODY
+                            Plant Name
                         </th>
                         <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
-
-                        </th>
-                        <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
-
+                            Area Name
                         </th>
                         <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:100px;">
                             ACTIONS
@@ -56,21 +56,19 @@
                     </tr>
                     </thead>
                     <tbody class="list" id="setups-table-body">
-                    @foreach($midSetups as $row)
+                    @foreach($machines as $row)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="mid align-middle white-space-nowrap">
-                                <h6 class="mb-0 ms-3 fw-semibold">{{ $row->title }}</h6>
+                            <td class="machine align-middle white-space-nowrap">
+                                <h6 class="mb-0 ms-3 fw-semibold">{{ $row->machine_name }}</h6>
                             </td>
-                            <td class="city align-middle white-space-nowrap">
-                                <span class="text-body">{{ $row->body }}</span>
+                            <td class="mid_setup align-middle white-space-nowrap">
+                                <span class="text-body">{{ $row->midSetup->id }} | {{ $row->midSetup->title }}</span>
                             </td>
-                            <td class="city align-middle white-space-nowrap">
-                                <span class="text-body">{{ $row->city }}</span>
+                            <td class="plant align-middle white-space-nowrap">
+                                <span class="text-body">{{ $row->plant->title }}</span>
                             </td>
-                            <td class="email align-middle white-space-nowrap">
-                                <span class="text-body">{{ $row->phone_number }}</span>
-                                <br>
-                                <a class="fw-semibold" href="mailto:{{ $row->email }}">{{ $row->email }}</a>
+                            <td class="area align-middle white-space-nowrap">
+                                <span class="text-body">{{ $row->area->name }}</span>
                             </td>
                             <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
                                 <div class="btn-reveal-trigger position-static">
@@ -85,10 +83,10 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                        <a class="dropdown-item" href="{{route('mid-setups.edit', $row->id)}}">Edit</a>
-                                        <a class="dropdown-item" href="{{route('mid-setups.show', $row->id)}}">Show</a>
+                                        <a class="dropdown-item" href="{{route('machines.edit', $row->id)}}">Edit</a>
+                                        <a class="dropdown-item" href="{{route('machines.show', $row->id)}}">Show</a>
                                         <div class="dropdown-divider"></div>
-                                        <form action="{{ route('mid-setups.destroy', $row->id) }}" method="POST">
+                                        <form action="{{ route('machines.destroy', $row->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item text-danger">Delete</button>
