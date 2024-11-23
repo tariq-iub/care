@@ -8,7 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MidSetupController;
+use App\Http\Controllers\NewMidController;
 use App\Http\Controllers\PricingPlansController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RoleController;
@@ -102,6 +104,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/question', QuestionController::class)->except(['show']);
     Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
+    Route::resource('/machines', MachineController::class);
+    Route::resource('/new-mid', NewMidController::class)->except(['show', 'edit', 'update', 'destroy']);
 
     Route::resource('/devices', DeviceController::class, ['only' => ['index', 'show']])->names([
         'index' => 'devices.index'

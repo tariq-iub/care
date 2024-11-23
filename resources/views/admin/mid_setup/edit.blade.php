@@ -43,9 +43,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let childParentRelation = [];
+            let childParentRelation = @json($childQuestionsRelation);
+
             let removeChildQuestions = (parentId) => {
-                let childQuestions = childParentRelation.filter(relation => relation.parent_question_id === parentId);
+                let childQuestions = childParentRelation.filter(relation => relation.parent_question_id == parentId);
 
                 childQuestions.forEach(child => {
                     let childQuestionId = child.child_question_id;
@@ -56,13 +57,8 @@
                     $(`#${childQuestionId}`).remove();
                     removeChildQuestions(childQuestionId);
                 });
-                childParentRelation = childParentRelation.filter(relation => relation.parent_question_id !== parentId);
+                childParentRelation = childParentRelation.filter(relation => relation.parent_question_id != parentId);
             };
-            let questionIds = Object.values(@json($questionIds));
-
-            for (let i = 0; i < questionIds.length; i++) {
-                childParentRelation.push({parent_question_id: String(questionIds[i]), child_question_id:  String(questionIds[i+1])});
-            }
 
             document.addEventListener('click', function (e) {
                 if (e.target && e.target.id === 'next-button' || e.target.id === 'groups-next-button') {
@@ -78,7 +74,11 @@
                         question_id: question_id,
                         answer_id: e.target.id === 'next-button' ? selectedRadio.val() : null,
                     }, function (response) {
-                        let oldQuestion = childParentRelation.find(relation => relation.parent_question_id === question_id);
+                        let oldQuestion = childParentRelation.find(relation => relation.parent_question_id == question_id);
+                        for (let i =0; i < childParentRelation.length; i++) {
+                            console.log(childParentRelation[i].parent_question_id == question_id);
+                        }
+
                         if (oldQuestion) {
                             let oldQuestionId = oldQuestion.child_question_id;
 
@@ -88,7 +88,7 @@
                             let oldQuestionHref = oldQuestionTitle.replace(/\s+/g, '-').toLowerCase();
                             $(`.doc-nav a[href="#${oldQuestionHref}"]`).closest('li').remove();
                             $(`#${oldQuestionId}`).remove();
-                            childParentRelation = childParentRelation.filter(relation => relation.child_question_id !== oldQuestionId);
+                            childParentRelation = childParentRelation.filter(relation => relation.child_question_id != oldQuestionId);
                         }
 
                         let newQuestionId = $(response).find('input[type="hidden"][id^="question"]').val();
