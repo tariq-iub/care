@@ -3,8 +3,10 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
+use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
+use App\Http\Controllers\NewMidController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\NoteController;
@@ -73,3 +75,6 @@ Route::post('/questions/link-child-question', [QuestionController::class, 'linkC
 Route::post('/mid-setup/save', [MidSetupController::class, 'store']);
 Route::post('/mid-setup/update/{id}', [MidSetupController::class, 'update']);
 Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetchChildQuestion']);
+
+Route::post('/new-mid/save', [NewMidController::class, 'store']);
+Route::post('/machine/save', [MachineController::class, 'store']);

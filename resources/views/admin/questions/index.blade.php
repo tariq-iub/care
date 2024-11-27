@@ -41,7 +41,7 @@
                         <th class="sort align-middle" scope="col" data-sort="question" style="width:15%; min-width:200px;">
                             QUESTIONS
                         </th>
-                        <th class="sort align-middle" scope="col" style="width:12%; min-width:100px;">
+                        <th class="sort align-middle" scope="col" style="width:12%; min-width:50px; max-width: 350px;">
                             BODY
                         </th>
                         <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:100px;">
@@ -52,10 +52,10 @@
                 <tbody class="list" id="setups-table-body">
                     @foreach($questions as $row)
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                        <td class="question align-middle white-space-nowrap">
+                        <td class="question align-middle text-truncate" style="width:12%; min-width:150px; max-width:200px;">
                             <h6 class="mb-0 ms-3 fw-semibold">{{ $row->title }}</h6>
                         </td>
-                        <td class="city align-middle white-space-nowrap">
+                        <td class="city align-middle text-truncate" style="width:12%; min-width:50px; max-width: 350px;">
                             <span class="text-body">{{ $row->body }}</span>
                         </td>
                         <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">

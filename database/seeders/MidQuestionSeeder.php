@@ -6,7 +6,6 @@ use App\Models\MidAnswers;
 use App\Models\MidQuestions;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 class MidQuestionSeeder extends Seeder
 {
     public function run()

@@ -27,6 +27,20 @@ class MidSetupController extends Controller
             ->unique()
             ->toArray();
 
+        $questions = $questions->reject(function ($question) use ($childQuestions) {
+            if (in_array($question->id, $childQuestions)) {
+                $questionAnswerIds = DB::table('question_answers')
+                    ->where('mid_question_id', $question->id)
+                    ->pluck('id');
+                $childIds = DB::table('question_answers')
+                    ->whereIn('child_id', $questionAnswerIds)
+                    ->pluck('mid_question_id');
+                return count($childIds) > 0;
+            } else {
+                return true;
+            }
+        });
+
         foreach ($questions as $question) {
             $question_answers = DB::table('question_answers')
                 ->where('mid_question_id', $question->id)
@@ -44,22 +58,6 @@ class MidSetupController extends Controller
             $question->question_answers = $question_answers;
         }
 
-        $questions = $questions->reject(function ($question) use ($childQuestions) {
-            if (in_array($question->id, $childQuestions)) {
-                $questionAnswerIds = DB::table('question_answers')
-                    ->where('mid_question_id', $question->id)
-                    ->pluck('id')
-                    ->toArray();
-                $childIds = DB::table('question_answers')
-                    ->whereIn('child_id', $questionAnswerIds)
-                    ->pluck('mid_question_id')
-                    ->toArray();
-                return count($childIds) > 0;
-            } else {
-                return true;
-            }
-        });
-
         return view('admin.mid_setup.create', compact('questions', 'childQuestions' ));
     }
 
@@ -73,6 +71,32 @@ class MidSetupController extends Controller
         $questions = $questions->reject(function ($question) use ($questionIds) {
             return !in_array($question->id, $questionIds);
         });
+
+        $childQuestionsRelation = [];
+
+        foreach ($midSetupAnswers as $answer) {
+            $question_answer = DB::table('question_answers')
+                ->where('mid_question_id', $answer->mid_question_id)
+                ->where('mid_answer_id', $answer->mid_answer_id)
+                ->first();
+            $child_question_id = DB::table('question_answers')
+                ->where('id', $question_answer->child_id)
+                ->first();
+            if ($childQuestionsRelation) {
+                $parentQuestionIds = array_unique(array_column($childQuestionsRelation, 'parent_question_id'));
+                if (!in_array($answer->mid_question_id, $parentQuestionIds)) {
+                    $childQuestionsRelation[] = [
+                        'parent_question_id' => $answer->mid_question_id,
+                        'child_question_id' => $child_question_id->mid_question_id,
+                    ];
+                }
+            } else {
+                $childQuestionsRelation[] = [
+                    'parent_question_id' => $answer->mid_question_id,
+                    'child_question_id' => $child_question_id->mid_question_id,
+                ];
+            }
+        }
 
         foreach ($questions as $question) {
             $relatedAnswers = $midSetupAnswers->where('mid_question_id', $question->id);
@@ -107,7 +131,7 @@ class MidSetupController extends Controller
             $question->question_answers = $question_answers;
         }
 
-        return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions', 'questionIds'));
+        return view('admin.mid_setup.edit', compact('midSetup', 'midSetupAnswers', 'questions', 'questionIds', 'childQuestionsRelation'));
     }
 
     public function show($id)
@@ -178,6 +202,14 @@ class MidSetupController extends Controller
             }
         }
 
+        if (!isset($data['midName']) || empty($data['midName'])) {
+            return response()->json(['success' => false, 'message' => 'Mid name is required']);
+        }
+
+        if (count($groupedData) == 0) {
+            return response()->json(['success' => false, 'message' => 'Please select at least one question']);
+        }
+
         $midSetup = MidSetup::create([
             'title' => $data['midName'],
         ]);
@@ -204,6 +236,8 @@ class MidSetupController extends Controller
                 }
             }
         }
+
+        session()->flash('midSetupId', $midSetup->id);
 
         return response()->json(['success' => true, 'message' => 'Mid setup created successfully']);
     }
@@ -278,7 +312,18 @@ class MidSetupController extends Controller
                                     $midSetupAnswer[$i]->update([
                                         'value' => $value,
                                     ]);
+                                } else {
+                                    MidSetupAnswers::create([
+                                        'mid_setup_id' => $midSetup->id,
+                                        'mid_question_id' => $question['question_id'],
+                                        'mid_answer_id' => $keyParts[1],
+                                        'value' => $value,
+                                    ]);
                                 }
+                            } else {
+                                $midSetupAnswer[$i]->update([
+                                    'value' => $value,
+                                ]);
                             }
                         }
                     } else {

@@ -56,3 +56,9 @@ if (!function_exists('getUnits')) {
         return $units[$key];
     }
 }
+
+if (!function_exists('getOrientationsType')){
+    function getOrientationsType(){
+        return ['ART', 'ATR', 'TRA', 'TAR', 'HVA', 'HAV', 'VHA', 'VAH', 'AVH', 'AHV', 'XYZ', 'XZY', 'YXZ', 'YZX', 'ZXY', 'ZYX'];
+    }
+}
