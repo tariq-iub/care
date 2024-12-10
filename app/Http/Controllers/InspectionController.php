@@ -12,7 +12,9 @@ class InspectionController extends Controller
      */
     public function index()
     {
-        //
+        $inspections = Inspection::all();
+
+        return view('admin.inspections.index', compact('inspections'));
     }
 
     /**
@@ -20,7 +22,7 @@ class InspectionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.inspections.create');
     }
 
     /**
@@ -28,7 +30,22 @@ class InspectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate incoming request
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'visitor_name' => 'nullable|string|max:255',
+            'scheduled_at' => 'nullable|date',
+            'taken_up' => 'required|boolean',
+            'status' => 'required|string|in:Pending,In Progress,Completed',
+            'type' => 'nullable|string|in:Visit,Remote',
+            'inspection_type' => 'nullable|string|in:Routine,Emergency,Post-Maintenance',
+        ]);
+
+        // Create the inspection
+        Inspection::create($validated);
+
+        // Redirect back with success message
+        return redirect()->route('inspections.index')->with('success', 'Inspection created successfully.');
     }
 
     /**
@@ -44,7 +61,7 @@ class InspectionController extends Controller
      */
     public function edit(Inspection $inspection)
     {
-        //
+        return view('admin.inspections.edit', compact('inspection'));
     }
 
     /**
@@ -52,7 +69,22 @@ class InspectionController extends Controller
      */
     public function update(Request $request, Inspection $inspection)
     {
-        //
+        // Validate incoming request
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'visitor_name' => 'nullable|string|max:255',
+            'scheduled_at' => 'nullable|date',
+            'taken_up' => 'required|boolean',
+            'status' => 'required|string|in:Pending,In Progress,Completed',
+            'type' => 'nullable|string|in:Visit,Remote',
+            'inspection_type' => 'nullable|string|in:Routine,Emergency,Post-Maintenance',
+        ]);
+
+        // Update the inspection
+        $inspection->update($validated);
+
+        // Redirect back with success message
+        return redirect()->route('inspections.index')->with('success', 'Inspection updated successfully.');
     }
 
     /**
@@ -60,6 +92,10 @@ class InspectionController extends Controller
      */
     public function destroy(Inspection $inspection)
     {
-        //
+        // Delete the inspection
+        $inspection->delete();
+
+        // Redirect back with success message
+        return redirect()->route('inspections.index')->with('success', 'Inspection deleted successfully.');
     }
 }
