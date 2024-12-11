@@ -11,7 +11,7 @@
     </nav>
 
     <h2 class="text-bold text-body-emphasis mb-5">Inspections List</h2>
-    <div id="users" data-list='{"valueNames":["title","visitor_name","type","inspection_type","taken_up","status"],"page":10,"pagination":true}'>
+    <div id="users" data-list='{"valueNames":["title","visitor_name","type","taken_up","status"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -39,7 +39,6 @@
                         <th class="sort align-middle" scope="col" data-sort="title" style="width:30%; min-width:200px;">Title</th>
                         <th class="sort align-middle" scope="col" data-sort="visitor_name" style="width:30%; min-width:200px;">Visitor Name</th>
                         <th class="sort align-middle" scope="col" data-sort="type" style="width:10%;">Type</th>
-                        <th class="sort align-middle" scope="col" data-sort="inspection_type" style="width:10%;">Inspection Type</th>
                         <th class="sort align-middle" scope="col" data-sort="taken_up" style="width:10%;">Taken Up</th>
                         <th class="sort align-middle" scope="col" data-sort="status" style="width:10%;">Status</th>
                         <th class="sort align-middle" scope="col" style="width:10%;">Scheduled at</th>
@@ -47,7 +46,7 @@
                     </tr>
                     </thead>
                     <tbody class="list">
-                    @foreach($users as $row)
+                    @foreach($inspections as $row)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="align-middle white-space-nowrap title">
                                 <div class="d-flex align-items-center text-body text-hover-1000 ps-2">
@@ -63,12 +62,11 @@
                                 </div>
                             </td>
 
-                            <td class="align-middle type">
-                                {{ $row->type }}
-                            </td>
-
-                            <td class="role align-middle white-space-nowrap text-body inspection_type">
-                                {{ $row->inspection_type }}
+                            <td class="role align-middle white-space-nowrap text-body type">
+                                <div class="mb-0 ms-3 fw-semibold">
+                                    {{ $row->type }}
+                                    <div class="text-info small">{{ $row->inspection_type }}</div>
+                                </div>
                             </td>
 
                             <td class="align-middle taken_up">
@@ -101,9 +99,6 @@
                     </tbody>
                 </table>
             </div>
-
-            {{ $inspections->links('pagination::bootstrap-5') }}
-
         </div>
     </div>
 @endsection
