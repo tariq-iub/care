@@ -21,6 +21,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(50);
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -30,6 +31,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
+
         return view('admin.users.create', compact('roles'));
     }
 
@@ -131,6 +133,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return redirect()->route('users.index')->with('message', 'User has been deleted successfully.');
     }
 
