@@ -123,11 +123,13 @@
                                             @endif
                                         </div>
                                     </div>
+
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
                                                 <h5 class="mb-0 text-body-highlight me-2">Status</h5>
-                                            </div><select class="form-select mb-3" aria-label="status" name="status" required>
+                                            </div>
+                                            <select class="form-select mb-3" aria-label="status" name="status" required>
                                                 <option value="1">Active</option>
                                                 <option value="0">Blocked</option>
                                             </select>

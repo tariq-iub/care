@@ -85,6 +85,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Type</h4>
+
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
@@ -93,22 +94,17 @@
                                             </div>
                                             <select class="form-select" id="type" name="type">
                                                 <option value="">None</option>
-                                                <option value="Visit" {{ old('type', $inspection->type) == "Visit" ? 'selected' : '' }}>
+                                                <option value="visit" {{ old('type', $inspection->type) == "visit" ? 'selected' : '' }}>
                                                     Visit
                                                 </option>
-                                                <option value="Remote" {{ old('type', $inspection->type) == "Remote" ? 'selected' : '' }}>
+                                                <option value="remote" {{ old('type', $inspection->type) == "remote" ? 'selected' : '' }}>
                                                     Remote
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h4 class="card-title mb-4">Inspection Type</h4>
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
