@@ -37,7 +37,7 @@ class InspectionController extends Controller
             'scheduled_at' => 'nullable|date',
             'taken_up' => 'required|boolean',
             'status' => 'required|string|in:Pending,In Progress,Completed',
-            'type' => 'nullable|string|in:Visit,Remote',
+            'type' => 'nullable|string|in:visit,remote',
             'inspection_type' => 'nullable|string|in:Routine,Emergency,Post-Maintenance',
         ]);
 
@@ -76,7 +76,7 @@ class InspectionController extends Controller
             'scheduled_at' => 'nullable|date',
             'taken_up' => 'required|boolean',
             'status' => 'required|string|in:Pending,In Progress,Completed',
-            'type' => 'nullable|string|in:Visit,Remote',
+            'type' => 'nullable|string|in:visit,remote',
             'inspection_type' => 'nullable|string|in:Routine,Emergency,Post-Maintenance',
         ]);
 
