@@ -46,7 +46,7 @@
 
                 <div class="mb-5">
                     <h5>Scheduled At</h5>
-                    <input type="datetime-local" class="form-control" id="scheduled_at" name="scheduled_at"
+                    <input type="date" class="form-control" id="scheduled_at" name="scheduled_at"
                            value="{{ old('scheduled_at') }}">
                 </div>
 
@@ -79,36 +79,32 @@
                     <div class="col-12 col-xl-12">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Type</h4>
+                                <h4 class="card-title mb-4">Organize</h4>
+
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Select Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Type</h5>
                                             </div>
                                             <select class="form-select" id="type" name="type">
                                                 <option value="">None</option>
-                                                <option value="Visit" {{ (old('type') == "Visit") ? 'selected' : '' }}>
+                                                <option value="visit" {{ (old('type') == "visit") ? 'selected' : '' }}>
                                                     Visit
                                                 </option>
-                                                <option value="Remote" {{ (old('type') == "Remote") ? 'selected' : '' }}>
+                                                <option value="remote" {{ (old('type') == "remote") ? 'selected' : '' }}>
                                                     Remote
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h4 class="card-title mb-4">Inspection Type</h4>
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Select Inspection Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Inspection Type</h5>
                                             </div>
                                             <select class="form-select" id="inspection_type" name="inspection_type">
                                                 <option value="">None</option>

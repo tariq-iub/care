@@ -25,7 +25,8 @@
             <div class="col-auto">
                 <div class="d-flex align-items-center">
                     <a class="btn btn-primary" href="{{ route('inspections.create') }}">
-                        <span class="fas fa-plus me-2"></span>Add user
+                        <span class="fas fa-plus me-2"></span>
+                        Add inspection
                     </a>
                 </div>
             </div>
