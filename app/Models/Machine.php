@@ -25,4 +25,9 @@ class Machine extends Model
     {
         return $this->belongsTo(MidSetup::class);
     }
+
+    public function surveys()
+    {
+        return $this->belongsToMany(Survey::class, 'survey_machine');
+    }
 }

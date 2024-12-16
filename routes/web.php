@@ -73,7 +73,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
     Route::resource('/inspections', InspectionController::class);
-    Route::resource('/surveys', SurveyController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/question', QuestionController::class)->except(['show']);
@@ -81,6 +80,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/machines', MachineController::class);
     Route::resource('/new-mid', NewMidController::class)->except(['show', 'edit', 'update', 'destroy']);
     Route::resource('/fault-codes', FaultCodesController::class)->except(['create', 'show', 'edit']);
+
+    Route::resource('/surveys', SurveyController::class);
+    Route::post('/surveys/survey_machine_attachment', [SurveyController::class, 'attachMachines'])->name('surveys.survey_machine_attachment');
+    Route::post('/surveys/survey_machine_detachment', [SurveyController::class, 'detachMachines'])->name('surveys.survey_machine_detachment');
+
 
     Route::controller(DataFileController::class)
         ->as('data.')
