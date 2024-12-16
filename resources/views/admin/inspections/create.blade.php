@@ -29,6 +29,7 @@
             <div class="col-12 col-xl-8">
                 <div class="mb-5">
                     <h5>Title</h5>
+
                     <input type="text" class="form-control" id="title" name="title"
                            value="{{ old('title') }}" required>
                     @if($errors->has('title'))
@@ -39,91 +40,20 @@
                 </div>
 
                 <div class="mb-5">
-                    <h5>Visitor Name</h5>
-                    <input type="text" class="form-control" id="visitor_name" name="visitor_name"
-                           value="{{ old('visitor_name') }}">
-                </div>
+                    <h5 class="mb-0 text-body-highlight me-2">Inspection Type</h5>
 
-                <div class="mb-5">
-                    <h5>Scheduled At</h5>
-                    <input type="date" class="form-control" id="scheduled_at" name="scheduled_at"
-                           value="{{ old('scheduled_at') }}">
-                </div>
-
-                <div class="mb-5">
-                    <h5>Taken Up</h5>
-                    <select class="form-select" id="taken_up" name="taken_up" required>
-                        <option value="1" {{ old('taken_up') ? 'selected' : '' }}>Yes</option>
-                        <option value="0" {{ old('taken_up') ? 'selected' : '' }}>No</option>
-                    </select>
-                </div>
-
-                <div class="mb-5">
-                    <h5>Status</h5>
-                    <select class="form-select" id="status" name="status" required>
-                        <option value="Pending" {{ (old('status') == "Pending") ? 'selected' : '' }}>
-                            Pending
+                    <select class="form-select" id="inspection_type" name="inspection_type">
+                        <option value="">None</option>
+                        <option value="Routine" {{ (old('inspection_type') == "Routine") ? 'selected' : '' }}>
+                            Routine
                         </option>
-                        <option value="In Progress" {{ (old('status') == "In Progress") ? 'selected' : '' }}>In
-                            Progress
+                        <option value="Emergency" {{ (old('inspection_type') == "Emergency") ? 'selected' : '' }}>
+                            Emergency
                         </option>
-                        <option value="Completed" {{ (old('status') == "Completed") ? 'selected' : '' }}>
-                            Completed
+                        <option value="Post-Maintenance" {{ (old('inspection_type') == "Post-Maintenance") ? 'selected' : '' }}>
+                            Post-Maintenance
                         </option>
                     </select>
-                </div>
-            </div>
-
-            <div class="col-12 col-xl-4">
-                <div class="row g-2">
-                    <div class="col-12 col-xl-12">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h4 class="card-title mb-4">Organize</h4>
-
-                                <div class="row gx-3">
-                                    <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
-                                            <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Type</h5>
-                                            </div>
-                                            <select class="form-select" id="type" name="type">
-                                                <option value="">None</option>
-                                                <option value="visit" {{ (old('type') == "visit") ? 'selected' : '' }}>
-                                                    Visit
-                                                </option>
-                                                <option value="remote" {{ (old('type') == "remote") ? 'selected' : '' }}>
-                                                    Remote
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row gx-3">
-                                    <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
-                                            <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Inspection Type</h5>
-                                            </div>
-                                            <select class="form-select" id="inspection_type" name="inspection_type">
-                                                <option value="">None</option>
-                                                <option value="Routine" {{ (old('inspection_type') == "Routine") ? 'selected' : '' }}>
-                                                    Routine
-                                                </option>
-                                                <option value="Emergency" {{ (old('inspection_type') == "Emergency") ? 'selected' : '' }}>
-                                                    Emergency
-                                                </option>
-                                                <option value="Post-Maintenance" {{ (old('inspection_type') == "Post-Maintenance") ? 'selected' : '' }}>
-                                                    Post-Maintenance
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
