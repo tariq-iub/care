@@ -11,7 +11,7 @@
     </nav>
 
     <h2 class="text-bold text-body-emphasis mb-5">Inspections List</h2>
-    <div id="users" data-list='{"valueNames":["title","visitor_name","type","taken_up","status"],"page":10,"pagination":true}'>
+    <div id="users" data-list='{"valueNames":["title","inspection_type"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -38,11 +38,7 @@
                     <thead>
                     <tr>
                         <th class="sort align-middle" scope="col" data-sort="title" style="width:30%; min-width:200px;">Title</th>
-                        <th class="sort align-middle" scope="col" data-sort="visitor_name" style="width:30%; min-width:200px;">Visitor Name</th>
-                        <th class="sort align-middle" scope="col" data-sort="type" style="width:10%;">Type</th>
-                        <th class="sort align-middle" scope="col" data-sort="taken_up" style="width:10%;">Taken Up</th>
-                        <th class="sort align-middle" scope="col" data-sort="status" style="width:10%;">Status</th>
-                        <th class="sort align-middle" scope="col" style="width:10%;">Scheduled at</th>
+                        <th class="sort align-middle" scope="col" data-sort="inspection_type" style="width:10%;">Type</th>
                         <th class="no-sort align-middle text-end">Action</th>
                     </tr>
                     </thead>
@@ -57,29 +53,10 @@
                                 </div>
                             </td>
 
-                            <td class="email align-middle white-space-nowrap visitor_name">
-                                <div class="mb-0 ms-3 fw-semibold">
-                                    {{ $row->visitor_name }}
-                                </div>
-                            </td>
-
                             <td class="role align-middle white-space-nowrap text-body type">
                                 <div class="mb-0 ms-3 fw-semibold">
-                                    {{ $row->type }}
-                                    <div class="text-info small">{{ $row->inspection_type }}</div>
+                                    {{ $row->inspection_type }}
                                 </div>
-                            </td>
-
-                            <td class="align-middle taken_up">
-                                {{ $row->taken_up }}
-                            </td>
-
-                            <td class="align-middle status">
-                                {{ $row->status }}
-                            </td>
-
-                            <td class="align-middle">
-                                {{ $row->scheduled_at }}
                             </td>
 
                             <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
