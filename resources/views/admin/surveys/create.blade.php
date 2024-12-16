@@ -4,24 +4,25 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('inspections.index') }}">Inspections</a></li>
-            <li class="breadcrumb-item active">Add Inspection</li>
+            <li class="breadcrumb-item"><a href="{{ route('surveys.index') }}">Surveys</a></li>
+            <li class="breadcrumb-item active">Add Survey</li>
         </ol>
     </nav>
 
-    <form action="{{ route('inspections.store') }}" method="POST">
+    <form action="{{ route('surveys.store') }}" method="POST">
         @csrf
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
-                <h2 class="mb-2">Create Inspection</h2>
+                <h2 class="mb-2">Create Survey</h2>
                 <h5 class="text-body-tertiary fw-semibold">
-                    Add a new inspection.
+                    Add a new survey.
                 </h5>
             </div>
+
             <div class="col-auto">
-                <a href="{{ route('inspections.index') }}"
+                <a href="{{ route('surveys.index') }}"
                    class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Discard</a>
-                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Add Inspection</button>
+                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Add Survey</button>
             </div>
         </div>
 
@@ -29,19 +30,25 @@
             <div class="col-12 col-xl-8">
                 <div class="mb-5">
                     <h5>Title</h5>
-                    <input type="text" class="form-control" id="title" name="title"
-                           value="{{ old('title') }}" required>
-                    @if($errors->has('title'))
+                    <input type="text" class="form-control" id="survey_name" name="survey_name"
+                           value="{{ old('survey_name') }}" required>
+                    @if($errors->has('survey_name'))
                         <div class="text-danger small">
-                            {{ $errors->first('title') }}
+                            {{ $errors->first('survey_name') }}
                         </div>
                     @endif
                 </div>
 
                 <div class="mb-5">
-                    <h5>Visitor Name</h5>
-                    <input type="text" class="form-control" id="visitor_name" name="visitor_name"
-                           value="{{ old('visitor_name') }}">
+                    <h5>Survey Type</h5>
+                    <select class="form-select" id="survey_type" name="survey_type" required>
+                        <option value="visit" {{ (old('survey_type') == "visit") ? 'selected' : '' }}>
+                            Visit
+                        </option>
+                        <option value="remote" {{ (old('survey_type') == "remote") ? 'selected' : '' }}>
+                            Remote
+                        </option>
+                    </select>
                 </div>
 
                 <div class="mb-5">
@@ -85,16 +92,16 @@
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Inspection</h5>
                                             </div>
-                                            <select class="form-select" id="type" name="type">
+                                            <select class="form-select" id="inspection_id" name="inspection_id">
                                                 <option value="">None</option>
-                                                <option value="visit" {{ (old('type') == "visit") ? 'selected' : '' }}>
-                                                    Visit
-                                                </option>
-                                                <option value="remote" {{ (old('type') == "remote") ? 'selected' : '' }}>
-                                                    Remote
-                                                </option>
+
+                                                @foreach($inspections as $row)
+                                                    <option value="{{ $row->id }}">
+                                                        {{ $row->title }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -104,19 +111,16 @@
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Inspection Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Engineer</h5>
                                             </div>
-                                            <select class="form-select" id="inspection_type" name="inspection_type">
+                                            <select class="form-select" id="engineer_id" name="engineer_id">
                                                 <option value="">None</option>
-                                                <option value="Routine" {{ (old('inspection_type') == "Routine") ? 'selected' : '' }}>
-                                                    Routine
-                                                </option>
-                                                <option value="Emergency" {{ (old('inspection_type') == "Emergency") ? 'selected' : '' }}>
-                                                    Emergency
-                                                </option>
-                                                <option value="Post-Maintenance" {{ (old('inspection_type') == "Post-Maintenance") ? 'selected' : '' }}>
-                                                    Post-Maintenance
-                                                </option>
+
+                                                @foreach($engineers as $row)
+                                                    <option value="{{ $row->id }}">
+                                                        {{ $row->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
