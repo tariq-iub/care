@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inspection;
 use App\Models\Survey;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -12,7 +14,9 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        //
+        $surveys = Survey::all();
+
+        return view('admin.surveys.index', compact('surveys'));
     }
 
     /**
@@ -20,7 +24,10 @@ class SurveyController extends Controller
      */
     public function create()
     {
-        //
+        $inspections = Inspection::all();
+        $engineers = User::all();
+
+        return view('admin.surveys.create', compact('inspections', 'engineers'));
     }
 
     /**
@@ -28,7 +35,27 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'survey_name' => 'required|string|max:255',
+            'survey_type' => 'nullable|string|max:255',
+            'scheduled_at' => 'nullable|date',
+            'taken_up' => 'required|boolean',
+            'status' => 'required|string|in:Pending,In Progress,Completed',
+            'inspection_id' => 'nullable|exists:inspections,id',
+            'engineer_id' => 'nullable|exists:users,id',
+        ]);
+
+        Survey::create([
+            'survey_name' => $request->survey_name,
+            'survey_type' => $request->survey_type,
+            'scheduled_at' => $request->scheduled_at,
+            'taken_up' => $request->taken_up,
+            'status' => $request->status,
+            'inspection_id' => $request->inspection_id,
+            'engineer_id' => $request->engineer_id,
+        ]);
+
+        return redirect()->route('surveys.index')->with('success', 'Survey created successfully.');
     }
 
     /**
@@ -36,7 +63,7 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey)
     {
-        //
+        return view('admin.surveys.show', compact('survey'));
     }
 
     /**
@@ -44,7 +71,10 @@ class SurveyController extends Controller
      */
     public function edit(Survey $survey)
     {
-        //
+        $inspections = Inspection::all();
+        $engineers = User::all();
+
+        return view('admin.surveys.edit', compact('survey', 'inspections', 'engineers'));
     }
 
     /**
@@ -52,7 +82,27 @@ class SurveyController extends Controller
      */
     public function update(Request $request, Survey $survey)
     {
-        //
+        $request->validate([
+            'survey_name' => 'required|string|max:255',
+            'survey_type' => 'nullable|string|max:255',
+            'scheduled_at' => 'nullable|date',
+            'taken_up' => 'required|boolean',
+            'status' => 'required|string|in:Pending,In Progress,Completed',
+            'inspection_id' => 'nullable|exists:inspections,id',
+            'engineer_id' => 'nullable|exists:users,id',
+        ]);
+
+        $survey->update([
+            'survey_name' => $request->survey_name,
+            'survey_type' => $request->survey_type,
+            'scheduled_at' => $request->scheduled_at,
+            'taken_up' => $request->taken_up,
+            'status' => $request->status,
+            'inspection_id' => $request->inspection_id,
+            'engineer_id' => $request->engineer_id,
+        ]);
+
+        return redirect()->route('surveys.index')->with('success', 'Survey updated successfully.');
     }
 
     /**
@@ -60,6 +110,8 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        //
+        $survey->delete();
+
+        return redirect()->route('surveys.index')->with('success', 'Survey deleted successfully.');
     }
 }
