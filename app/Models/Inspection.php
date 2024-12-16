@@ -13,12 +13,7 @@ class Inspection extends Model
 
     protected $fillable = [
         'title',
-        'visitor_name',
-        'type',
         'inspection_type',
-        'taken_up',
-        'status',
-        'scheduled_at',
     ];
 
     protected $casts = [
