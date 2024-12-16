@@ -99,6 +99,8 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                         <a class="dropdown-item" href="{{ route('surveys.edit', $row->id) }}">Edit</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $survey->id }}" data-bs-toggle="modal" data-bs-target="#machineAttachmentModal">Attach Machines</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $survey->id }}" data-bs-toggle="modal" data-bs-target="#machineDetachmentModal">Detach Machines</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-danger" href="javascript:void(0)">Remove</a>
                                     </div>
@@ -111,10 +113,86 @@
             </div>
         </div>
     </div>
+
+    <!-- Machine Attachment Modal -->
+    <div class="modal fade" id="machineAttachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="machineAttachmentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 class="modal-title" id="machineAttachmentLabel">Machine Attachment</h5>
+                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="fas fa-times fs-9"></span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ route('surveys.survey_machine_attachment') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="survey-id" name="survey_id" value="">
+                        <div class="machine-list"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine Detachment Modal -->
+    <div class="modal fade" id="machineDetachmentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="machineDetachmentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 class="modal-title" id="machineDetachmentLabel">Machine Detachment</h5>
+                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="fas fa-times fs-9"></span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ route('surveys.survey_machine_detachment') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" id="detach-survey-id" name="survey_id" value="">
+                        <div class="machine-list"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
-@push("scripts")
+@push('scripts')
     <script>
+        // Load machine attachment modal
+        $('#machineAttachmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var surveyId = button.data('id'); // Extract survey ID
+            $('#survey-id').val(surveyId); // Set survey ID in the hidden input
 
+            var machineList = $(this).find('.machine-list'); // Target list container
+
+            // Fetch available machines for attachment
+            $.get(`{{ url('/api/surveys/attach_machines/${surveyId}') }}`, function (response) {
+                $(machineList).html(response.list); // Populate the modal with response
+            });
+        });
+
+        // Load machine detachment modal
+        $('#machineDetachmentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var surveyId = button.data('id'); // Extract survey ID
+            $('#detach-survey-id').val(surveyId); // Set survey ID in the hidden input
+
+            var machineList = $(this).find('.machine-list'); // Target list container
+
+            // Fetch attached machines for detachment
+            $.get(`{{ url('/api/surveys/detach_machines/${surveyId}') }}`, function (response) {
+                $(machineList).html(response.list); // Populate the modal with response
+            });
+        });
     </script>
 @endpush

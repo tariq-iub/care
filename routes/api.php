@@ -13,6 +13,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ServiceRepresentativeController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

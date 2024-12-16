@@ -28,4 +28,9 @@ class Survey extends Model
     {
         return $this->belongsTo(User::class, 'engineer_id');
     }
+
+    public function machines()
+    {
+        return $this->belongsToMany(MachineInfo::class, 'survey_machine');
+    }
 }

@@ -114,4 +114,26 @@ class SurveyController extends Controller
 
         return redirect()->route('surveys.index')->with('success', 'Survey deleted successfully.');
     }
+
+    public function attachMachines(Request $request)
+    {
+        $surveyId = $request->input('survey_id');
+        $machineIds = $request->input('machine_ids', []);
+
+        // Attach machines to the survey
+        Survey::findOrFail($surveyId)->machines()->syncWithoutDetaching($machineIds);
+
+        return redirect()->back()->with('success', 'Machines attached successfully!');
+    }
+
+    public function detachMachines(Request $request)
+    {
+        $surveyId = $request->input('survey_id');
+        $machineIds = $request->input('machine_ids', []);
+
+        // Detach machines from the survey
+        Survey::findOrFail($surveyId)->machines()->detach($machineIds);
+
+        return redirect()->back()->with('success', 'Machines detached successfully!');
+    }
 }
