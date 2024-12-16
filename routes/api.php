@@ -79,3 +79,6 @@ Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetc
 
 Route::post('/new-mid/save', [NewMidController::class, 'store']);
 Route::post('/machine/save', [MachineController::class, 'store']);
+
+Route::get('/surveys/attach_machines/{surveyId}', [SurveyController::class, 'getAttachMachines']);
+Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'getDetachMachines']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inspection;
+use App\Models\MachineInfo;
 use App\Models\Survey;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -135,5 +136,34 @@ class SurveyController extends Controller
         Survey::findOrFail($surveyId)->machines()->detach($machineIds);
 
         return redirect()->back()->with('success', 'Machines detached successfully!');
+    }
+
+    // Get available machines for attachment
+    public function getAttachMachines($surveyId)
+    {
+        $survey = Survey::findOrFail($surveyId);
+        $machine_ids = $survey->machines()->pluck('machine_infos.id')->toArray();
+
+        // Get machines that are not already attached to the survey
+        $machines = MachineInfo::whereNotIn('id', $machine_ids)->get();
+
+        return response()->json([
+            'list' => view('admin.surveys.partials.machines_assignment_body', ['machines' => $machines])->render(),
+            'message' => 'success',
+        ]);
+    }
+
+    // Get attached machines for detachment
+    public function getDetachMachines($surveyId)
+    {
+        $survey = Survey::findOrFail($surveyId);
+
+        // Get machines that are already attached to the survey
+        $machines = $survey->machines;
+
+        return response()->json([
+            'list' => view('admin.surveys.partials.machines_assignment_body', ['machines' => $machines])->render(),
+            'message' => 'success',
+        ]);
     }
 }
