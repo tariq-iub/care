@@ -6,12 +6,12 @@
             <li class="breadcrumb-item">
                 <a href="{{ url('/home') }}">Home</a>
             </li>
-            <li class="breadcrumb-item active">Inspections</li>
+            <li class="breadcrumb-item active">Surveys</li>
         </ol>
     </nav>
 
-    <h2 class="text-bold text-body-emphasis mb-5">Inspections List</h2>
-    <div id="users" data-list='{"valueNames":["title","visitor_name","type","taken_up","status"],"page":10,"pagination":true}'>
+    <h2 class="text-bold text-body-emphasis mb-5">Surveys List</h2>
+    <div id="users" data-list='{"valueNames":["title","inspection","engineer","status"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
@@ -24,9 +24,9 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <a class="btn btn-primary" href="{{ route('inspections.create') }}">
+                    <a class="btn btn-primary" href="{{ route('surveys.create') }}">
                         <span class="fas fa-plus me-2"></span>
-                        Add inspection
+                        Add survey
                     </a>
                 </div>
             </div>
@@ -38,44 +38,53 @@
                     <thead>
                     <tr>
                         <th class="sort align-middle" scope="col" data-sort="title" style="width:30%; min-width:200px;">Title</th>
-                        <th class="sort align-middle" scope="col" data-sort="visitor_name" style="width:30%; min-width:200px;">Visitor Name</th>
-                        <th class="sort align-middle" scope="col" data-sort="type" style="width:10%;">Type</th>
-                        <th class="sort align-middle" scope="col" data-sort="taken_up" style="width:10%;">Taken Up</th>
+                        <th class="sort align-middle" scope="col" data-sort="inspection" style="width:30%; min-width:200px;">Inspection</th>
+                        <th class="sort align-middle" scope="col" data-sort="engineer" style="width:10%;">Engineer</th>
                         <th class="sort align-middle" scope="col" data-sort="status" style="width:10%;">Status</th>
                         <th class="sort align-middle" scope="col" style="width:10%;">Scheduled at</th>
                         <th class="no-sort align-middle text-end">Action</th>
                     </tr>
                     </thead>
                     <tbody class="list">
-                    @foreach($inspections as $row)
+                    @foreach($surveys as $row)
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="align-middle white-space-nowrap title">
                                 <div class="d-flex align-items-center text-body text-hover-1000 ps-2">
                                     <div class="mb-0 ms-3 fw-semibold">
-                                        {{ $row->title }}
+                                        {{ $row->survey_name }}
+                                        <div class="text-info small">
+                                            {{ $row->survey_type }}
+                                        </div>
                                     </div>
                                 </div>
                             </td>
 
                             <td class="email align-middle white-space-nowrap visitor_name">
                                 <div class="mb-0 ms-3 fw-semibold">
-                                    {{ $row->visitor_name }}
+                                    {{ $row->inspection->title }}
                                 </div>
                             </td>
 
                             <td class="role align-middle white-space-nowrap text-body type">
                                 <div class="mb-0 ms-3 fw-semibold">
-                                    {{ $row->type }}
-                                    <div class="text-info small">{{ $row->inspection_type }}</div>
+                                    {{ $row->engineer->name }}
                                 </div>
-                            </td>
-
-                            <td class="align-middle taken_up">
-                                {{ $row->taken_up }}
                             </td>
 
                             <td class="align-middle status">
                                 {{ $row->status }}
+
+                                <div class="text-info small">
+                                    @if($row->taken_up)
+                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                            <span class="badge-label">Taken-Up</span>
+                                        </span>
+                                    @else
+                                        <span class="badge badge-phoenix fs-10 badge-phoenix-warning">
+                                            <span class="badge-label">Not Taken-Up</span>
+                                        </span>
+                                    @endif
+                                </div>
                             </td>
 
                             <td class="align-middle">
@@ -89,7 +98,7 @@
                                         <span class="fas fa-ellipsis fs-10"></span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                        <a class="dropdown-item" href="{{ route('inspections.edit', $row->id) }}">Edit</a>
+                                        <a class="dropdown-item" href="{{ route('surveys.edit', $row->id) }}">Edit</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-danger" href="javascript:void(0)">Remove</a>
                                     </div>

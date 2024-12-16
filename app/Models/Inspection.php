@@ -24,4 +24,9 @@ class Inspection extends Model
     {
         return $this->hasMany(DataFile::class);
     }
+
+    public function survey()
+    {
+        return $this->hasOne(Survey::class);
+    }
 }

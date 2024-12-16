@@ -18,6 +18,7 @@ use App\Http\Controllers\SensorDataController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ServiceRepresentativeController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
     Route::resource('/inspections', InspectionController::class);
+    Route::resource('/surveys', SurveyController::class);
     Route::resource('/sensor_data', SensorDataController::class);
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/question', QuestionController::class)->except(['show']);

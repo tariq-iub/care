@@ -4,25 +4,26 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('inspections.index') }}">Inspections</a></li>
-            <li class="breadcrumb-item active">Edit Inspection</li>
+            <li class="breadcrumb-item"><a href="{{ route('surveys.index') }}">Surveys</a></li>
+            <li class="breadcrumb-item active">Edit Survey</li>
         </ol>
     </nav>
 
-    <form action="{{ route('inspections.update', $inspection->id) }}" method="POST">
+    <form action="{{ route('surveys.update', $survey->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
-                <h2 class="mb-2">Edit Inspection</h2>
+                <h2 class="mb-2">Edit Survey</h2>
                 <h5 class="text-body-tertiary fw-semibold">
-                    Update the inspection details.
+                    Update survey details.
                 </h5>
             </div>
+
             <div class="col-auto">
-                <a href="{{ route('inspections.index') }}"
-                   class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Cancel</a>
-                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Update Inspection</button>
+                <a href="{{ route('surveys.index') }}"
+                   class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0">Discard</a>
+                <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Update Survey</button>
             </div>
         </div>
 
@@ -30,49 +31,53 @@
             <div class="col-12 col-xl-8">
                 <div class="mb-5">
                     <h5>Title</h5>
-                    <input type="text" class="form-control" id="title" name="title"
-                           value="{{ old('title', $inspection->title) }}" required>
-                    @if($errors->has('title'))
+                    <input type="text" class="form-control" id="survey_name" name="survey_name"
+                           value="{{ old('survey_name', $survey->survey_name) }}" required>
+                    @if($errors->has('survey_name'))
                         <div class="text-danger small">
-                            {{ $errors->first('title') }}
+                            {{ $errors->first('survey_name') }}
                         </div>
                     @endif
                 </div>
 
                 <div class="mb-5">
-                    <h5>Visitor Name</h5>
-                    <input type="text" class="form-control" id="visitor_name" name="visitor_name"
-                           value="{{ old('visitor_name', $inspection->visitor_name) }}">
+                    <h5>Survey Type</h5>
+                    <select class="form-select" id="survey_type" name="survey_type" required>
+                        <option value="visit" {{ (old('survey_type', $survey->survey_type) == "visit") ? 'selected' : '' }}>
+                            Visit
+                        </option>
+                        <option value="remote" {{ (old('survey_type', $survey->survey_type) == "remote") ? 'selected' : '' }}>
+                            Remote
+                        </option>
+                    </select>
                 </div>
 
                 <div class="mb-5">
                     <h5>Scheduled At</h5>
-                    <input type="datetime-local" class="form-control" id="scheduled_at" name="scheduled_at"
-                           value="{{ old('scheduled_at', $inspection->scheduled_at ? $inspection->scheduled_at->format('Y-m-d\TH:i') : '') }}">
+                    <input type="date" class="form-control" id="scheduled_at" name="scheduled_at"
+                           value="{{ old('scheduled_at', $survey->scheduled_at) }}">
                 </div>
 
                 <div class="mb-5">
                     <h5>Taken Up</h5>
                     <select class="form-select" id="taken_up" name="taken_up" required>
-                        <option value="1" {{ old('taken_up', $inspection->taken_up) == 1 ? 'selected' : '' }}>
-                            Yes
-                        </option>
-                        <option value="0" {{ old('taken_up', $inspection->taken_up) == 0 ? 'selected' : '' }}>
-                            No
-                        </option>
+                        <option value="1" {{ old('taken_up', $survey->taken_up) == 1 ? 'selected' : '' }}>Yes</option>
+                        <option value="0" {{ old('taken_up', $survey->taken_up) == 0 ? 'selected' : '' }}>No</option>
                     </select>
                 </div>
 
                 <div class="mb-5">
                     <h5>Status</h5>
                     <select class="form-select" id="status" name="status" required>
-                        <option value="Pending" {{ old('status', $inspection->status) == "Pending" ? 'selected' : '' }}>
+                        <option value="Pending" {{ old('status', $survey->status) == "Pending" ? 'selected' : '' }}>
                             Pending
                         </option>
-                        <option value="In Progress" {{ old('status', $inspection->status) == "In Progress" ? 'selected' : '' }}>
-                            In Progress
+                        <option
+                            value="In Progress" {{ old('status', $survey->status) == "In Progress" ? 'selected' : '' }}>
+                            In
+                            Progress
                         </option>
-                        <option value="Completed" {{ old('status', $inspection->status) == "Completed" ? 'selected' : '' }}>
+                        <option value="Completed" {{ old('status', $survey->status) == "Completed" ? 'selected' : '' }}>
                             Completed
                         </option>
                     </select>
@@ -84,22 +89,23 @@
                     <div class="col-12 col-xl-12">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Type</h4>
+                                <h4 class="card-title mb-4">Organize</h4>
 
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Select Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Inspection</h5>
                                             </div>
-                                            <select class="form-select" id="type" name="type">
+                                            <select class="form-select" id="inspection_id" name="inspection_id">
                                                 <option value="">None</option>
-                                                <option value="visit" {{ old('type', $inspection->type) == "visit" ? 'selected' : '' }}>
-                                                    Visit
-                                                </option>
-                                                <option value="remote" {{ old('type', $inspection->type) == "remote" ? 'selected' : '' }}>
-                                                    Remote
-                                                </option>
+
+                                                @foreach($inspections as $row)
+                                                    <option value="{{ $row->id }}"
+                                                        {{ old('inspection_id', $survey->inspection_id) == $row->id ? 'selected' : '' }}>
+                                                        {{ $row->title }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -109,19 +115,17 @@
                                     <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-body-highlight me-2">Select Inspection Type</h5>
+                                                <h5 class="mb-0 text-body-highlight me-2">Engineer</h5>
                                             </div>
-                                            <select class="form-select" id="inspection_type" name="inspection_type">
+                                            <select class="form-select" id="engineer_id" name="engineer_id">
                                                 <option value="">None</option>
-                                                <option value="Routine" {{ old('inspection_type', $inspection->inspection_type) == "Routine" ? 'selected' : '' }}>
-                                                    Routine
-                                                </option>
-                                                <option value="Emergency" {{ old('inspection_type', $inspection->inspection_type) == "Emergency" ? 'selected' : '' }}>
-                                                    Emergency
-                                                </option>
-                                                <option value="Post-Maintenance" {{ old('inspection_type', $inspection->inspection_type) == "Post-Maintenance" ? 'selected' : '' }}>
-                                                    Post-Maintenance
-                                                </option>
+
+                                                @foreach($engineers as $row)
+                                                    <option value="{{ $row->id }}"
+                                                        {{ old('engineer_id', $survey->engineer_id) == $row->id ? 'selected' : '' }}>
+                                                        {{ $row->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
