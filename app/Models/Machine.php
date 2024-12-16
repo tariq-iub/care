@@ -28,6 +28,6 @@ class Machine extends Model
 
     public function surveys()
     {
-        return $this->belongsToMany(Survey::class, 'survey_machine');
+        return $this->belongsToMany(Survey::class, 'survey_machine', 'machine_id', 'survey_id');
     }
 }

@@ -99,8 +99,8 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
                                         <a class="dropdown-item" href="{{ route('surveys.edit', $row->id) }}">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $survey->id }}" data-bs-toggle="modal" data-bs-target="#machineAttachmentModal">Attach Machines</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $survey->id }}" data-bs-toggle="modal" data-bs-target="#machineDetachmentModal">Detach Machines</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" data-bs-toggle="modal" data-bs-target="#machineAttachmentModal">Attach Machines</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-id="{{ $row->id }}" data-bs-toggle="modal" data-bs-target="#machineDetachmentModal">Detach Machines</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-danger" href="javascript:void(0)">Remove</a>
                                     </div>
