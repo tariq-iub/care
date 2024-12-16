@@ -31,6 +31,6 @@ class Survey extends Model
 
     public function machines()
     {
-        return $this->belongsToMany(MachineInfo::class, 'survey_machine');
+        return $this->belongsToMany(MachineInfo::class, 'survey_machine', 'survey_id', 'machine_id');
     }
 }

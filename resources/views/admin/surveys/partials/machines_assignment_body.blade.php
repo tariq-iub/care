@@ -6,7 +6,7 @@
 @forelse($machines as $machine)
     <div class="form-check machine-item">
         <input class="form-check-input" type="checkbox" id="check{{ $machine->id }}" name="machine_ids[]" value="{{ $machine->id }}">
-        <label class="form-check-label" for="check{{ $machine->id }}">{{ $machine->name }}</label>
+        <label class="form-check-label" for="check{{ $machine->id }}">{{ $machine->machine_name }}</label>
     </div>
 @empty
     <p class="text-danger">No machines available for attachment.</p>
