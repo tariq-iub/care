@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('machine_process_points', function (Blueprint $table) {
+        Schema::create('fault_codes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
-            $table->string('point_name');
-            $table->string('id_tag');
+            $table->string('code')->unique();
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('machine_process_points');
+        Schema::dropIfExists('fault_codes');
     }
 };

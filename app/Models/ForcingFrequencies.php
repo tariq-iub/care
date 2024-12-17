@@ -8,7 +8,7 @@ class ForcingFrequencies extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mid_setup_id', 'code', 'name', 'on_secondary', 'elements', 'final_ratio'];
+    protected $fillable = ['mid_setup_id', 'code', 'multiple', 'name', 'on_secondary', 'elements', 'final_ratio'];
 
     public function midSetup()
     {
