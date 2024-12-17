@@ -21,6 +21,7 @@ class DataFileController extends Controller
     {
         $plants = Plant::all();
         $devices = Device::all();
+
         return view('admin.data.index', compact('plants', 'devices'));
     }
 
@@ -31,6 +32,7 @@ class DataFileController extends Controller
     {
         $factories = Factory::all();
         $devices = Device::all();
+
         return view('admin.files.create', compact('factories', 'devices'));
     }
 
