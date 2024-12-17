@@ -9,10 +9,10 @@ class MachineVibrationLocations extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['machine_info_id', 'location_name', 'position', 'id_tag', 'orientation'];
+    protected $fillable = ['machine_id', 'location_name', 'position', 'id_tag', 'orientation'];
 
     public function machineInfo()
     {
-        return $this->belongsTo(MachineInfo::class);
+        return $this->belongsTo(Machine::class);
     }
 }

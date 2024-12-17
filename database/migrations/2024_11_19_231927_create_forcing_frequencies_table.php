@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mid_setup_id')->constrained('mid_setups')->onDelete('cascade');
             $table->string('code');
+            $table->string('multiple');
             $table->string('name');
             $table->boolean('on_secondary');
             $table->string('elements');

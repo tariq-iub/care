@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\SetPasswordController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DataFileController;
+use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MachineController;
@@ -77,6 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
     Route::resource('/machines', MachineController::class);
     Route::resource('/new-mid', NewMidController::class)->except(['show', 'edit', 'update', 'destroy']);
+    Route::resource('/fault-codes', FaultCodesController::class)->except(['create', 'show', 'edit']);
 
     Route::controller(DataFileController::class)
         ->as('data.')

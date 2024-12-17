@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             StripePricingPlansTableSeeder::class,
             PricingPlanFeaturesTableSeeder::class,
             PricingPlanFeatureAssignmentsTableSeeder::class,
+            FaultCodesTableSeeder::class,
         ]);
     }
 }

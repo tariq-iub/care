@@ -3,6 +3,7 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
+use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
@@ -78,3 +79,5 @@ Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetc
 
 Route::post('/new-mid/save', [NewMidController::class, 'store']);
 Route::post('/machine/save', [MachineController::class, 'store']);
+
+Route::get('/fault-codes/fetch-fault-code/{id}', [FaultCodesController::class, 'fetchFaultCode']);

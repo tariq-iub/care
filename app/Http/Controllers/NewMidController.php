@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\FaultCodes;
 use App\Models\ForcingFrequencies;
 use App\Models\MidComponents;
 use App\Models\MidGenerals;
@@ -28,22 +29,22 @@ class NewMidController extends Controller
         session()->forget('midSetupId');
 
         $midSetup = MidSetup::find($midSetupId);
-        Log::info('Mid Setup ID inside NewMidController');
-        Log::info($midSetupId);
+
+        $faultCodes = FaultCodes::all();
 
         $forcing_frequencies = [
-            ['code' => '1X', 'name' => '1X Shaft', 'on_secondary' => 'No', 'elements' => '1', 'final_ratio' => '1'],
-            ['code' => '2X', 'name' => '2X Shaft', 'on_secondary' => 'No', 'elements' => '2', 'final_ratio' => '1'],
-            ['code' => '3X', 'name' => '3X Shaft', 'on_secondary' => 'No', 'elements' => '3', 'final_ratio' => '1'],
-            ['code' => '4X', 'name' => '4X Shaft', 'on_secondary' => 'No', 'elements' => '4', 'final_ratio' => '1'],
-            ['code' => '5X', 'name' => '5X Shaft', 'on_secondary' => 'No', 'elements' => '5', 'final_ratio' => '1'],
-            ['code' => '6X', 'name' => '6X Shaft', 'on_secondary' => 'No', 'elements' => '6', 'final_ratio' => '1'],
-            ['code' => '7X', 'name' => '7X Shaft', 'on_secondary' => 'No', 'elements' => '7', 'final_ratio' => '1'],
-            ['code' => '8X', 'name' => '8X Shaft', 'on_secondary' => 'No', 'elements' => '8', 'final_ratio' => '1'],
-            ['code' => '9X', 'name' => '9X Shaft', 'on_secondary' => 'No', 'elements' => '9', 'final_ratio' => '1'],
-            ['code' => '10X', 'name' => '10X Shaft', 'on_secondary' => 'No', 'elements' => '10', 'final_ratio' => '1']
+            ['code' => '1X', 'multiple'=>'1', 'name' => '1X Shaft', 'on_secondary' => 'No', 'elements' => '1', 'final_ratio' => '1'],
+            ['code' => '2X', 'multiple'=>'1', 'name' => '2X Shaft', 'on_secondary' => 'No', 'elements' => '2', 'final_ratio' => '1'],
+            ['code' => '3X', 'multiple'=>'1', 'name' => '3X Shaft', 'on_secondary' => 'No', 'elements' => '3', 'final_ratio' => '1'],
+            ['code' => '4X', 'multiple'=>'1', 'name' => '4X Shaft', 'on_secondary' => 'No', 'elements' => '4', 'final_ratio' => '1'],
+            ['code' => '5X', 'multiple'=>'1', 'name' => '5X Shaft', 'on_secondary' => 'No', 'elements' => '5', 'final_ratio' => '1'],
+            ['code' => '6X', 'multiple'=>'1', 'name' => '6X Shaft', 'on_secondary' => 'No', 'elements' => '6', 'final_ratio' => '1'],
+            ['code' => '7X', 'multiple'=>'1', 'name' => '7X Shaft', 'on_secondary' => 'No', 'elements' => '7', 'final_ratio' => '1'],
+            ['code' => '8X', 'multiple'=>'1', 'name' => '8X Shaft', 'on_secondary' => 'No', 'elements' => '8', 'final_ratio' => '1'],
+            ['code' => '9X', 'multiple'=>'1', 'name' => '9X Shaft', 'on_secondary' => 'No', 'elements' => '9', 'final_ratio' => '1'],
+            ['code' => '10X', 'multiple'=>'1', 'name' => '10X Shaft', 'on_secondary' => 'No', 'elements' => '10', 'final_ratio' => '1']
         ];
-        return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies'));
+        return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies', 'faultCodes'));
     }
 
     public function store(Request $request)
@@ -54,9 +55,15 @@ class NewMidController extends Controller
         $components = $data['components'];
         $forcingFrequencies = $data['forcingFrequencies'];
 
-        $midSetup = MidSetup::where('id', $generalData['midNumber'])->first();
-        $midSetup->update(['title' => $generalData['name']]);
+        if (MidSetup::where('id', $generalData['midNumber'])->exists()) {
+            $midSetup = MidSetup::where('id', $generalData['midNumber'])->first();
+            $midSetup->update(['title' => $generalData['name']]);
+        }
 
+        $midSetup = MidSetup::create([
+            'id' => $generalData['midNumber'],
+            'title' => $generalData['name'],
+        ]);
         MidGenerals::where('mid_setup_id', $generalData['midNumber'])->delete();
         ForcingFrequencies::where('mid_setup_id', $generalData['midNumber'])->delete();
         MidComponents::where('mid_setup_id', $generalData['midNumber'])->delete();
@@ -74,6 +81,7 @@ class NewMidController extends Controller
             $forcingFrequency = ForcingFrequencies::create([
                 'mid_setup_id' => $generalData['midNumber'],
                 'code' => $forcingFrequency['code'],
+                'multiple' => $forcingFrequency['multiple'],
                 'name' => $forcingFrequency['name'],
                 'on_secondary' => $forcingFrequency['on_secondary'] == 'Yes' ? 1 : 0,
                 'elements' => $forcingFrequency['elements'],
