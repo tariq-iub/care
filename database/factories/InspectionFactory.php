@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,10 +18,11 @@ class InspectionFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'type' => fake()->randomElement(['visit', 'remote']),
-            'scheduled_at' => fake()->dateTimeBetween('-1 week', '+1 week'),
-            'visitor_name' => fake()->name(),
-            'taken_up' => fake()->boolean(),
+            'inspection_type' => fake()->randomElement([
+                'Routine',
+                'Emergency',
+                'Post-Maintenance'
+            ]),
         ];
     }
 }

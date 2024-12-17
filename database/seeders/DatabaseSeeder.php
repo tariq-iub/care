@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             PlantServiceRepsTableSeeder::class,
             InspectionsTableSeeder::class,
             NotesTableSeeder::class,
-            DataFileSeeder::class,
+//            DataFileSeeder::class,
             UserRegistrationSeeder::class,
             StripeProductsTableSeeder::class,
             StripePricingPlansTableSeeder::class,
@@ -36,9 +36,6 @@ class DatabaseSeeder extends Seeder
             PricingPlanFeatureAssignmentsTableSeeder::class,
             MidQuestionSeeder::class,
             FaultCodesTableSeeder::class,
-//            MidQuestionSeeder::class,
-//            MidAnswerSeeder::class,
-//            MidQuestionAnswerSeeder::class,
         ]);
     }
 }

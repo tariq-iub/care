@@ -19,7 +19,7 @@ return new class extends Migration
 
             // Adding foreign key constraints
             $table->foreign('device_id')->references('id')->on('devices')->onDelete('cascade');
-            $table->foreign('machine_id')->references('id')->on('machine_infos')->onDelete('cascade');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->foreign('vibration_location_id')->references('id')->on('machine_vibration_locations')->onDelete('cascade');
         });
     }
