@@ -3,6 +3,7 @@
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
+use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
@@ -82,3 +83,5 @@ Route::post('/machine/save', [MachineController::class, 'store']);
 
 Route::get('/surveys/attach_machines/{surveyId}', [SurveyController::class, 'getAttachMachines']);
 Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'getDetachMachines']);
+
+Route::get('/fault-codes/fetch-fault-code/{id}', [FaultCodesController::class, 'fetchFaultCode']);

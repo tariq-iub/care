@@ -187,7 +187,8 @@
                                     <div class="tab-pane" id="tab-frequencies" role="tabpanel" aria-labelledby="frequencies-tab">
                                         <form>
                                             <div class="col g-3">
-{{--                                                <button class="btn btn-primary edit-frequency-btn">Edit Item</button>--}}
+                                                <button class="btn btn-primary edit-frequency-btn" onclick="showAddForcingFrequencyModal(event)">Add</button>
+                                                <button class="btn btn-primary edit-frequency-btn" onclick="showEditForcingFrequencyModal(event)">Edit</button>
                                                 <div class="table-responsive scrollbar ms-n1 ps-1">
                                                     <table class="table table-sm fs-9 mb-0">
                                                         <thead>
@@ -197,6 +198,9 @@
                                                             </th>
                                                             <th class="sort align-middle" scope="col" style="width:15%; min-width:170px;">
                                                                 Code
+                                                            </th>
+                                                            <th class="sort align-middle d-none" scope="col">
+                                                                Multiple
                                                             </th>
                                                             <th class="sort align-middle" scope="col" style="width:20%; min-width:170px;">
                                                                 Name
@@ -218,19 +222,22 @@
                                                                 <td class="align-middle white-space-nowrap border-md">
                                                                     <i class="fas fa-caret-right d-none" style="font-size: 30px;"></i>
                                                                 </td>
-                                                                <td class="city align-middle white-space-nowrap border-md">
+                                                                <td class="code align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="location-name" id="location-name" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['code']}}">
                                                                 </td>
-                                                                <td class="city align-middle white-space-nowrap border-md">
+                                                                <td class="multiple align-middle white-space-nowrap border-md d-none">
+                                                                    <input type="text" name="multiple" id="multiple" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['multiple']}}">
+                                                                </td>
+                                                                <td class="name align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="position" id="position" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['name']}}">
                                                                 </td>
-                                                                <td class="email align-middle white-space-nowrap border-md">
+                                                                <td class="on_secondary align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['on_secondary']}}">
                                                                 </td>
-                                                                <td class="last_active align-middle white-space-nowrap border-md">
+                                                                <td class="elements align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="elements" id="elements" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['elements']}}">
                                                                 </td>
-                                                                <td class="last_active align-middle white-space-nowrap border-md">
+                                                                <td class="final_ratio align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="final-ratio" id="final-ratio" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['final_ratio']}}">
                                                                 </td>
                                                             </tr>
@@ -249,6 +256,101 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="add-forcing-frequency" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollingLongModalLabel2">Fault Code Wizard</h5>
+                    <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab1" id="bootstrap-vertical-wizard-tab1">
+                        <form id="wizardVerticalForm1" novalidate="novalidate" data-wizard-form="1">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label" for="fault-code">Select a fault code from the list</label>
+                                    <select class="form-select" id="fault-code" name="fault-code">
+                                        @foreach($faultCodes as $fault_code)
+                                            <option value="{{$fault_code->id}}">{{$fault_code->code}} | {{$fault_code->description}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5 class="text-bold text-body-emphasis">Enter the multiple of this fault code</h5>
+                                    <div class="form-group d-flex mb-3 align-items-center">
+                                        <label for="multiple" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Multiple</label>
+                                        <input type="number" class="form-control" id="multiple" name="multiple" required value="1">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5 class="text-bold text-body-emphasis">Edit the final code as needed</h5>
+                                    <div class="form-group d-flex mb-3 align-items-center">
+                                        <label for="final-code" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Final Code<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control me-2" id="final-code" name="final-code" value="" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit-forcing-frequency" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollingLongModalLabel2">Fault Code Wizard</h5>
+                    <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab1" id="bootstrap-vertical-wizard-tab1">
+                        <form id="wizardVerticalForm1" novalidate="novalidate" data-wizard-form="1">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label" for="fault-code">Select a fault code from the list</label>
+                                    <select class="form-select" id="fault-code" name="fault-code">
+                                        @foreach($faultCodes as $fault_code)
+                                            <option value="{{$fault_code->id}}">{{$fault_code->code}} | {{$fault_code->description}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5 class="text-bold text-body-emphasis">Enter the multiple of this fault code</h5>
+                                    <div class="form-group d-flex mb-3 align-items-center">
+                                        <label for="multiple" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Multiple</label>
+                                        <input type="number" class="form-control" id="multiple" name="multiple" required value="1">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5 class="text-bold text-body-emphasis">Edit the final code as needed</h5>
+                                    <div class="form-group d-flex mb-3 align-items-center">
+                                        <label for="final-code" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Final Code<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control me-2" id="final-code" name="final-code" value="" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -267,6 +369,68 @@
                 $(this).addClass('selected-row');
             });
         });
+
+        function showEditForcingFrequencyModal(event) {
+            event.preventDefault();
+            var modal = new bootstrap.Modal(document.getElementById('edit-forcing-frequency'), {});
+            modal.show();
+        }
+
+        function showAddForcingFrequencyModal(event) {
+            event.preventDefault();
+            var modal = new bootstrap.Modal(document.getElementById('add-forcing-frequency'), {});
+            modal.show();
+        }
+
+        function addNewForcingFrequency() {
+            let addForcingFrequencyModal = document.getElementById('add-forcing-frequency');
+            let faultCode = addForcingFrequencyModal.querySelector('#fault-code').textContent;
+            let multiple = addForcingFrequencyModal.querySelector('#multiple').value;
+            let finalCode = addForcingFrequencyModal.querySelector('#final-code').value;
+
+            let faultCodeSplit = faultCode.split('|');
+            faultCode = faultCodeSplit[0].trim();
+            let description = faultCodeSplit[1].trim();
+
+            let tableBody = document.getElementById('setups-table-body');
+            let newRow = document.createElement('tr');
+
+            let elements = tableBody.querySelectorAll('tr').length + 1;
+
+            newRow.innerHTML = `
+                <td class="align-middle white-space-nowrap border-md">
+                    <i class="fas fa-caret-right d-none" style="font-size: 30px;"></i>
+                </td>
+                <td class="code align-middle white-space-nowrap border-md">
+                    <input type="text" name="location-name" id="location-name" class="form-control w-100 h-100 border-0 rounded-0" value="${faultCode}">
+                </td>
+                <td class="multiple align-middle white-space-nowrap border-md d-none">
+                    <input type="text" name="multiple" id="multiple" class="form-control w-100 h-100 border-0 rounded-0" value="${multiple}">
+                </td>
+                <td class="name align-middle white-space-nowrap border-md">
+                    <input type="text" name="position" id="position" class="form-control w-100 h-100 border-0 rounded-0" value="${description}">
+                </td>
+                <td class="on_secondary align-middle white-space-nowrap border-md">
+                    <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="No">
+                </td>
+                <td class="elements align-middle white-space-nowrap border-md">
+                    <input type="text" name="elements" id="elements" class="form-control w-100 h-100 border-0 rounded-0" value="${elements}">
+                </td>
+                <td class="final_ratio align-middle white-space-nowrap border-md">
+                    <input type="text" name="final-ratio" id="final-ratio" class="form-control w-100 h-100 border-0 rounded-0" value="1">
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+        }
+
+        let addForcingFrequencyModal = document.getElementById('add-forcing-frequency');
+
+        let faultCode = addForcingFrequencyModal.querySelector('#fault-code');
+        let multiple = addForcingFrequencyModal.querySelector('#multiple');
+        let finalCode = addForcingFrequencyModal.querySelector('#final-code');
+
+        let okButton = addForcingFrequencyModal.querySelector('.btn-primary');
+        okButton.addEventListener('click', addNewForcingFrequency);
 
         function saveMidSetup() {
             let forms = document.querySelectorAll('form');
@@ -311,6 +475,7 @@
             document.querySelectorAll("#setups-table-body tr").forEach((row) => {
                 const forcingFrequency = {};
                 forcingFrequency.code = row.querySelector("#location-name").value.trim();
+                forcingFrequency.multiple = row.querySelector("#multiple").value.trim();
                 forcingFrequency.name = row.querySelector("#position").value.trim();
                 forcingFrequency.on_secondary = row.querySelector("#id-tag").value.trim();
                 forcingFrequency.elements = row.querySelector("#elements").value.trim();

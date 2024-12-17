@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('machine_vibration_locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('machine_info_id')->constrained('machine_infos')->onDelete('cascade');
+            $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
             $table->string('location_name');
             $table->string('position');
             $table->string('id_tag');

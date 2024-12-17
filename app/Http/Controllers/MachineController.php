@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
-use App\Models\MachineInfo;
+use App\Models\Machine;
 use App\Models\MachineProcessPoint;
 use App\Models\MachineVibrationLocations;
 use App\Models\MidSetup;
@@ -14,7 +14,7 @@ class MachineController extends Controller
 {
     public function index()
     {
-        $machines = MachineInfo::with('midSetup', 'plant', 'area')->get();
+        $machines = Machine::with('midSetup', 'plant', 'area')->get();
 
         return view('admin.machine.index', compact('machines'));
     }
@@ -43,7 +43,7 @@ class MachineController extends Controller
         $locationVibrations = $data['locationVibrations'];
         $processPoints = $data['processPoints'];
 
-        $machine_info = MachineInfo::create([
+        $machine_info = Machine::create([
             'mid_setup_id' => $data['mid_setup_id'],
             'plant_id' => $info['plantName'],
             'area_id' => $info['areaName'],
@@ -53,7 +53,7 @@ class MachineController extends Controller
         if (isset($locationVibrations['isVibrationLocationChecked']) && $locationVibrations['isVibrationLocationChecked']) {
             foreach ($locationVibrations['locations'] as $location) {
                 $machine_vibration_location = MachineVibrationLocations::create([
-                    'machine_info_id' => $machine_info->id,
+                    'machine_id' => $machine_info->id,
                     'location_name' => $location['locationName'],
                     'position' => $location['position'],
                     'id_tag' => $location['idTag'],
@@ -65,7 +65,7 @@ class MachineController extends Controller
         if ($processPoints['isProcessPointsChecked']) {
             foreach ($processPoints['points'] as $point) {
                 $machine_process_point = MachineProcessPoint::create([
-                    'machine_info_id' => $machine_info->id,
+                    'machine_id' => $machine_info->id,
                     'point_name' => $point['pointName'],
                     'id_tag' => $point['idTag'],
                 ]);
@@ -77,10 +77,10 @@ class MachineController extends Controller
 
     public function destroy($id)
     {
-        $machine = MachineInfo::find($id);
+        $machine = Machine::find($id);
 
-        $vibrationLocations = MachineVibrationLocations::where('machine_info_id', $id)->get();
-        $processPoints = MachineProcessPoint::where('machine_info_id', $id)->get();
+        $vibrationLocations = MachineVibrationLocations::where('machine_id', $id)->get();
+        $processPoints = MachineProcessPoint::where('machine_id', $id)->get();
 
         foreach ($vibrationLocations as $vibrationLocation) {
             $vibrationLocation->delete();
