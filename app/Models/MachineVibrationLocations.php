@@ -11,8 +11,13 @@ class MachineVibrationLocations extends Model
 
     protected $fillable = ['machine_id', 'location_name', 'position', 'id_tag', 'orientation'];
 
-    public function machineInfo()
+    public function machine()
     {
         return $this->belongsTo(Machine::class);
+    }
+
+    public function dataFile()
+    {
+        return $this->hasOne(DataFile::class);
     }
 }
