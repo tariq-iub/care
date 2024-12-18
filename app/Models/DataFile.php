@@ -13,23 +13,18 @@ class DataFile extends Model
 
     protected $fillable = ['file_name', 'file_path', 'site_id', 'device_id', 'inspection_id'];
 
-    public function inspection()
-    {
-        return $this->belongsTo(Inspection::class);
-    }
-
-    public function component()
-    {
-        return $this->belongsTo(Component::class);
-    }
-
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
-    }
-
     public function device()
     {
         return $this->belongsTo(Device::class);
+    }
+
+    public function machine()
+    {
+        return $this->belongsTo(Machine::class);
+    }
+
+    public function machineVibrationLocations()
+    {
+        return $this->belongsTo(MachineVibrationLocations::class);
     }
 }
