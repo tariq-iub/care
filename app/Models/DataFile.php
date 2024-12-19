@@ -11,7 +11,7 @@ class DataFile extends Model
     use HasFactory;
     use Loggable;
 
-    protected $fillable = ['file_name', 'file_path', 'site_id', 'device_id', 'inspection_id'];
+    protected $fillable = ['file_name', 'file_path', 'machine_id', 'device_id', 'vibration_location_id'];
 
     public function device()
     {
