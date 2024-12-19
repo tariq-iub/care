@@ -21,18 +21,17 @@
                     <th class="sort align-middle" style="width:15%; min-width:50px;">Sr#</th>
                     <th class="sort align-middle" style="width:15%; min-width:200px;">File Title</th>
                     <th class="sort align-middle" style="width:15%; min-width:200px;">Device</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Area</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Factory</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Machine</th>
+                    <th class="sort align-middle" style="width:15%; min-width:200px;">Vibration Location</th>
                     <th class="sort align-middle" style="width:15%; min-width:200px;">Uploaded At</th>
                     <th class="no-sort"></th>
                 </tr>
                 </thead>
-                <tbody>
-                </tbody>
+
+                <tbody></tbody>
             </table>
         </div>
     </div>
-
 
     <div class="modal fade bd-edit-modal-lg" tabindex="-1" data-bs-backdrop="static"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -49,23 +48,23 @@
                     @csrf
                     <div class="modal-body px-5">
                         <div class="mb-3">
-                            <label class="form-label" for="factory_id">Factory</label>
-                            <select class="form-select" id="factory_id" name="factory_id" data-choices="data-choices"
+                            <label class="form-label" for="factory_id">Machine</label>
+                            <select class="form-select" id="machine_id" name="machine_id" data-choices="data-choices"
                                     data-options='{"removeItemButton":true,"placeholder":true}' required>
-                                <option value="">Select Factory</option>
-                                @foreach($plants as $plant)
-                                    <option value="{{ $plant->id }}">{{ $plant->title }}</option>
+                                <option value="">Select Machine</option>
+                                @foreach($machines as $row)
+                                    <option value="{{ $row->id }}">{{ $row->machine_name }}</option>
                                 @endforeach
                             </select>
-                            <div class="invalid-feedback">Select a factory name...</div>
+                            <div class="invalid-feedback">Select a machine name...</div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="site_id">Site</label>
-                            <select class="form-select" id="site_id" name="site_id" required>
-                                <option value="">Select Site</option>
+                            <label class="form-label" for="site_id">Vibration Location</label>
+                            <select class="form-select" id="vibration_location_id" name="vibration_location_id" required>
+                                <option value="">Select Vibration Location</option>
                             </select>
-                            <div class="invalid-feedback">Select a site name...</div>
+                            <div class="invalid-feedback">Select a vibration location name...</div>
                         </div>
 
                         <div class="mb-3">
@@ -141,13 +140,13 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('data.data') }}",
+                ajax: "{{ route('data.datafiles') }}",
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'file_name', name: 'file_name'},
                     {data: 'device', name: 'device.serial_number'},
-                    {data: 'area', name: 'area.title'},
-                    {data: 'plant', name: 'area.plant.title'},
+                    {data: 'machine', name: 'machine.machine_name'},
+                    {data: 'vibration_location', name: 'machine.vibrationLocation.location_name'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
