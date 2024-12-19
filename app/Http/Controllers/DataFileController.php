@@ -168,11 +168,13 @@ class DataFileController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048',
-            'site_id' => 'required|exists:sites,id',
+            'machine' => 'required|exists:machines,id',
+            'vibration_location' => 'required|exists:machine_vibration_locations,id',
             'device_serial' => 'required|string|exists:devices,serial_number',
         ]);
 
         $device = Device::where('serial_number', $request->input('device_serial'))->first();
+
         if (!$device) {
             return response()->json(['message' => 'Device is not registered at system.'], 404);
         }
@@ -190,7 +192,8 @@ class DataFileController extends Controller
             $dataFile = DataFile::create([
                 'file_name' => $fileName,
                 'file_path' => $filePath,
-                'site_id' => $request->input('site_id'),
+                'machine_id' => $request->input('machine'),
+                'vibration_location_id' => $request->input('vibration_location'),
                 'device_id' => $device->id,
             ]);
 
@@ -214,9 +217,9 @@ class DataFileController extends Controller
             foreach ($rows as $row) {
                 SensorData::create([
                     'data_file_id' => $dataFile->id,
-                    'X' => $row['V1'],
-                    'Y' => $row['I1'],
-                    'Z' => $row['P1'],
+                    'X' => $row['X'],
+                    'Y' => $row['Y'],
+                    'Z' => $row['Z'],
                 ]);
             }
         }
