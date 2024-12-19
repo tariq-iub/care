@@ -90,7 +90,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/surveys/survey_machine_attachment', [SurveyController::class, 'attachMachines'])->name('surveys.survey_machine_attachment');
     Route::post('/surveys/survey_machine_detachment', [SurveyController::class, 'detachMachines'])->name('surveys.survey_machine_detachment');
 
-
     Route::controller(DataFileController::class)
         ->as('data.')
         ->group(function () {
@@ -99,7 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::put('/data/{data_file}', 'update')->name('update');
             Route::delete('/data/{data_file}', 'destroy')->name('delete');
             Route::get('/data/download/{data_file}', 'download')->name('download');
-            Route::get('/data/files', 'getData')->name('data');
+            Route::get('/data/files', 'getData')->name('datafiles');
         });
 
     Route::get('/data-setup', [DataCollectionSetupController::class, 'index'])->name('setup.index');
