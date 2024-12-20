@@ -25,6 +25,6 @@ class DataFile extends Model
 
     public function machineVibrationLocation()
     {
-        return $this->belongsTo(MachineVibrationLocations::class, 'vibration_location_id');
+        return $this->belongsTo(MachineVibrationLocation::class, 'vibration_location_id');
     }
 }

@@ -33,7 +33,7 @@ class Machine extends Model
 
     public function vibrationLocations()
     {
-        return $this->hasMany(MachineVibrationLocations::class);
+        return $this->hasMany(MachineVibrationLocation::class);
     }
 
     public function dataFiles()
