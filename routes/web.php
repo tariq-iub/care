@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->group(function () {
             Route::get('/data', 'index')->name('index');
             Route::get('/data/{data_file}/edit', 'edit')->name('edit');
+            Route::get('/data/create', 'create')->name('create');
             Route::put('/data/{data_file}', 'update')->name('update');
             Route::delete('/data/{data_file}', 'destroy')->name('delete');
             Route::get('/data/download/{data_file}', 'download')->name('download');

@@ -8,99 +8,42 @@
         </ol>
     </nav>
 
-    <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Data Files</h2>
-        <p class="text-body-tertiary lead">Manage the files pushed by devices.</p>
-    </div>
-
-    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
-        <div class="table-responsive scrollbar mt-3 mb-3">
-            <table class="table data-table table-sm fs-9 mt-3 mb-0">
-                <thead>
-                <tr>
-                    <th class="sort align-middle" style="width:15%; min-width:50px;">Sr#</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">File Title</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Device</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Machine</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Vibration Location</th>
-                    <th class="sort align-middle" style="width:15%; min-width:200px;">Uploaded At</th>
-                    <th class="no-sort"></th>
-                </tr>
-                </thead>
-
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="modal fade bd-edit-modal-lg" tabindex="-1" data-bs-backdrop="static"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between">
-                    <h5 class="modal-title" id="staticBackdropLabel">Add New File</h5>
-                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                        <span class="fas fa-times fs-9"></span>
-                    </button>
+    <div id="datafiles" data-list='{"valueNames":["title","inspection_type"]'>
+        <div class="row align-items-center justify-content-between g-3 mb-4">
+            <div class="col col-auto">
+                <div class="mb-5">
+                    <h2 class="text-bold text-body-emphasis">Data Files</h2>
+                    <p class="text-body-tertiary lead">Manage the files pushed by devices.</p>
                 </div>
-                <form id="edit-form" method="POST" action="" class="row g-3 needs-validation"
-                      enctype="multipart/form-data" novalidate>
-                    @csrf
-                    <div class="modal-body px-5">
-                        <div class="mb-3">
-                            <label class="form-label" for="factory_id">Machine</label>
-                            <select class="form-select" id="machine_id" name="machine_id" data-choices="data-choices"
-                                    data-options='{"removeItemButton":true,"placeholder":true}' required>
-                                <option value="">Select Machine</option>
-                                @foreach($machines as $row)
-                                    <option value="{{ $row->id }}">{{ $row->machine_name }}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">Select a machine name...</div>
-                        </div>
+            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="site_id">Vibration Location</label>
-                            <select class="form-select" id="vibration_location_id" name="vibration_location_id" required>
-                                <option value="">Select Vibration Location</option>
-                            </select>
-                            <div class="invalid-feedback">Select a vibration location name...</div>
-                        </div>
+            <div class="col-auto">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-primary" href="{{ route('data.create') }}">
+                        <span class="fas fa-plus me-2"></span>
+                        Upload Data
+                    </a>
+                </div>
+            </div>
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="component_id">Component (optional)</label>
-                            <select class="form-select" id="component_id" name="component_id"
-                                    data-choices="data-choices"
-                                    data-options='{"removeItemButton":true,"placeholder":true}'>
-                                <option value="">Not Applicable</option>
-                            </select>
-                            <div class="invalid-feedback">Select a component name...</div>
-                        </div>
+        <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
+            <div class="table-responsive scrollbar mt-3 mb-3">
+                <table class="table data-table table-sm fs-9 mt-3 mb-0">
+                    <thead>
+                    <tr>
+                        <th class="sort align-middle" style="width:15%; min-width:50px;">Sr#</th>
+                        <th class="sort align-middle" style="width:15%; min-width:200px;">File Title</th>
+                        <th class="sort align-middle" style="width:15%; min-width:200px;">Device</th>
+                        <th class="sort align-middle" style="width:15%; min-width:200px;">Machine</th>
+                        <th class="sort align-middle" style="width:15%; min-width:200px;">Vibration Location</th>
+                        <th class="sort align-middle" style="width:15%; min-width:200px;">Uploaded At</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                    </thead>
 
-                        <div class="mb-3">
-                            <label class="form-label" for="device_serial">Device</label>
-                            <select class="form-select" id="device_serial" name="device_serial"
-                                    data-choices="data-choices"
-                                    data-options='{"removeItemButton":true,"placeholder":true}' required>
-                                <option value="">Select Device</option>
-                                @foreach($devices as $device)
-                                    <option value="{{ $device->serial_number }}">{{ $device->serial_number }}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">Select a device name...</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label" for="data-file">Data file</label>
-                            <input type="file" class="form-control" name="file" id="data-file" required>
-                            <div class="invalid-feedback">Data file needs to be selected.</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">Upload Data</button>
-                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -144,9 +87,9 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'file_name', name: 'file_name'},
-                    {data: 'device', name: 'device.serial_number'},
-                    {data: 'machine', name: 'machine.machine_name'},
-                    {data: 'vibration_location', name: 'machine.vibrationLocation.location_name'},
+                    {data: 'device', name: 'device_serial'},
+                    {data: 'machine', name: 'machine_name'},
+                    {data: 'vibration_location', name: 'vibration_location_name'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
@@ -170,65 +113,6 @@
             }
         }
 
-        $("#factory_id").on("change", function () {
-            var id = $(this).val();
-            $("#site_id").empty();
-            fetch(`{{ url('api/factories?id=') }}${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response is not OK');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    $("#site_id").append(`<option value=''>Select Site</option>`);
-                    console.log(data.sites);
-                    data.sites.forEach((item, index) => {
-                        $("#site_id").append(`<option value='${item.id}'>${item.title}</option>`);
-                    });
-                })
-                .catch(error => {
-                    alert('There was a problem with the fetch operation:' + error);
-                });
-        });
-
-        $("#site_id").on("change", function () {
-            var id = $(this).val();
-            $("#component_id").empty();
-            fetch(`{{ url('api/sites?id=') }}${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response is not OK');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    $("#component_id").append(`<option value=''>Not Applicable</option>`);
-                    data.components.forEach((item, index) => {
-                        $("#component_id").append(`<option value='${item.id}'>${item.title}</option>`);
-                    });
-                })
-                .catch(error => {
-                    alert('There was a problem with the fetch operation:' + error);
-                });
-        });
-
-        const form = document.querySelector('#posted');
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(form);
-            fetch("{{ url('api/data/upload') }}", {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    location.reload();
-                });
-        });
-
         function OpenReplaceModal(id) {
             $("#record-id").val(id);
             $(".bd-replace-modal-lg").modal('show');
@@ -248,53 +132,6 @@
                     alert(data.message);
                     location.reload();
                 });
-        });
-
-        function OpenEditModal(id) {
-            fetch(`{{ url('data') }}/${id}`, {
-                method: 'GET'
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response is not OK');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Populate the form with the fetched data
-                    $('#factory_id').val(data.factory_id);
-                    $('#site_id').val(data.site_id);
-                    $('#component_id').val(data.component_id);
-                    $('#device_serial').val(data.device_serial);
-
-                    // Since the file input cannot be pre-filled for security reasons, you might want to notify the user if a file is already present.
-                    $('#edit-form').attr('action', `{{ url('data') }}/${id}`);
-
-                    // Open the modal
-                    $(".bd-edit-modal-lg").modal('show');
-                })
-                .catch(error => {
-                    alert('There was a problem with the fetch operation: ' + error);
-                });
-        }
-
-        $(document).ready(function () {
-            // Handle the form submission for the edit form
-            const editForm = document.querySelector('#edit-form');
-            editForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const formData = new FormData(editForm);
-                const id = formData.get('id'); // Get the ID from the form
-                fetch(`{{ url('data') }}/${id}`, {
-                    method: 'PUT',
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        location.reload();
-                    });
-            });
         });
     </script>
 @endpush

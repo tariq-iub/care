@@ -1,49 +1,19 @@
-<div class="btn-group">
-    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-ellipsis-v"></i>
+<div class="btn-reveal-trigger position-static">
+    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+            type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"
+            data-bs-reference="parent">
+
+        <span class="fas fa-ellipsis fs-10"></span>
     </button>
 
-    <ul class="dropdown-menu dropdown-menu-right">
-        <li>
-            <a class="dropdown-item" href="{{ route('data.download', $row->id) }}">
-                <i class="ri-download-cloud-2-line"></i> Download
-            </a>
-        </li>
+    <div class="dropdown-menu dropdown-menu-end py-2" style="">
+        <a class="dropdown-item" href="{{ route('data.download', $row->id) }}">Download</a>
 
-        <li>
-            <a class="dropdown-item" href="javascript:void(0)" onclick="OpenEditModal({{ $row->id }})">
-                <i class="ri-pencil-line"></i> Edit
-            </a>
-        </li>
+        <a class="dropdown-item" href="{{ route('data.edit', $row->id) }}">Edit</a>
 
-        <li>
-            <a class="dropdown-item" href="javascript:void(0)" onclick="OpenReplaceModal({{ $row->id }})">
-                <i class="ri-corner-up-left-double-fill"></i> Replace
-            </a>
-        </li>
+        <a class="dropdown-item" href="javascript:void(0)" onclick="OpenReplaceModal({{ $row->id }})">Replace</a>
 
-        <li>
-            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="deleteFile(this, {{ $row->id }})">
-                <i class="ri-delete-bin-line"></i> Delete
-            </a>
-        </li>
-    </ul>
+        <a class="dropdown-item text-danger" href="javascript:void(0)"
+           onclick="deleteFile(this, {{ $row->id }})">Delete</a>
+    </div>
 </div>
-
-{{--<div class="d-flex align-items-center list-user-action">--}}
-{{--    <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="Download"--}}
-{{--       href="{{ route('files.download', $row->id) }}"><i class="ri-download-cloud-2-line"></i>--}}
-{{--    </a>--}}
-{{--    <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="Edit"--}}
-{{--       href="{{ route('files.edit', $row->id) }}">--}}
-{{--        <i class="ri-pencil-line"></i>--}}
-{{--    </a>--}}
-{{--    <a class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title="Replace"--}}
-{{--       href="javascript:void(0)" onclick="OpenReplaceModal({{ $row->id }})">--}}
-{{--        <i class="ri-corner-up-left-double-fill"></i>--}}
-{{--    </a>--}}
-{{--    <a class="iq-bg-danger" data-toggle="tooltip" data-placement="top" title="Delete"--}}
-{{--       onclick="deleteFile(this, {{ $row->id }})" href="javascript:void(0)">--}}
-{{--       <i class="ri-delete-bin-line"></i>--}}
-{{--    </a>--}}
-{{--</div>--}}
