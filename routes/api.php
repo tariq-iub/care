@@ -87,7 +87,8 @@ Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'get
 
 Route::get('/fault-codes/fetch-fault-code/{id}', [FaultCodesController::class, 'fetchFaultCode']);
 
-Route::get('/plants', [PlantController::class, 'fetchPlants'])->name('plants.fetch');
-Route::get('/areas', [AreaController::class, 'fetchPlantAreas'])->name('areas.fetch');
-Route::get('/machines', [MachineController::class, 'fetchAreaMachines'])->name('machines.fetch');
-Route::get('/vibration-locations', [MachineVibrationLocationController::class, 'fetchMachineVibrationLocation'])->name('vibration-locations.fetch');
+Route::get('/companies', [CompanyController::class, 'fetch'])->name('companies.fetch');
+Route::get('/companies/{company}/plants', [PlantController::class, 'fetchByCompany'])->name('plants.fetchByCompany');
+Route::get('/plants/{plant}/areas', [AreaController::class, 'fetchByPlant'])->name('areas.fetchByPlant');
+Route::get('/areas/{area}/machines', [MachineController::class, 'fetchByArea'])->name('machines.fetchByArea');
+Route::get('/machines/{machine}/vibration-locations', [MachineVibrationLocationController::class, 'fetchByMachine'])->name('vibration-locations.fetchByMachine');
