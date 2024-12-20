@@ -19,7 +19,7 @@ class PlantFactory extends Factory
     {
         return [
             'title' => fake()->word(),
-            'company_id' => Company::factory(),
+            'company_id' => Company::factory(), // This is handled in the seeder
             'note_id' => null,
             'status' => fake()->boolean(),
         ];
