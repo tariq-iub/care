@@ -103,9 +103,9 @@ class AreaController extends Controller
 
     }
 
-    public function fetchPlantAreas(Request $request)
+    public function fetchByPlant($plantId)
     {
-        $areas = Area::where('plant_id', $request->query('id'))->get();
+        $areas = Area::where('plant_id', $plantId)->get();
         return response()->json(['areas' => $areas]);
     }
 }

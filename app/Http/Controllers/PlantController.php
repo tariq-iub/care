@@ -125,9 +125,9 @@ class PlantController extends Controller
         ]);
     }
 
-    public function fetchPlants(Request $request)
+    public function fetchByCompany($companyId)
     {
-        $plants = Plant::all();
+        $plants = Plant::where('company_id', $companyId)->get();
         return response()->json(['plants' => $plants]);
     }
 }

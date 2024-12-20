@@ -57,7 +57,7 @@ class CompanyController extends Controller
         $serviceRepresentative = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
 
         return view('admin.plants.show', compact(
-            'company','plant', 'note', 'serviceRepresentative'));
+            'company', 'plant', 'note', 'serviceRepresentative'));
     }
 
     /**
@@ -221,12 +221,9 @@ class CompanyController extends Controller
 
     public function statusToggle(User $user, Request $request)
     {
-        if($user->status)
-        {
+        if ($user->status) {
             $user->status = false;
-        }
-        else
-        {
+        } else {
             $user->status = true;
         }
         $user->save();
@@ -234,11 +231,18 @@ class CompanyController extends Controller
         return redirect()->route('company.manage_users', $request->company_id);
     }
 
-    public function fetchUser(Request $request, $userId){
+    public function fetchUser(Request $request, $userId)
+    {
         $user = User::join('company_users', 'users.id', '=', 'company_users.user_id')
             ->where('company_users.user_id', $userId)
             ->first()->toArray();
 
         return response()->json(['user' => $user]);
+    }
+
+    public function fetch(Request $request)
+    {
+        $companies = Company::all();
+        return response()->json(['companies' => $companies]);
     }
 }
