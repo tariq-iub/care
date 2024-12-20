@@ -21,8 +21,6 @@ class DatabaseSeeder extends Seeder
             UnitTableSeeder::class,
             ServiceRepresentativesTableSeeder::class,
             CompaniesTableSeeder::class,
-            PlantsTableSeeder::class,
-            AreasTableSeeder::class,
             DevicesTableSeeder::class,
             ComponentsTableSeeder::class,
             PlantServiceRepsTableSeeder::class,
