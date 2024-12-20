@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\Company;
 use App\Models\DataFile;
 use App\Models\Device;
 use App\Models\Machine;
-use App\Models\MachineVibrationLocations;
+use App\Models\MachineVibrationLocation;
 use App\Models\Plant;
 use App\Models\SensorData;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class DataFileController extends Controller
     {
         $devices = Device::all();
         $machines = Machine::all();
-        $vibrationLocations = MachineVibrationLocations::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
         return view('admin.data.index', compact('devices', 'machines', 'vibrationLocations'));
     }
@@ -29,19 +30,20 @@ class DataFileController extends Controller
     public function create()
     {
         $devices = Device::all();
+        $companies = Company::all();
         $plants = Plant::all();
         $areas = Area::all();
         $machines = Machine::all();
-        $vibrationLocations = MachineVibrationLocations::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
-        return view('admin.data.create', compact('devices', 'plants', 'areas', 'machines', 'vibrationLocations'));
+        return view('admin.data.create', compact('devices', 'companies', 'plants', 'areas', 'machines', 'vibrationLocations'));
     }
 
     public function edit(DataFile $dataFile)
     {
         $devices = Device::all();
         $machines = Machine::all();
-        $vibrationLocations = MachineVibrationLocations::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
         return view('admin.data.edit', compact('dataFile', 'devices', 'machines', 'vibrationLocations'));
     }
@@ -65,6 +67,8 @@ class DataFileController extends Controller
             'device_serial' => 'required|string|exists:devices,device_serial',
             'machine_id' => 'required|exists:machines,id',
             'vibration_location_id' => 'required|exists:machine_vibration_locations,id',
+            'file_name_toggle' => 'required|boolean', // Check if the toggle is provided
+            'file_name' => 'nullable|string|max:255', // Optional custom file name
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +82,15 @@ class DataFileController extends Controller
 
         // Process the file
         $file = $request->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $originalFileName = $file->getClientOriginalName();
+
+        // Determine the file name based on the toggle
+        $fileName = $request->input('file_name_toggle')
+            ? $originalFileName // Use original file name
+            : ($request->input('file_name') ?? $originalFileName); // Use custom or fallback to original
+
+        // Generate unique file name to avoid conflicts
+        $fileName = time() . '_' . $fileName;
         $filePath = $file->storeAs('data_files', $fileName, 'public');
 
         // Retrieve the associated device
@@ -104,6 +116,8 @@ class DataFileController extends Controller
             'device_serial' => 'required|string|exists:devices,device_serial',
             'machine_id' => 'required|exists:machines,id',
             'vibration_location_id' => 'required|exists:machine_vibration_locations,id',
+            'file_name_toggle' => 'required|boolean', // Check if the toggle is provided
+            'file_name' => 'nullable|string|max:255', // Optional custom file name
         ]);
 
         if ($validator->fails()) {
@@ -118,8 +132,14 @@ class DataFileController extends Controller
                 return redirect()->back()->withErrors(['file' => 'Invalid file upload.'])->withInput();
             }
 
-            // Process the new file
-            $fileName = time() . '_' . $file->getClientOriginalName();
+            // Determine the file name based on the toggle
+            $originalFileName = $file->getClientOriginalName();
+            $fileName = $request->input('file_name_toggle')
+                ? $originalFileName // Use original file name
+                : ($request->input('file_name') ?? $originalFileName); // Use custom or fallback to original
+
+            // Generate unique file name to avoid conflicts
+            $fileName = time() . '_' . $fileName;
             $filePath = $file->storeAs('data_files', $fileName, 'public');
 
             // Delete the old file (optional)
