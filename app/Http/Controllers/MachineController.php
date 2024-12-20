@@ -95,9 +95,9 @@ class MachineController extends Controller
 
     }
 
-    public function fetchAreaMachines(Request $request)
+    public function fetchByArea($areaId)
     {
-        $machines = Machine::where('area_id', $request->query('id'))->get();
+        $machines = Machine::where('area_id', $areaId)->get();
         return response()->json(['machines' => $machines]);
     }
 }
