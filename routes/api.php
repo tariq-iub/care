@@ -5,6 +5,7 @@ use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\MachineController;
+use App\Http\Controllers\MachineVibrationLocationController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
 use App\Http\Controllers\NewMidController;
@@ -85,3 +86,8 @@ Route::get('/surveys/attach_machines/{surveyId}', [SurveyController::class, 'get
 Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'getDetachMachines']);
 
 Route::get('/fault-codes/fetch-fault-code/{id}', [FaultCodesController::class, 'fetchFaultCode']);
+
+Route::get('/plants', [PlantController::class, 'fetchPlants'])->name('plants.fetch');
+Route::get('/areas', [AreaController::class, 'fetchPlantAreas'])->name('areas.fetch');
+Route::get('/machines', [MachineController::class, 'fetchAreaMachines'])->name('machines.fetch');
+Route::get('/vibration-locations', [MachineVibrationLocationController::class, 'fetchMachineVibrationLocation'])->name('vibration-locations.fetch');

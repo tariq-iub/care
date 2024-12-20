@@ -94,4 +94,10 @@ class MachineController extends Controller
         return redirect()->route('machines.index')->with('success', 'Machine deleted successfully');
 
     }
+
+    public function fetchAreaMachines(Request $request)
+    {
+        $machines = Machine::where('area_id', $request->query('id'))->get();
+        return response()->json(['machines' => $machines]);
+    }
 }

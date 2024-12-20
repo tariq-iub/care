@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\DataFile;
 use App\Models\Device;
 use App\Models\Machine;
 use App\Models\MachineVibrationLocations;
+use App\Models\Plant;
 use App\Models\SensorData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,10 +29,12 @@ class DataFileController extends Controller
     public function create()
     {
         $devices = Device::all();
+        $plants = Plant::all();
+        $areas = Area::all();
         $machines = Machine::all();
         $vibrationLocations = MachineVibrationLocations::all();
 
-        return view('admin.data.create', compact('devices', 'machines', 'vibrationLocations'));
+        return view('admin.data.create', compact('devices', 'plants', 'areas', 'machines', 'vibrationLocations'));
     }
 
     public function edit(DataFile $dataFile)
@@ -174,7 +178,7 @@ class DataFileController extends Controller
                     return $row->machine->machine_name;
                 })
                 ->addColumn('vibration_location', function ($row) {
-                    return $row->machine->vibrationLocations;
+                    return $row->machineVibrationLocation->location_name;
                 })
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->diffForHumans();
