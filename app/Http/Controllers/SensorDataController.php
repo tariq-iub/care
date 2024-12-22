@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\SensorData;
 
 use Illuminate\Http\Request;
@@ -103,16 +104,16 @@ class SensorDataController extends Controller
     }
 
     public function generatePlot(Request $request)
-{
-    $fileId = $request->input('file_id');
-    $column = $request->input('column');
+    {
+        $fileId = $request->input('file_id');
+        $column = $request->input('column');
 
-    $sensorData = SensorData::select($column)->where('data_file_id', $fileId)->get();
+        $sensorData = SensorData::select($column)->where('data_file_id', $fileId)->get();
 
-    return view('sensor_data.plot', compact('sensorData', 'column'));
-}
+        return view('sensor_data.plot', compact('sensorData', 'column'));
+    }
 
-public function generateTimeDomainPlot(Request $request)
+    public function generateTimeDomainPlot(Request $request)
     {
         $fileId = $request->input('file_id');
         $sensorData = SensorData::where('data_file_id', $fileId)->get();
@@ -133,5 +134,4 @@ public function generateTimeDomainPlot(Request $request)
             'column' => 'combined'
         ]);
     }
-
 }
