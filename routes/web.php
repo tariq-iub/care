@@ -7,7 +7,6 @@ use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeviceController;
-use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MidSetupController;
@@ -21,14 +20,12 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ServiceRepresentativeController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SurveyController;
-use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRegistrationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
-use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +37,6 @@ use App\Http\Controllers\WebhookController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::resource('sites', SiteController::class);
 
 Route::get('/', function () {
     return view('welcome');
@@ -95,8 +90,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
-    Route::resource('/factories', FactoryController::class)->except(['show']);
     Route::resource('/inspections', InspectionController::class);
+
     Route::resource('/sensor_data', SensorDataController::class);
     Route::post('/sensor_data/generate_plot', [SensorDataController::class, 'generatePlot'])->name('sensor_data.generate_plot');
     Route::post('/sensor-data/generate-time-domain-plot', [SensorDataController::class, 'generateTimeDomainPlot'])->name('sensor_data.generate_time_domain_plot');
