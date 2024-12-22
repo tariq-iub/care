@@ -12,13 +12,8 @@ class SensorData extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = null;
-    public $incrementing = false;
     protected $fillable = [
-        'data_file_id',
-        'X',
-        'Y',
-        'Z',
+        'data_file_id', 'X', 'Y', 'Z'
     ];
 
     public function file()

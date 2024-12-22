@@ -12,17 +12,6 @@ class SensorDataController extends Controller
      */
     public function index()
     {
-        $fft = SensorData::FFT(1, ['X']);
-        $data = [];
-
-        foreach ($fft as $key => $value) {
-            $data[] = [
-                'real' => $value->getReal(),
-                'imaginary' => $value->getImaginary(),
-                'magnitude' => $value->abs(),
-            ];
-        }
-        return $data;
         //
         $dataFileIds = SensorData::select('data_file_id')->distinct()->get();
         return view('sensor_data.index', compact('dataFileIds'));
