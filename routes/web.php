@@ -66,8 +66,9 @@ Route::get('/enter-new-password', [SetPasswordController::class, 'showSetPasswor
     ->name('show.new.password.form');
 Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'])
     ->name('update.new.password')->middleware(['guest']);
+
 Route::get('/fft', function () {
-    return view('fft-graph');
+    return view('fft_graph');
 });
 
 Route::group(['middleware' => ['auth']], function () {
