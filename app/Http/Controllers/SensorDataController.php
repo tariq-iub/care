@@ -13,19 +13,8 @@ class SensorDataController extends Controller
      */
     public function index()
     {
-        $fft = SensorData::FFT(1, ['X']);
-        $data = [];
-
-        foreach ($fft as $key => $value) {
-            $data[] = [
-                'real' => $value->getReal(),
-                'imaginary' => $value->getImaginary(),
-                'magnitude' => $value->abs(),
-            ];
-        }
-        return $data;
-        //
         $dataFileIds = SensorData::select('data_file_id')->distinct()->get();
+
         return view('sensor_data.index', compact('dataFileIds'));
     }
 
@@ -59,7 +48,7 @@ class SensorDataController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SensorData $sensorData)
     {
         //
         return view('sensor_data.show', compact('sensorData'));
@@ -68,7 +57,7 @@ class SensorDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(SensorData $sensorData)
     {
         //
         return view('sensor_data.edit', compact('sensorData'));
@@ -77,7 +66,7 @@ class SensorDataController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, SensorData $sensorData)
     {
         //
         $validated = $request->validate([
@@ -95,7 +84,7 @@ class SensorDataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SensorData $sensorData)
     {
         //
         $sensorData->delete();
