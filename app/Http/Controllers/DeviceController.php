@@ -14,7 +14,7 @@ class DeviceController extends Controller
     {
         $devices = Device::all(); // Fetch all devices (adjust as per your application logic)
 
-        return view('devices.index', compact('devices'));
+        return view('admin.devices.index', compact('devices'));
     }
 
     /**
@@ -22,7 +22,7 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        return view('devices.create');
+        return view('admin.devices.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class DeviceController extends Controller
      */
     public function show(Device $device)
     {
-        return view('devices.show', compact('device'));
+        return view('admin.devices.show', compact('device'));
     }
 
     /**
@@ -54,7 +54,7 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        return view('devices.edit', compact('device'));
+        return view('admin.devices.edit', compact('device'));
     }
 
     /**

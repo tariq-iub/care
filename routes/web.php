@@ -105,9 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/surveys/survey_machine_attachment', [SurveyController::class, 'attachMachines'])->name('surveys.survey_machine_attachment');
     Route::post('/surveys/survey_machine_detachment', [SurveyController::class, 'detachMachines'])->name('surveys.survey_machine_detachment');
 
-    Route::resource('/devices', DeviceController::class, ['only' => ['index', 'show']])->names([
-        'index' => 'devices.index'
-    ]);
+    Route::resource('/devices', DeviceController::class);
 
     Route::controller(DataFileController::class)
         ->as('data.')
