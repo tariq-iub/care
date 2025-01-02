@@ -31,14 +31,14 @@ class PlantController extends Controller
         $note = $plant->note;
         $serviceRepsAll = ServiceRepresentative::all();
         $plantServiceReps = PlantServiceRep::where('plant_id', $plant->id)->get(); //  get all service reps for the plant that are already assigned
-        $serviceReps= [];
-        foreach($plantServiceReps as $plantServiceRep) {
+        $serviceReps = [];
+        foreach ($plantServiceReps as $plantServiceRep) {
             $serviceReps[] = ServiceRepresentative::where('id', $plantServiceRep->service_rep_id)->first();
         }
 
-        foreach($serviceReps as $serviceRep) {
-            foreach($serviceRepsAll as $key => $serviceRepAll) {
-                if($serviceRep->id == $serviceRepAll->id) {
+        foreach ($serviceReps as $serviceRep) {
+            foreach ($serviceRepsAll as $key => $serviceRepAll) {
+                if ($serviceRep->id == $serviceRepAll->id) {
                     unset($serviceRepsAll[$key]);
                 }
             }
@@ -113,7 +113,7 @@ class PlantController extends Controller
         $plantServiceRep = PlantServiceRep::where('plant_id', $id)->get();
         $serviceReps = [];
 
-        foreach($plantServiceRep as $plantServiceReps) {
+        foreach ($plantServiceRep as $plantServiceReps) {
             $serviceReps[] = ServiceRepresentative::where('id', $plantServiceReps->service_rep_id)->first();
         }
 
@@ -122,6 +122,12 @@ class PlantController extends Controller
             'plant' => $plant,
             'note' => $note,
             'serviceReps' => $serviceReps
-            ]);
+        ]);
+    }
+
+    public function fetchByCompany($companyId)
+    {
+        $plants = Plant::where('company_id', $companyId)->get();
+        return response()->json(['plants' => $plants]);
     }
 }

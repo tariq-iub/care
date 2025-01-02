@@ -11,7 +11,7 @@ class MachineProcessPoint extends Model
 
     protected $fillable = ['machine_id', 'is_points_enabled', 'point_name', 'id_tag'];
 
-    public function machineInfo()
+    public function machine()
     {
         return $this->belongsTo(Machine::class);
     }

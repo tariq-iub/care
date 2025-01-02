@@ -11,7 +11,7 @@
     </nav>
 
     <h2 class="text-bold text-body-emphasis mb-5">Inspections List</h2>
-    <div id="users" data-list='{"valueNames":["title","inspection_type"],"page":10,"pagination":true}'>
+    <div id="inspections" data-list='{"valueNames":["title","inspection_type"],"page":10,"pagination":true}'>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">

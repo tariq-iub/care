@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
+use App\Models\Company;
 use App\Models\DataFile;
 use App\Models\Device;
+use App\Models\Machine;
+use App\Models\MachineVibrationLocation;
 use App\Models\Plant;
 use App\Models\SensorData;
 use Illuminate\Http\Request;
@@ -14,43 +18,36 @@ use Yajra\DataTables\DataTables;
 
 class DataFileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $plants = Plant::all();
         $devices = Device::all();
+        $machines = Machine::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
-        return view('admin.data.index', compact('plants', 'devices'));
+        return view('admin.data.index', compact('devices', 'machines', 'vibrationLocations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $factories = Factory::all();
         $devices = Device::all();
+        $companies = Company::all();
+        $plants = Plant::all();
+        $areas = Area::all();
+        $machines = Machine::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
-        return view('admin.files.create', compact('factories', 'devices'));
+        return view('admin.data.create', compact('devices', 'companies', 'plants', 'areas', 'machines', 'vibrationLocations'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(DataFile $dataFile)
     {
-        $factories = Factory::all();
         $devices = Device::all();
+        $machines = Machine::all();
+        $vibrationLocations = MachineVibrationLocation::all();
 
-        return view('admin.data.edit', compact('dataFile', 'factories', 'devices',));
+        return view('admin.data.edit', compact('dataFile', 'devices', 'machines', 'vibrationLocations'));
     }
 
-    /**
-     * Fetch a single resource.
-     */
     public function show($id)
     {
         $dataFile = DataFile::find($id);
@@ -59,54 +56,119 @@ class DataFileController extends Controller
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        return response()->json([
-            'factory_id' => $dataFile->site->factory_id,
-            'site_id' => $dataFile->site_id,
-            'component_id' => $dataFile->component_id,
-            'device_serial' => $dataFile->device->serial_number,
-        ]);
+        return response()->json($dataFile);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DataFile $dataFile)
+    public function store(Request $request)
     {
         // Validate the request
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:csv,txt|max:2048',
-            'site_id' => 'required|exists:sites,id',
-            'device_serial' => 'required|string|exists:devices,serial_number', // Ensure device is registered
-            'inspection_id' => 'required|exists:inspections,id',
+            'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048',
+            'device_serial' => 'required|string|exists:devices,device_serial',
+            'machine_id' => 'required|exists:machines,id',
+            'vibration_location_id' => 'required|exists:machine_vibration_locations,id',
+            'file_name_toggle' => 'required|boolean', // Check if the toggle is provided
+            'file_name' => 'nullable|string|max:255', // Optional custom file name
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $device = Device::where('serial_number', $request->input('device_serial'))->first();
-
-        if ($request->file('file')->isValid()) {
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('data_files', $fileName, 'public');
-
-            $dataFile->file_name = $fileName;
-            $dataFile->file_path = $filePath;
-            $dataFile->component_id = $request->input('component_id');
-            $dataFile->site_id = $request->input('site_id');
-            $dataFile->device_id = $device->id;
-            $dataFile->inspection_id = $request->input('inspection_id');
-
-            $dataFile->save();
-
-            return redirect(route('files.index'))->with('success', 'Data updated successfully.');
+        // Check if the file exists and is valid
+        if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
+            return redirect()->back()->withErrors(['file' => 'Invalid file upload.'])->withInput();
         }
+
+        // Process the file
+        $file = $request->file('file');
+        $originalFileName = $file->getClientOriginalName();
+
+        // Determine the file name based on the toggle
+        $fileName = $request->input('file_name_toggle')
+            ? $originalFileName // Use original file name
+            : ($request->input('file_name') ?? $originalFileName); // Use custom or fallback to original
+
+        // Generate unique file name to avoid conflicts
+        $fileName = time() . '_' . $fileName;
+        $filePath = $file->storeAs('data_files', $fileName, 'public');
+
+        // Retrieve the associated device
+        $device = Device::where('device_serial', $request->input('device_serial'))->first();
+
+        // Create the DataFile record
+        DataFile::create([
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+            'device_id' => $device->id,
+            'machine_id' => $request->input('machine_id'),
+            'vibration_location_id' => $request->input('vibration_location_id'),
+        ]);
+
+        return redirect(route('files.index'))->with('success', 'Data file created successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function update(Request $request, DataFile $dataFile)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'file' => 'sometimes|mimes:csv,txt,xlx,xls,pdf|max:2048',
+            'device_serial' => 'required|string|exists:devices,device_serial',
+            'machine_id' => 'required|exists:machines,id',
+            'vibration_location_id' => 'required|exists:machine_vibration_locations,id',
+            'file_name_toggle' => 'required|boolean', // Check if the toggle is provided
+            'file_name' => 'nullable|string|max:255', // Optional custom file name
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Check if a new file is uploaded
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            if (!$file->isValid()) {
+                return redirect()->back()->withErrors(['file' => 'Invalid file upload.'])->withInput();
+            }
+
+            // Determine the file name based on the toggle
+            $originalFileName = $file->getClientOriginalName();
+            $fileName = $request->input('file_name_toggle')
+                ? $originalFileName // Use original file name
+                : ($request->input('file_name') ?? $originalFileName); // Use custom or fallback to original
+
+            // Generate unique file name to avoid conflicts
+            $fileName = time() . '_' . $fileName;
+            $filePath = $file->storeAs('data_files', $fileName, 'public');
+
+            // Delete the old file (optional)
+            if ($dataFile->file_path && Storage::disk('public')->exists($dataFile->file_path)) {
+                Storage::disk('public')->delete($dataFile->file_path);
+            }
+
+            // Update file information in the database
+            $dataFile->file_name = $fileName;
+            $dataFile->file_path = $filePath;
+        }
+
+        // Retrieve the associated device
+        $device = Device::where('device_serial', $request->input('device_serial'))->first();
+
+        if (!$device) {
+            return redirect()->back()->withErrors(['device_serial' => 'The specified device does not exist.'])->withInput();
+        }
+
+        // Update other fields
+        $dataFile->machine_id = $request->input('machine_id');
+        $dataFile->device_id = $device->id;
+        $dataFile->vibration_location_id = $request->input('vibration_location_id');
+
+        $dataFile->save();
+
+        return redirect(route('files.index'))->with('success', 'Data file updated successfully.');
+    }
+
     public function destroy(DataFile $dataFile)
     {
         $filePath = $dataFile->file_path;
@@ -126,17 +188,17 @@ class DataFileController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataFile::with(['device', 'area.plant'])->select('*');
+            $data = DataFile::with(['device', 'machine.vibrationLocations'])->select('*');
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('device', function ($row) {
                     return $row->device->serial_number;
                 })
-                ->addColumn('area', function ($row) {
-                    return $row->area->title;
+                ->addColumn('machine', function ($row) {
+                    return $row->machine->machine_name;
                 })
-                ->addColumn('plant', function ($row) {
-                    return $row->area->plant->title;
+                ->addColumn('vibration_location', function ($row) {
+                    return $row->machineVibrationLocation->location_name;
                 })
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->diffForHumans();
@@ -168,11 +230,13 @@ class DataFileController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'file' => 'required|mimes:csv,txt|max:2048',
-            'site_id' => 'required|exists:sites,id',
+            'machine' => 'required|exists:machines,id',
+            'vibration_location' => 'required|exists:machine_vibration_locations,id',
             'device_serial' => 'required|string|exists:devices,serial_number',
         ]);
 
         $device = Device::where('serial_number', $request->input('device_serial'))->first();
+
         if (!$device) {
             return response()->json(['message' => 'Device is not registered at system.'], 404);
         }
@@ -190,8 +254,9 @@ class DataFileController extends Controller
             $dataFile = DataFile::create([
                 'file_name' => $fileName,
                 'file_path' => $filePath,
-                'site_id' => $request->input('site_id'),
                 'device_id' => $device->id,
+                'machine_id' => $request->input('machine'),
+                'vibration_location_id' => $request->input('vibration_location'),
             ]);
 
             $this->process_file($dataFile);
@@ -214,9 +279,9 @@ class DataFileController extends Controller
             foreach ($rows as $row) {
                 SensorData::create([
                     'data_file_id' => $dataFile->id,
-                    'X' => $row['V1'],
-                    'Y' => $row['I1'],
-                    'Z' => $row['P1'],
+                    'X' => $row['X'],
+                    'Y' => $row['Y'],
+                    'Z' => $row['Z'],
                 ]);
             }
         }

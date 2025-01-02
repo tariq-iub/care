@@ -30,4 +30,14 @@ class Machine extends Model
     {
         return $this->belongsToMany(Survey::class, 'survey_machine', 'machine_id', 'survey_id');
     }
+
+    public function vibrationLocations()
+    {
+        return $this->hasMany(MachineVibrationLocation::class);
+    }
+
+    public function dataFiles()
+    {
+        return $this->hasMany(DataFile::class);
+    }
 }

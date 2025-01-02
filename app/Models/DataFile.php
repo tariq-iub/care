@@ -11,22 +11,7 @@ class DataFile extends Model
     use HasFactory;
     use Loggable;
 
-    protected $fillable = ['file_name', 'file_path',  'device_id', 'machine_id', 'vibration_location_id'];
-
-//    public function inspection()
-//    {
-//        return $this->belongsTo(Inspection::class);
-//    }
-//
-//    public function component()
-//    {
-//        return $this->belongsTo(Component::class);
-//    }
-//
-//    public function area()
-//    {
-//        return $this->belongsTo(Area::class);
-//    }
+    protected $fillable = ['file_name', 'file_path', 'machine_id', 'device_id', 'vibration_location_id'];
 
     public function device()
     {
@@ -38,8 +23,8 @@ class DataFile extends Model
         return $this->belongsTo(Machine::class);
     }
 
-    public function vibrationlocation()
+    public function machineVibrationLocation()
     {
-        return $this->belongsTo(MachineVibrationLocations::class);
+        return $this->belongsTo(MachineVibrationLocation::class, 'vibration_location_id');
     }
 }

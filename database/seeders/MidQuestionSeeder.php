@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\MidAnswers;
 use App\Models\MidQuestions;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 class MidQuestionSeeder extends Seeder

@@ -5,6 +5,7 @@ use App\Http\Controllers\DataCollectionSetupController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\MachineController;
+use App\Http\Controllers\MachineVibrationLocationController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MidSetupController;
 use App\Http\Controllers\NewMidController;
@@ -84,4 +85,13 @@ Route::post('/new-mid/update/{id}', [NewMidController::class, 'update']);
 Route::post('/machine/save', [MachineController::class, 'store']);
 Route::post('/machine/update/{id}', [MachineController::class, 'update']);
 
+Route::get('/surveys/attach_machines/{surveyId}', [SurveyController::class, 'getAttachMachines']);
+Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'getDetachMachines']);
+
 Route::get('/fault-codes/fetch-fault-code/{id}', [FaultCodesController::class, 'fetchFaultCode']);
+
+Route::get('/companies', [CompanyController::class, 'fetch'])->name('companies.fetch');
+Route::get('/companies/{company}/plants', [PlantController::class, 'fetchByCompany'])->name('plants.fetchByCompany');
+Route::get('/plants/{plant}/areas', [AreaController::class, 'fetchByPlant'])->name('areas.fetchByPlant');
+Route::get('/areas/{area}/machines', [MachineController::class, 'fetchByArea'])->name('machines.fetchByArea');
+Route::get('/machines/{machine}/vibration-locations', [MachineVibrationLocationController::class, 'fetchByMachine'])->name('vibration-locations.fetchByMachine');

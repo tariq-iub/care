@@ -12,14 +12,4 @@ class Component extends Model
     use Loggable;
 
     protected $fillable = ['title', 'type', 'site_id'];
-
-    public function site()
-    {
-        return $this->belongsTo(Site::class);
-    }
-
-    public function dataFiles()
-    {
-        return $this->hasMany(DataFile::class);
-    }
 }

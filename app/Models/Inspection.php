@@ -20,11 +20,6 @@ class Inspection extends Model
         'scheduled_at' => 'datetime',
     ];
 
-    public function dataFiles()
-    {
-        return $this->hasMany(DataFile::class);
-    }
-
     public function survey()
     {
         return $this->hasOne(Survey::class);

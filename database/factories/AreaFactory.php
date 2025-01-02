@@ -19,7 +19,7 @@ class AreaFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'plant_id' => Plant::factory(),
+            'plant_id' => Plant::factory(), // This is handled in the seeder
             'line_frequency' => fake()->randomElement(['50 Hz', '60 Hz']),
         ];
     }

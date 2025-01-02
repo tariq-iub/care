@@ -66,7 +66,7 @@ class AreaController extends Controller
      */
     public function update(Request $request, Area $area)
     {
-        Log::info('data',$request->all());
+        Log::info('data', $request->all());
 
         $validated = $request->validate([
             'area_id' => 'required',
@@ -92,14 +92,20 @@ class AreaController extends Controller
 
     public function fetch(Request $request, $id)
     {
-        $data = Area::where('id',$id)
-                ->with(['plant'])
-                ->first();
+        $data = Area::where('id', $id)
+            ->with(['plant'])
+            ->first();
 
         return response()->json([
             'success' => true,
             'area' => $data
         ], 200);
 
+    }
+
+    public function fetchByPlant($plantId)
+    {
+        $areas = Area::where('plant_id', $plantId)->get();
+        return response()->json(['areas' => $areas]);
     }
 }
