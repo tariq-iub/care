@@ -8,7 +8,7 @@
         </div>
         <div class="col-auto">
             <div class="d-flex align-items-center">
-                <button class="btn btn-primary" id="save-mid-setup" onclick="saveMid()">Save MID</button>
+                <button class="btn btn-primary" id="save-mid-setup" onclick="updateMid()">Update MID</button>
             </div>
         </div>
     </div>
@@ -39,37 +39,41 @@
                                                     <input class="form-control me-2" id="name" name="name" value="{{$midSetup != null ? $midSetup->title : ""}}" required>
                                                 </div>
 
+                                                <div class="form-group d-flex mb-3 align-items-center d-none">
+                                                    <label for="name" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Name<span class="text-danger">*</span></label>
+                                                    <input class="form-control me-2" id="mid-general-id" name="mid-general-id" value="{{$midGeneral != null ? $midGeneral->id : ""}}">
+                                                </div>
+
                                                 <div class="form-group d-flex mb-3 align-items-center">
                                                     <label for="nominal-speed-2" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Nominal Speed<span class="text-danger">*</span></label>
                                                     <div class="d-flex flex-grow-1 align-items-center">
-                                                        <input class="form-control me-2" id="nominal-speed-2" name="nominal-speed" value="0">
+                                                        <input class="form-control me-2" id="nominal-speed-2" name="nominal-speed" value="{{$midGeneral != null ? $midGeneral->nominal_speed : ""}}" required>
                                                         <div class="form-check ms-2">
-                                                            <input class="form-check-input" id="flexRadioDefaultHz-2" type="radio" name="flexRadioDefaultSpeed-2" value="Hz" checked>
+                                                            <input class="form-check-input" id="flexRadioDefaultHz-2" type="radio" name="flexRadioDefaultSpeed-2" value="Hz" {{$midGeneral != null && $midGeneral->speed_unit == "Hz" ? "checked" : ""}}>
                                                             <label class="form-check-label fs-8" for="flexRadioDefaultHz-2">Hz</label>
                                                         </div>
                                                         <div class="form-check ms-2">
-                                                            <input class="form-check-input" id="flexRadioDefaultCPM-2" type="radio" name="flexRadioDefaultSpeed-2" value="CPM">
+                                                            <input class="form-check-input" id="flexRadioDefaultCPM-2" type="radio" name="flexRadioDefaultSpeed-2" value="CPM" {{$midGeneral != null && $midGeneral->speed_unit == "CPM" ? "checked" : ""}}>
                                                             <label class="form-check-label fs-8" for="flexRadioDefaultCPM-2">CPM</label>
                                                         </div>
                                                     </div>
                                                 </div>
 
-
                                                 <div class="form-group d-flex mb-3 align-items-center">
                                                     <label for="secondary-speed-ratio" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Secondary Speed Ratio<span class="text-danger">*</span></label>
-                                                    <input class="form-control me-2" id="secondary-speed-ratio" name="secondary-speed-ratio" value="1" required>
+                                                    <input class="form-control me-2" id="secondary-speed-ratio" name="secondary-speed-ratio" value="{{$midGeneral != null ? $midGeneral->secondary_speed_ratio : ""}}" required>
                                                 </div>
 
                                                 <div class="form-group d-flex mb-3 align-items-center">
                                                     <label for="mid-rating" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">MID Rating<span class="text-danger">*</span></label>
-                                                    <input class="form-control me-2" id="mid-rating" name="mid-rating" value="100" required>
+                                                    <input class="form-control me-2" id="mid-rating" name="mid-rating" value="{{$midGeneral != null ? $midGeneral->mid_rating : ""}}" required>
                                                 </div>
 
                                                 <div class="form-group d-flex mb-3 align-items-center">
                                                     <label for="mid-number" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Machine Orientation<span class="text-danger">*</span></label>
                                                     <select class="form-select me-2" id="machine-orientation" name="machine-orientation" required>
-                                                        <option value="Horizontal">Horizontal</option>
-                                                        <option value="Vertical">Vertical</option>
+                                                        <option value="Horizontal" @if($midGeneral != null && $midGeneral->machine_orientation == "Horizontal") selected @endif>Horizontal</option>
+                                                        <option value="Vertical" @if($midGeneral != null && $midGeneral->machine_orientation == "Vertical") selected @endif>Vertical</option>
                                                     </select>
                                                 </div>
 
@@ -99,87 +103,42 @@
                                                     <button class="btn btn-primary">Update</button>
                                                     <button class="btn btn-primary">Delete</button>
                                                 </div>
-                                                <div class="border p-2 mb-4" id="components-tab1">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
+
+                                                @foreach($midComponents as $index => $midComponent)
+                                                    <div class="border p-2 mb-4" id="components-tab-{{$index + 1}}">
+                                                        <div class="form-group d-flex mb-3 align-items-center d-none">
+                                                            <label for="component-code" class="form-label-sm me-2 w-30">Id<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-id" name="component-id" value="{{$midComponent->id}}">
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-code" name="component-code" value="{{$midComponent->component_code}}" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="description" name="description" value="{{$midComponent->description}}" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="{{$midComponent->pickup_code}}" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
+                                                            <div class="row g-2">
+                                                                @foreach($midComponent->bearings_monitored_array as $index => $bearing)
+                                                                    <div class="col-md-6">
+                                                                        <input type="number"
+                                                                               class="form-control"
+                                                                               id="bearing-monitored{{ $index + 1 }}"
+                                                                               name="bearings_monitored"
+                                                                               value="{{ $bearing }}"
+                                                                               required>
+                                                                    </div>
+                                                                @endforeach
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="border p-2 mb-4" id="components-tab2">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="border p-2 mb-4" id="components-tab3">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @endforeach
                                             </div>
                                         </form>
                                     </div>
@@ -195,6 +154,9 @@
                                                         <tr>
                                                             <th class="sort align-middle" scope="col" style="width:15%; min-width:100px;">
 
+                                                            </th>
+                                                            <th class="sort align-middle d-none" scope="col" style="width:15%; min-width:100px;">
+                                                                Id
                                                             </th>
                                                             <th class="sort align-middle" scope="col" style="width:15%; min-width:170px;">
                                                                 Code
@@ -221,6 +183,9 @@
                                                             <tr class="position-static">
                                                                 <td class="align-middle white-space-nowrap border-md">
                                                                     <i class="fas fa-caret-right d-none" style="font-size: 30px;"></i>
+                                                                </td>
+                                                                <td class="id align-middle white-space-nowrap border-md d-none">
+                                                                    <input type="text" name="id" id="id" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['id']}}">
                                                                 </td>
                                                                 <td class="code align-middle white-space-nowrap border-md">
                                                                     <input type="text" name="location-name" id="location-name" class="form-control w-100 h-100 border-0 rounded-0" value="{{$forcing_frequency['code']}}">
@@ -384,9 +349,11 @@
 
         function addNewForcingFrequency() {
             let addForcingFrequencyModal = document.getElementById('add-forcing-frequency');
-            let faultCode = addForcingFrequencyModal.querySelector('#fault-code').textContent;
+            let faultCode = addForcingFrequencyModal.querySelector('#fault-code').selectedOptions[0].textContent;
             let multiple = addForcingFrequencyModal.querySelector('#multiple').value;
             let finalCode = addForcingFrequencyModal.querySelector('#final-code').value;
+
+            console.log(faultCode, multiple, finalCode);
 
             let faultCodeSplit = faultCode.split('|');
             faultCode = faultCodeSplit[0].trim();
@@ -432,7 +399,7 @@
         let okButton = addForcingFrequencyModal.querySelector('.btn-primary');
         okButton.addEventListener('click', addNewForcingFrequency);
 
-        function saveMid() {
+        function updateMid() {
             let forms = document.querySelectorAll('form');
             forms.forEach((form) => {
                 if (!form.checkValidity()) {
@@ -442,6 +409,7 @@
             });
 
             let midNumber = $('#mid-number').val();
+            let midGeneralId = $('#mid-general-id').val();
             let name = $('#name').val();
             let nominalSpeed = $('#nominal-speed-2').val();
             let nominalSpeedType = $('input[name=flexRadioDefaultSpeed-2]:checked').val();
@@ -457,7 +425,12 @@
                     return;
                 }
                 const component = {};
-
+                const componentId = tab.querySelector("[name='component-id']");
+                if (componentId && componentId.value.trim() !== "") {
+                    component.id = componentId.value.trim();
+                } else {
+                    component.id = null;
+                }
                 component.componentCode = tab.querySelector("#component-code").value.trim();
                 component.description = tab.querySelector("#description").value.trim();
                 component.pickupCode = tab.querySelector("#pickup-code").value.trim();
@@ -474,21 +447,30 @@
 
             document.querySelectorAll("#setups-table-body tr").forEach((row) => {
                 const forcingFrequency = {};
+
+                const idInput = row.querySelector("[name='id']");
+                if (idInput && idInput.value.trim() !== "") {
+                    forcingFrequency.id = idInput.value.trim();
+                } else {
+                    forcingFrequency.id = null;
+                }
+
                 forcingFrequency.code = row.querySelector("#location-name").value.trim();
                 forcingFrequency.multiple = row.querySelector("#multiple").value.trim();
                 forcingFrequency.name = row.querySelector("#position").value.trim();
                 forcingFrequency.on_secondary = row.querySelector("#id-tag").value.trim();
                 forcingFrequency.elements = row.querySelector("#elements").value.trim();
                 forcingFrequency.final_ratio = row.querySelector("#final-ratio").value.trim();
-
+                console.log(forcingFrequency);
                 forcingFrequencies.push(forcingFrequency);
             });
 
-            $.post('/api/new-mid/save',
+            $.post('/api/new-mid/update/' + Number(midNumber),
                 {
                     _token: '{{ csrf_token() }}',
                     general: {
                         midNumber,
+                        midGeneralId,
                         name,
                         nominalSpeed,
                         nominalSpeedType,
@@ -501,7 +483,7 @@
                 }
                 , function (response) {
                     if (response.success) {
-                        window.location.href = '/new-mid/';
+                        window.location.href = '/new-mid';
                     }
                 });
         }

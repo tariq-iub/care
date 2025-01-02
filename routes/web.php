@@ -106,7 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/question', QuestionController::class)->except(['show']);
     Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
     Route::resource('/machines', MachineController::class);
-    Route::resource('/new-mid', NewMidController::class)->except(['show', 'edit', 'update', 'destroy']);
+    Route::resource('/new-mid', NewMidController::class)->except(['destroy']);
     Route::resource('/fault-codes', FaultCodesController::class)->except(['create', 'show', 'edit']);
 
     Route::resource('/devices', DeviceController::class, ['only' => ['index', 'show']])->names([

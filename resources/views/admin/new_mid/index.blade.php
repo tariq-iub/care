@@ -4,12 +4,12 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item active">Machines</li>
+            <li class="breadcrumb-item active">MIDs</li>
         </ol>
     </nav>
 
     <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Manage Machines</h2>
+        <h2 class="text-bold text-body-emphasis">Manage MIDs</h2>
     </div>
 
     <div id="companies" data-list='{"valueNames":["machine"],"page":10,"pagination":true}'>
@@ -24,13 +24,13 @@
                 </div>
             </div>
 
-{{--            <div class="col-auto">--}}
-{{--                <div class="d-flex align-items-center">--}}
-{{--                    <a class="btn btn-primary" href="{{ route('machines.create') }}">--}}
-{{--                        <span class="fas fa-plus me-2"></span>Create Machine--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="col-auto">
+                <div class="d-flex align-items-center">
+                    <a class="btn btn-primary" href="{{ route('new-mid.create') }}">
+                        <span class="fas fa-plus me-2"></span>Create New MID
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-body-emphasis border-y mt-2 position-relative top-1">
@@ -53,6 +53,9 @@
                         <th class="sort align-middle" scope="col" style="width:15%; min-width:200px;">
                             Machine Orientation
                         </th>
+                        <th class="sort align-middle text-end" scope="col" style="width:21%;  min-width:100px;">
+                            ACTIONS
+                        </th>
                     </tr>
                     </thead>
                     <tbody class="list" id="setups-table-body">
@@ -73,30 +76,30 @@
                             <td class="area align-middle white-space-nowrap">
                                 <span class="text-body">{{ $row->machine_orientation }}</span>
                             </td>
-{{--                            <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">--}}
-{{--                                <div class="btn-reveal-trigger position-static">--}}
-{{--                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"--}}
-{{--                                            type="button" data-bs-toggle="dropdown" data-boundary="window"--}}
-{{--                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">--}}
-{{--                                        <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true"--}}
-{{--                                             focusable="false" data-prefix="fas" data-icon="ellipsis" role="img"--}}
-{{--                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">--}}
-{{--                                            <path fill="currentColor"--}}
-{{--                                                  d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>--}}
-{{--                                        </svg>--}}
-{{--                                    </button>--}}
-{{--                                    <div class="dropdown-menu dropdown-menu-end py-2" style="">--}}
-{{--                                        <a class="dropdown-item" href="{{route('machines.edit', $row->id)}}">Edit</a>--}}
-{{--                                        <a class="dropdown-item" href="{{route('machines.show', $row->id)}}">Show</a>--}}
-{{--                                        <div class="dropdown-divider"></div>--}}
-{{--                                        <form action="{{ route('machines.destroy', $row->id) }}" method="POST">--}}
-{{--                                            @csrf--}}
-{{--                                            @method('DELETE')--}}
-{{--                                            <button type="submit" class="dropdown-item text-danger">Delete</button>--}}
-{{--                                        </form>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </td>--}}
+                            <td class="last_active align-middle text-end white-space-nowrap text-body-tertiary">
+                                <div class="btn-reveal-trigger position-static">
+                                    <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                                            type="button" data-bs-toggle="dropdown" data-boundary="window"
+                                            aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                        <svg class="svg-inline--fa fa-ellipsis fs-10" aria-hidden="true"
+                                             focusable="false" data-prefix="fas" data-icon="ellipsis" role="img"
+                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                            <path fill="currentColor"
+                                                  d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end py-2" style="">
+                                        <a class="dropdown-item" href="{{route('new-mid.edit', $row->id)}}">Edit</a>
+                                        <a class="dropdown-item" href="{{route('new-mid.show', $row->id)}}">Show</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form action="{{ route('machines.destroy', $row->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -4,12 +4,12 @@
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-            <li class="breadcrumb-item active">MIDs</li>
+            <li class="breadcrumb-item active">MID Setups</li>
         </ol>
     </nav>
 
     <div class="mb-5">
-        <h2 class="text-bold text-body-emphasis">Manage MIDs</h2>
+        <h2 class="text-bold text-body-emphasis">Manage MID Setups</h2>
     </div>
 
     <div id="companies" data-list='{"valueNames":["mid"],"page":10,"pagination":true}'>
