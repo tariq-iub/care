@@ -18,7 +18,7 @@ class InspectionFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'inspection_type' => fake()->randomElement([
+            'inspection' => fake()->randomElement([
                 'Routine',
                 'Emergency',
                 'Post-Maintenance'
