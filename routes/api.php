@@ -80,7 +80,10 @@ Route::post('/mid-setup/update/{id}', [MidSetupController::class, 'update']);
 Route::post('/mid-setup/fetch-child-question', [MidSetupController::class, 'fetchChildQuestion']);
 
 Route::post('/new-mid/save', [NewMidController::class, 'store']);
+Route::post('/new-mid/update/{id}', [NewMidController::class, 'update']);
+
 Route::post('/machine/save', [MachineController::class, 'store']);
+Route::post('/machine/update/{id}', [MachineController::class, 'update']);
 
 Route::get('/surveys/attach_machines/{surveyId}', [SurveyController::class, 'getAttachMachines']);
 Route::get('/surveys/detach_machines/{surveyId}', [SurveyController::class, 'getDetachMachines']);
