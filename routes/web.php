@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MachineController;
+use App\Http\Controllers\MachineHierarchyController;
 use App\Http\Controllers\MidSetupController;
 use App\Http\Controllers\NewMidController;
 use App\Http\Controllers\PricingPlansController;
@@ -88,6 +89,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
     Route::resource('/inspections', InspectionController::class);
+
+    Route::resource('/machine_hierarchy', MachineHierarchyController::class);
 
     Route::resource('/sensor_data', SensorDataController::class);
     Route::post('/sensor_data/generate_plot', [SensorDataController::class, 'generatePlot'])->name('sensor_data.generate_plot');
