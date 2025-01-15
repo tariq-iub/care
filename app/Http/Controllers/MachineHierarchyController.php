@@ -19,7 +19,7 @@ class MachineHierarchyController extends Controller
             'plants',                      // Load plants for each company
             'plants.areas',                // Load areas for each plant
             'plants.areas.machines',       // Load machines for each area
-            'plants.areas.machines.machinePoints' // Load machine points for each machine
+            'plants.areas.machines.vibrationLocations' // Load machine points for each machine
         ])->get();
 
         // Return the view with the fetched data

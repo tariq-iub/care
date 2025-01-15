@@ -8,7 +8,7 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Company: {{ $company->name }}</th>
+                        <th>Company: {{ $company->company_name }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,7 +22,7 @@
                                     <table class="table table-bordered mt-2">
                                         <thead>
                                         <tr>
-                                            <th>Plant: {{ $plant->name }}</th>
+                                            <th>Plant: {{ $plant->title }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -71,7 +71,7 @@
                                                                                                 </tr>
                                                                                                 </thead>
                                                                                                 <tbody>
-                                                                                                @foreach($machine->machinePoints as $point)
+                                                                                                @foreach($machine->vibrationLocations as $point)
                                                                                                     <tr>
                                                                                                         <td>{{ $point->name }}</td>
                                                                                                         <td>
