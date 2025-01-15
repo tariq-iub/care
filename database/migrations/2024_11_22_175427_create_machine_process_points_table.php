@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('machine_process_points', function (Blueprint $table) {
             $table->id();
             $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
-            $table->string('point_name');
-            $table->string('id_tag');
+            $table->boolean('is_points_enabled')->default(0);
+            $table->string('point_name')->nullable();
+            $table->string('id_tag')->nullable();
             $table->timestamps();
         });
     }

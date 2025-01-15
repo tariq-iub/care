@@ -8,7 +8,7 @@
         </div>
         <div class="col-auto">
             <div class="d-flex align-items-center">
-                <button class="btn btn-primary" id="save-mid-setup" onclick="saveMidSetup()">Save MID Setup</button>
+                <button class="btn btn-primary" id="save-mid-setup" onclick="saveMid()">Save MID</button>
             </div>
         </div>
     </div>
@@ -411,7 +411,7 @@
                     <input type="text" name="position" id="position" class="form-control w-100 h-100 border-0 rounded-0" value="${description}">
                 </td>
                 <td class="on_secondary align-middle white-space-nowrap border-md">
-                    <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="No">
+                    <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="0">
                 </td>
                 <td class="elements align-middle white-space-nowrap border-md">
                     <input type="text" name="elements" id="elements" class="form-control w-100 h-100 border-0 rounded-0" value="${elements}">
@@ -432,7 +432,7 @@
         let okButton = addForcingFrequencyModal.querySelector('.btn-primary');
         okButton.addEventListener('click', addNewForcingFrequency);
 
-        function saveMidSetup() {
+        function saveMid() {
             let forms = document.querySelectorAll('form');
             forms.forEach((form) => {
                 if (!form.checkValidity()) {
@@ -501,7 +501,7 @@
                 }
                 , function (response) {
                     if (response.success) {
-                        window.location.href = '/mid-setups/';
+                        window.location.href = '/new-mid/';
                     }
                 });
         }
