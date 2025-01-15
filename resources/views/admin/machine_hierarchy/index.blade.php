@@ -73,7 +73,7 @@
                                                                                                 <tbody>
                                                                                                 @foreach($machine->vibrationLocations as $point)
                                                                                                     <tr>
-                                                                                                        <td>{{ $point->name }}</td>
+                                                                                                        <td>{{ $point->location_name }}</td>
                                                                                                         <td>
                                                                                                             <button class="btn btn-primary">Start Diagnosis</button>
                                                                                                         </td>
