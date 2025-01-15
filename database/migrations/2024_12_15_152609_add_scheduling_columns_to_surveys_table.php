@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('machine_process_points', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
-            $table->string('point_name');
-            $table->string('id_tag');
-            $table->timestamps();
+        Schema::table('surveys', function (Blueprint $table) {
+            $table->timestamp('scheduled_at')->nullable()->after('status');
+            $table->boolean('taken_up')->default(0)->after('survey_type');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('machine_process_points');
+        Schema::table('surveys', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -9,7 +9,7 @@ class MachineProcessPoint extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['machine_id', 'is_points_enabled', 'point_name', 'id_tag'];
+    protected $fillable = ['machine_id', 'point_name', 'id_tag'];
 
     public function machine()
     {

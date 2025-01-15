@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('machine_vibration_locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('machine_id')->constrained('machines')->onDelete('cascade');
-            $table->boolean('is_locations_enabled')->default(0);
-            $table->string('location_name')->nullable();
-            $table->string('position')->nullable();
-            $table->string('id_tag')->nullable();
-            $table->string('orientation')->nullable();
+            $table->string('location_name');
+            $table->string('position');
+            $table->string('id_tag');
+            $table->string('orientation');
             $table->timestamps();
         });
     }

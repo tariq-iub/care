@@ -24,6 +24,7 @@ class NewMidController extends Controller
 
     public function create()
     {
+
         $midSetupId = session()->get('midSetupId');
         session()->forget('midSetupId');
 
@@ -46,37 +47,6 @@ class NewMidController extends Controller
         return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies', 'faultCodes'));
     }
 
-    public function edit($id){
-        $midSetup = MidSetup::find($id);
-        $midGeneral = MidGenerals::where('mid_setup_id', $id)->first();
-        $midComponents = MidComponents::where('mid_setup_id', $id)->get();
-
-        foreach ($midComponents as $component) {
-            $component->bearings_monitored_array = explode(',', $component->bearings_monitored);;
-        }
-
-        $forcing_frequencies = ForcingFrequencies::where('mid_setup_id', $id)->get();
-        $faultCodes = FaultCodes::all();
-
-        return view('admin.new_mid.edit', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes'));
-    }
-
-    public function show($id)
-    {
-        $midSetup = MidSetup::find($id);
-        $midGeneral = MidGenerals::where('mid_setup_id', $id)->first();
-        $midComponents = MidComponents::where('mid_setup_id', $id)->get();
-
-        foreach ($midComponents as $component) {
-            $component->bearings_monitored_array = explode(',', $component->bearings_monitored);;
-        }
-
-        $forcing_frequencies = ForcingFrequencies::where('mid_setup_id', $id)->get();
-        $faultCodes = FaultCodes::all();
-
-        return view('admin.new_mid.show', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes'));
-    }
-
     public function store(Request $request)
     {
         $data = $request->all();
@@ -88,13 +58,12 @@ class NewMidController extends Controller
         if (MidSetup::where('id', $generalData['midNumber'])->exists()) {
             $midSetup = MidSetup::where('id', $generalData['midNumber'])->first();
             $midSetup->update(['title' => $generalData['name']]);
-        } else {
-            $midSetup = MidSetup::create([
-                'id' => $generalData['midNumber'],
-                'title' => $generalData['name'],
-            ]);
         }
 
+        $midSetup = MidSetup::create([
+            'id' => $generalData['midNumber'],
+            'title' => $generalData['name'],
+        ]);
         MidGenerals::where('mid_setup_id', $generalData['midNumber'])->delete();
         ForcingFrequencies::where('mid_setup_id', $generalData['midNumber'])->delete();
         MidComponents::where('mid_setup_id', $generalData['midNumber'])->delete();
@@ -130,90 +99,6 @@ class NewMidController extends Controller
                 'pickup_code' => $component['pickupCode'],
                 'bearings_monitored' => $bearings_monitored
             ]);
-        }
-
-        return response()->json(['success' => true]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $data = $request->all();
-        Log::info($id);
-        Log::info($data);
-
-        $generalData = $data['general'];
-        $components = $data['components'];
-        $forcingFrequencies = $data['forcingFrequencies'];
-
-        $midSetup = MidSetup::find($generalData['midNumber']);
-        $midSetup->update(['title' => $generalData['name']]);
-
-        $midGeneral = MidGenerals::where('id', $generalData['midGeneralId'])->first();
-
-        if ($midGeneral) {
-            $midGeneral->update([
-                'nominal_speed' => $generalData['nominalSpeed'],
-                'speed_unit' => $generalData['nominalSpeedType'],
-                'secondary_speed_ratio' => $generalData['secondarySpeedRatio'],
-                'mid_rating' => $generalData['midRating'],
-                'machine_orientation' => $generalData['machineOrientation']
-            ]);
-        } else {
-            $midGeneral = MidGenerals::create([
-                'mid_setup_id' => $generalData['midNumber'],
-                'nominal_speed' => $generalData['nominalSpeed'],
-                'speed_unit' => $generalData['nominalSpeedType'],
-                'secondary_speed_ratio' => $generalData['secondarySpeedRatio'],
-                'mid_rating' => $generalData['midRating'],
-                'machine_orientation' => $generalData['machineOrientation']
-            ]);
-        }
-
-
-        foreach ($forcingFrequencies as $forcingFrequency) {
-            if ($forcingFrequency['id']) {
-                $forcing_frequency = ForcingFrequencies::find($forcingFrequency['id']);
-                $forcing_frequency->update([
-                    'code' => $forcingFrequency['code'],
-                    'multiple' => $forcingFrequency['multiple'],
-                    'name' => $forcingFrequency['name'],
-                    'on_secondary' => $forcingFrequency['on_secondary'] == 'Yes' ? 1 : 0,
-                    'elements' => $forcingFrequency['elements'],
-                    'final_ratio' => $forcingFrequency['final_ratio']
-                ]);
-            } else {
-                $forcing_frequency = ForcingFrequencies::create([
-                    'mid_setup_id' => $id,
-                    'code' => $forcingFrequency['code'],
-                    'multiple' => $forcingFrequency['multiple'],
-                    'name' => $forcingFrequency['name'],
-                    'on_secondary' => $forcingFrequency['on_secondary'] == 'Yes' ? 1 : 0,
-                    'elements' => $forcingFrequency['elements'],
-                    'final_ratio' => $forcingFrequency['final_ratio']
-                ]);
-            }
-        }
-
-        foreach ($components as $component) {
-            if ($component['id']) {
-                $bearings_monitored = implode(',', $component['bearingMonitored']);
-                $midComponent = MidComponents::find($component['id']);
-                $midComponent->update([
-                    'component_code' => $component['componentCode'],
-                    'description' => $component['description'],
-                    'pickup_code' => $component['pickupCode'],
-                    'bearings_monitored' => $bearings_monitored
-                ]);
-            } else {
-                $bearings_monitored = implode(',', $component['bearingMonitored']);
-                $midComponent = MidComponents::create([
-                    'mid_setup_id' => $id,
-                    'component_code' => $component['componentCode'],
-                    'description' => $component['description'],
-                    'pickup_code' => $component['pickupCode'],
-                    'bearings_monitored' => $bearings_monitored
-                ]);
-            }
         }
 
         return response()->json(['success' => true]);

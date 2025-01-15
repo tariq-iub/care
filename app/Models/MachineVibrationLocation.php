@@ -9,7 +9,7 @@ class MachineVibrationLocation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['machine_id', 'is_locations_enabled', 'location_name', 'position', 'id_tag', 'orientation'];
+    protected $fillable = ['machine_id', 'location_name', 'position', 'id_tag', 'orientation'];
 
     public function machine()
     {

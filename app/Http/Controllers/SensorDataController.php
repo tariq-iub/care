@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SensorData;
+
 use Illuminate\Http\Request;
 
 class SensorDataController extends Controller
@@ -12,17 +13,9 @@ class SensorDataController extends Controller
      */
     public function index()
     {
-        $fft = SensorData::FFT(1, ['X']);
-        $data = [];
+        $dataFileIds = SensorData::select('data_file_id')->distinct()->get();
 
-        foreach ($fft as $key => $value) {
-            $data[] = [
-                'real' => $value->getReal(),
-                'imaginary' => $value->getImaginary(),
-                'magnitude' => $value->abs(),
-            ];
-        }
-        return $data;
+        return view('sensor_data.index', compact('dataFileIds'));
     }
 
     /**
@@ -31,6 +24,7 @@ class SensorDataController extends Controller
     public function create()
     {
         //
+        return view('sensor_data.create');
     }
 
     /**
@@ -39,6 +33,16 @@ class SensorDataController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'data_file_id' => 'required',
+            'X' => 'required',
+            'Y' => 'required',
+            'Z' => 'required',
+        ]);
+
+        SensorData::create($validated);
+
+        return redirect()->route('sensor_data.index');
     }
 
     /**
@@ -47,6 +51,7 @@ class SensorDataController extends Controller
     public function show(SensorData $sensorData)
     {
         //
+        return view('sensor_data.show', compact('sensorData'));
     }
 
     /**
@@ -55,6 +60,7 @@ class SensorDataController extends Controller
     public function edit(SensorData $sensorData)
     {
         //
+        return view('sensor_data.edit', compact('sensorData'));
     }
 
     /**
@@ -63,6 +69,16 @@ class SensorDataController extends Controller
     public function update(Request $request, SensorData $sensorData)
     {
         //
+        $validated = $request->validate([
+            'data_file_id' => 'required',
+            'X' => 'required',
+            'Y' => 'required',
+            'Z' => 'required',
+        ]);
+
+        $sensorData->update($validated);
+
+        return redirect()->route('sensor_data.index');
     }
 
     /**
@@ -71,5 +87,40 @@ class SensorDataController extends Controller
     public function destroy(SensorData $sensorData)
     {
         //
+        $sensorData->delete();
+
+        return redirect()->route('sensor_data.index');
+    }
+
+    public function generatePlot(Request $request)
+    {
+        $fileId = $request->input('file_id');
+        $column = $request->input('column');
+
+        $sensorData = SensorData::select($column)->where('data_file_id', $fileId)->get();
+
+        return view('sensor_data.plot', compact('sensorData', 'column'));
+    }
+
+    public function generateTimeDomainPlot(Request $request)
+    {
+        $fileId = $request->input('file_id');
+        $sensorData = SensorData::where('data_file_id', $fileId)->get();
+
+        return view('sensor_data.timedomain', [
+            'sensorData' => $sensorData,
+            'column' => 'combined'
+        ]);
+    }
+
+    public function generateFrequencyDomainPlot(Request $request)
+    {
+        $fileId = $request->input('file_id');
+        $sensorData = SensorData::where('data_file_id', $fileId)->get();
+
+        return view('sensor_data.freqdomain', [
+            'sensorData' => $sensorData,
+            'column' => 'combined'
+        ]);
     }
 }
