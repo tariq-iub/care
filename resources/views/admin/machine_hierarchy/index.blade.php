@@ -50,7 +50,7 @@
                                                                             <table class="table table-bordered mt-2">
                                                                                 <thead>
                                                                                 <tr>
-                                                                                    <th>Machine: {{ $machine->name }}</th>
+                                                                                    <th>Machine: {{ $machine->machine_name }}</th>
                                                                                     <th>
                                                                                         <button class="btn btn-primary">Start Diagnosis</button>
                                                                                     </th>
