@@ -6,8 +6,10 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DataFileController;
 use App\Http\Controllers\FaultCodesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MachineController;
+use App\Http\Controllers\MachineHierarchyController;
 use App\Http\Controllers\MidSetupController;
 use App\Http\Controllers\NewMidController;
 use App\Http\Controllers\PricingPlansController;
@@ -25,7 +27,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DataCollectionSetupController;
-use App\Http\Controllers\WebhookController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,8 +68,16 @@ Route::get('/enter-new-password', [SetPasswordController::class, 'showSetPasswor
 Route::post('/update-new-password', [SetPasswordController::class, 'setPassword'])
     ->name('update.new.password')->middleware(['guest']);
 
+Route::get('/fft', function () {
+    return view('fft_graph');
+});
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::resource('/users', UserController::class)->except(['show']);
+    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
+    Route::get('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
 
     Route::resource('/menus', MenuController::class)->except(['show']);
     Route::put('/menus/status/{menu}', [MenuController::class, 'statusToggle'])->name('menus.toggle');
@@ -66,14 +86,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/roles/role_menu_attachment', [RoleController::class, 'roleMenuAttachment'])->name('roles.role_menu_attachment');
     Route::post('/roles/role_menu_detachment', [RoleController::class, 'roleMenuDetachment'])->name('roles.role_menu_detachment');
 
-    Route::resource('/users', UserController::class)->except(['show']);
-    Route::put('/users/status/{user}', [UserController::class, 'statusToggle'])->name('users.status');
-    Route::get('/users/profile/{user}', [UserController::class, 'profile'])->name('users.profile');
-
     Route::resource('/user_register', UserRegistrationController::class);
     Route::resource('/company', CompanyController::class)->except(['destroy', 'update', 'store']);
     Route::resource('/inspections', InspectionController::class);
+
+    Route::resource('/machine_hierarchy', MachineHierarchyController::class);
+
     Route::resource('/sensor_data', SensorDataController::class);
+    Route::post('/sensor_data/generate_plot', [SensorDataController::class, 'generatePlot'])->name('sensor_data.generate_plot');
+    Route::post('/sensor-data/generate-time-domain-plot', [SensorDataController::class, 'generateTimeDomainPlot'])->name('sensor_data.generate_time_domain_plot');
+    Route::post('/sensor-data/generate-frequency-domain-plot', [SensorDataController::class, 'generateFrequencyDomainPlot'])->name('sensor_data.generate_frequency_domain_plot');
+
     Route::resource('/service-reps', ServiceRepresentativeController::class);
     Route::resource('/question', QuestionController::class)->except(['show']);
     Route::resource('/mid-setups', MidSetupController::class)->except(['store', 'update']);
@@ -85,10 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/surveys/survey_machine_attachment', [SurveyController::class, 'attachMachines'])->name('surveys.survey_machine_attachment');
     Route::post('/surveys/survey_machine_detachment', [SurveyController::class, 'detachMachines'])->name('surveys.survey_machine_detachment');
 
-
-    Route::resource('/surveys', SurveyController::class);
-    Route::post('/surveys/survey_machine_attachment', [SurveyController::class, 'attachMachines'])->name('surveys.survey_machine_attachment');
-    Route::post('/surveys/survey_machine_detachment', [SurveyController::class, 'detachMachines'])->name('surveys.survey_machine_detachment');
+    Route::resource('/devices', DeviceController::class);
 
     Route::controller(DataFileController::class)
         ->as('data.')

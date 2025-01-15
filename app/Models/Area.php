@@ -20,4 +20,9 @@ class Area extends Model
     {
         return $this->belongsTo(Plant::class);
     }
+
+    public function machines()
+    {
+        return $this->hasMany(Machine::class);
+    }
 }
