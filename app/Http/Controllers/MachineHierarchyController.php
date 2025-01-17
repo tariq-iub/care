@@ -3,26 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Machine;
 use Illuminate\Http\Request;
 
 class MachineHierarchyController extends Controller
 {
     /**
-     * Display the hierarchy view with all data.
+     * Display the machines with their company, plant, and area hierarchy.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        // Fetch companies with their full hierarchy using Eager Loading
-        $companies = Company::with([
-            'plants',                      // Load plants for each company
-            'plants.areas',                // Load areas for each plant
-            'plants.areas.machines',       // Load machines for each area
-            'plants.areas.machines.vibrationLocations' // Load machine points for each machine
+        $companies = Company::all();
+        // Fetch machines with their full hierarchy (company, plant, and area) using Eager Loading
+        $machines = Machine::with([
+            'area.plant.company',         // Load the plant, area, and company for each machine
         ])->get();
 
         // Return the view with the fetched data
-        return view('admin.machine_hierarchy.index', compact('companies'));
+        return view('admin.machine_hierarchy.index', compact('machines', 'companies'));
     }
 }
