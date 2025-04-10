@@ -39,6 +39,11 @@ class QuestionController extends Controller
             'sort_order' => $request->input('sort_order', 0),
         ]);
 
+        DB::table('mid_question_type')->insert([
+            'mid_question_id' => $question->id,
+            'type' => null,
+        ]);
+
         if ($request->has('answers')) {
             foreach ($request->input('answers') as $groupName => $groupAnswers) {
                 foreach ($groupAnswers as $index => $answerDetails) {

@@ -321,16 +321,10 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // Add click event to each row
-            $('tr').click(function() {
-                // Hide all icons first
-                $('tr').find('.fa-caret-right').addClass('d-none');
-
-                // Show the icon in the clicked row
+            $('#setups-table-body').on('click', 'tr', function() {
+                $('#setups-table-body').find('.fa-caret-right').addClass('d-none');
                 $(this).find('.fa-caret-right').removeClass('d-none');
-
-                // Optionally: Add a class to highlight the selected row
-                $('tr').removeClass('selected-row');
+                $('#setups-table-body').find('tr').removeClass('selected-row');
                 $(this).addClass('selected-row');
             });
         });
@@ -352,8 +346,6 @@
             let faultCode = addForcingFrequencyModal.querySelector('#fault-code').selectedOptions[0].textContent;
             let multiple = addForcingFrequencyModal.querySelector('#multiple').value;
             let finalCode = addForcingFrequencyModal.querySelector('#final-code').value;
-
-            console.log(faultCode, multiple, finalCode);
 
             let faultCodeSplit = faultCode.split('|');
             faultCode = faultCodeSplit[0].trim();
@@ -378,7 +370,7 @@
                     <input type="text" name="position" id="position" class="form-control w-100 h-100 border-0 rounded-0" value="${description}">
                 </td>
                 <td class="on_secondary align-middle white-space-nowrap border-md">
-                    <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="0">
+                    <input type="text" name="id-tag" id="id-tag" class="form-control w-100 h-100 border-0 rounded-0" value="No">
                 </td>
                 <td class="elements align-middle white-space-nowrap border-md">
                     <input type="text" name="elements" id="elements" class="form-control w-100 h-100 border-0 rounded-0" value="${elements}">

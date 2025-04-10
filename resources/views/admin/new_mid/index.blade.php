@@ -89,8 +89,8 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end py-2" style="">
-                                        <a class="dropdown-item" href="{{route('new-mid.edit', $row->id)}}">Edit</a>
-                                        <a class="dropdown-item" href="{{route('new-mid.show', $row->id)}}">Show</a>
+                                        <a class="dropdown-item" href="{{route('new-mid.edit', $row->mid_setup_id)}}">Edit</a>
+                                        <a class="dropdown-item" href="{{route('new-mid.show', $row->mid_setup_id)}}">Show</a>
                                         <div class="dropdown-divider"></div>
                                         <form action="{{ route('machines.destroy', $row->id) }}" method="POST">
                                             @csrf

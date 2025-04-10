@@ -21,7 +21,6 @@
 
                 <p class="navbar-vertical-label">Modules</p>
                 <hr class="navbar-vertical-line">
-
                 @foreach($menus as $menu)
                     @if($menu->route == 'home') @continue; @endif
                     @if(count($menu->submenus))

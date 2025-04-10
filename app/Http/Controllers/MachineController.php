@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Machine;
 use App\Models\MachineProcessPoint;
-use App\Models\MachineVibrationLocations;
+use App\Models\MachineVibrationLocation;
 use App\Models\MidSetup;
 use App\Models\Plant;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class MachineController extends Controller
 
         $isVibrationLocationChecked =null;
 
-        $locations = MachineVibrationLocations::where('machine_id', $id)->get();
+        $locations = MachineVibrationLocation::where('machine_id', $id)->get();
         foreach ($locations as $location) {
             $location->orientations = getOrientationsType();
             $isVibrationLocationChecked = $location->is_locations_enabled;
@@ -53,7 +53,7 @@ class MachineController extends Controller
 
         $isVibrationLocationChecked =null;
 
-        $locations = MachineVibrationLocations::where('machine_id', $id)->get();
+        $locations = MachineVibrationLocation::where('machine_id', $id)->get();
         foreach ($locations as $location) {
             $location->orientations = getOrientationsType();
             $isVibrationLocationChecked = $location->is_locations_enabled;
@@ -101,7 +101,7 @@ class MachineController extends Controller
 
         if (isset($locationVibrations['isVibrationLocationChecked'])) {
             foreach ($locationVibrations['locations'] as $location) {
-                $machine_vibration_location = MachineVibrationLocations::create([
+                $machine_vibration_location = MachineVibrationLocation::create([
                     'machine_id' => $machine_info->id,
                     'is_locations_enabled' => $locationVibrations['isVibrationLocationChecked'] ? 1 : 0,
                     'location_name' => $location['locationName'],
@@ -143,7 +143,7 @@ class MachineController extends Controller
 
         if (isset($locationVibrations['isVibrationLocationChecked'])) {
             foreach ($locationVibrations['locations'] as $location) {
-                $machine_vibration_location = MachineVibrationLocations::find($location['id']);
+                $machine_vibration_location = MachineVibrationLocation::find($location['id']);
                 $machine_vibration_location->update([
                     'machine_id' => $machine_info->id,
                     'is_locations_enabled' => $locationVibrations['isVibrationLocationChecked'] ? 1 : 0,
@@ -173,7 +173,7 @@ class MachineController extends Controller
     {
         $machine = Machine::find($id);
 
-        $vibrationLocations = MachineVibrationLocations::where('machine_id', $id)->get();
+        $vibrationLocations = MachineVibrationLocation::where('machine_id', $id)->get();
         $processPoints = MachineProcessPoint::where('machine_id', $id)->get();
 
         foreach ($vibrationLocations as $vibrationLocation) {
