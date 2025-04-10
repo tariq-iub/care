@@ -73,5 +73,6 @@
 <!-- Stacking JavaScript -->
 @stack('scripts')
 
+
 </body>
 </html>

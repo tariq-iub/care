@@ -229,7 +229,7 @@ class DataFileController extends Controller
     {
         // Validate the request
         $validator = Validator::make($request->all(), [
-            'file' => 'required|mimes:csv,txt|max:2048',
+            'file' => 'required|mimes:csv,txt|max:8192',
             'machine' => 'required|exists:machines,id',
             'vibration_location' => 'required|exists:machine_vibration_locations,id',
             'device_serial' => 'required|string|exists:devices,serial_number',

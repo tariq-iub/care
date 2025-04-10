@@ -24,4 +24,9 @@ class Company extends Model
         'fax_number',
         'email',
     ];
+
+    public function plants()
+    {
+        return $this->hasMany(Plant::class);
+    }
 }
