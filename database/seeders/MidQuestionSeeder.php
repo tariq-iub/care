@@ -16,6 +16,7 @@ class MidQuestionSeeder extends Seeder
                 'title' => 'Drive Type of Component',
                 'body' => 'What Type of component drives this machine?',
                 'sort_order' => 1,
+                'type' => 'drive',
                 'answers' => [
                     [
                         'question_answer_id' => 1,
@@ -228,6 +229,7 @@ class MidQuestionSeeder extends Seeder
                 'title' => 'Coupled to the next',
                 'body' => 'How is the component coupled to the next component?',
                 'sort_order' => 6,
+                'type' => 'coupling',
                 'answers' => [
                     [
                         'question_answer_id' => 69,
@@ -694,6 +696,7 @@ class MidQuestionSeeder extends Seeder
                 'title' => 'driven by machine',
                 'body' => 'What is driven by your machine?',
                 'sort_order' => 12,
+                'type' => 'driven',
                 'answers' => [
                     [
                         'question_answer_id' => 120,
@@ -3505,6 +3508,12 @@ class MidQuestionSeeder extends Seeder
                 'body' => $questionWithAnswers['body'],
                 'sort_order' => $questionWithAnswers['sort_order'],
             ]);
+            if (isset($questionWithAnswers['type'])) {
+                DB::table('mid_question_type')->insert([
+                    'mid_question_id' => $question->id,
+                    'type' => $questionWithAnswers['type'],
+                ]);
+            }
             foreach ($questionWithAnswers['answers'] as $answer) {
                 MidAnswers::create([
                     'id' => $answer['id'],

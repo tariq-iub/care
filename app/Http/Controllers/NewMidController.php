@@ -11,6 +11,7 @@ use App\Models\MidSetup;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Services\DesignLayoutService;
 
 class NewMidController extends Controller
 {
@@ -43,7 +44,11 @@ class NewMidController extends Controller
             ['code' => '9X', 'multiple'=>'1', 'name' => '9X Shaft', 'on_secondary' => 'No', 'elements' => '9', 'final_ratio' => '1'],
             ['code' => '10X', 'multiple'=>'1', 'name' => '10X Shaft', 'on_secondary' => 'No', 'elements' => '10', 'final_ratio' => '1']
         ];
-        return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies', 'faultCodes'));
+
+        $layout = new DesignLayoutService();
+        $components = $layout->getMachineDesignLayout($midSetupId);
+
+        return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies', 'faultCodes', 'components'));
     }
 
     public function edit($id){
@@ -58,7 +63,10 @@ class NewMidController extends Controller
         $forcing_frequencies = ForcingFrequencies::where('mid_setup_id', $id)->get();
         $faultCodes = FaultCodes::all();
 
-        return view('admin.new_mid.edit', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes'));
+        $layout = new DesignLayoutService();
+        $components = $layout->getMachineDesignLayout($id);
+
+        return view('admin.new_mid.edit', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes', 'components'));
     }
 
     public function show($id)
@@ -74,7 +82,10 @@ class NewMidController extends Controller
         $forcing_frequencies = ForcingFrequencies::where('mid_setup_id', $id)->get();
         $faultCodes = FaultCodes::all();
 
-        return view('admin.new_mid.show', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes'));
+        $layout = new DesignLayoutService();
+        $components = $layout->getMachineDesignLayout($id);
+
+        return view('admin.new_mid.show', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes', 'components'));
     }
 
     public function store(Request $request)

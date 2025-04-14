@@ -83,9 +83,11 @@
                                                     <div class="border p-2">
                                                         <div>Current MID</div>
                                                         <div class="ms-3">
-                                                            <div>⎯ MOTOR</div>
-                                                            <div>⎯ FLEXIBLE COUPLING</div>
-                                                            <div>⎯ CENTRIFUGAL PUMP</div>
+                                                            @foreach($components as $index => $componentGroup)
+                                                                @foreach($componentGroup as $component)
+                                                                    <div>⎯ {{ $component }}</div>
+                                                                @endforeach
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>

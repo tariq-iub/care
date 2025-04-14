@@ -79,9 +79,11 @@
                                                     <div class="border p-2">
                                                         <div>Current MID</div>
                                                         <div class="ms-3">
-                                                            <div>⎯ MOTOR</div>
-                                                            <div>⎯ FLEXIBLE COUPLING</div>
-                                                            <div>⎯ CENTRIFUGAL PUMP</div>
+                                                            @foreach($components as $index => $componentGroup)
+                                                                @foreach($componentGroup as $component)
+                                                                    <div>⎯ {{ $component }}</div>
+                                                                @endforeach
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,87 +101,37 @@
                                                     <button class="btn btn-primary">Update</button>
                                                     <button class="btn btn-primary">Delete</button>
                                                 </div>
-                                                <div class="border p-2 mb-4" id="components-tab1">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
+                                                @foreach($components as $index => $componentGroup)
+                                                    @foreach($componentGroup as $i => $component)
+                                                    <div class="border p-2 mb-4" id="components-tab{{$i}}">
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="description" name="description" value="" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
+                                                        </div>
+                                                        <div class="form-group d-flex mb-3 align-items-center">
+                                                            <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
+                                                            <div class="col">
+                                                                <div class="d-flex mb-2">
+                                                                    <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
+                                                                    <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                    <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
+                                                                    <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="border p-2 mb-4" id="components-tab2">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="border p-2 mb-4" id="components-tab3">
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="description" name="description" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
-                                                    </div>
-                                                    <div class="form-group d-flex mb-3 align-items-center">
-                                                        <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
-                                                        <div class="col">
-                                                            <div class="d-flex mb-2">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                            <div class="d-flex">
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    @endforeach
+                                                @endforeach
                                             </div>
                                         </form>
                                     </div>
