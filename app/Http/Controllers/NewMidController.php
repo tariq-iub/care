@@ -18,16 +18,22 @@ class NewMidController extends Controller
     public function index()
     {
         $midGeneral = MidGenerals::with('midSetup')->get();
+        $midSetups = MidSetup::all();
 
-        return view('admin.new_mid.index', compact('midGeneral'));
+        return view('admin.new_mid.index', compact('midGeneral', 'midSetups'));
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
-        $midSetupId = session()->get('midSetupId');
-        session()->forget('midSetupId');
-
+        if (session()->has('midSetupId')) {
+            $midSetupId = session()->get('midSetupId');
+            session()->forget('midSetupId');
+        } else {
+            $data = request()->all();
+            $midSetupId = $request->query('mid_setup_id');
+//            $midSetupId = $data['mid_setup_id'] ?? null;
+        }
         $midSetup = MidSetup::find($midSetupId);
 
         $faultCodes = FaultCodes::all();
@@ -47,6 +53,8 @@ class NewMidController extends Controller
 
         $layout = new DesignLayoutService();
         $components = $layout->getMachineDesignLayout($midSetupId);
+
+        Log::info($components);
 
         return view('admin.new_mid.create', compact( 'midSetup', 'forcing_frequencies', 'faultCodes', 'components'));
     }

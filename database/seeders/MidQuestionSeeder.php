@@ -161,6 +161,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 53,
@@ -356,6 +357,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 69,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 86,
@@ -444,6 +446,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 106,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'coupling',
                     ],
                     [
                         'question_answer_id' => 96,
@@ -853,6 +856,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 134,
@@ -951,6 +955,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 143,
@@ -1039,6 +1044,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 151,
@@ -1117,6 +1123,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 158,
@@ -1165,6 +1172,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 162,
@@ -1233,6 +1241,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 168,
@@ -1291,6 +1300,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 173,
@@ -1419,6 +1429,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 191,
@@ -1530,11 +1541,12 @@ class MidQuestionSeeder extends Seeder
                         'question_answer_id' => 200,
                         'id' => 200,
                         'body' => 'Bearing position numbers',
-                        'answer_type' => 'text',
+                        'answer_type' => 'number',
                         'input_count' => 1,
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 201,
@@ -1633,6 +1645,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 210,
@@ -1701,6 +1714,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 216,
@@ -1799,6 +1813,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 225,
@@ -1867,6 +1882,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 231,
@@ -2015,6 +2031,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'driven',
                     ],
                     [
                         'question_answer_id' => 245,
@@ -2053,6 +2070,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 106,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'coupling',
                     ],
                     [
                         'question_answer_id' => 249,
@@ -2191,6 +2209,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 117,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'coupling',
                     ],
                     [
                         'question_answer_id' => 265,
@@ -2405,6 +2424,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 120,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'coupling',
                     ],
                     [
                         'question_answer_id' => 284,
@@ -2473,6 +2493,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 290,
@@ -2483,6 +2504,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 291,
@@ -2621,6 +2643,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 304,
@@ -2795,6 +2818,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 320,
@@ -2853,6 +2877,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 325,
@@ -2891,6 +2916,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 328,
@@ -2929,6 +2955,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 331,
@@ -2957,6 +2984,7 @@ class MidQuestionSeeder extends Seeder
                         'child_id' => 69,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 333,
@@ -3396,11 +3424,12 @@ class MidQuestionSeeder extends Seeder
                         'question_answer_id' => 375,
                         'id' => 375,
                         'body' => 'Bearing position numbers',
-                        'answer_type' => 'text',
+                        'answer_type' => 'number',
                         'input_count' => 1,
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 376,
@@ -3444,11 +3473,12 @@ class MidQuestionSeeder extends Seeder
                         'question_answer_id' => 379,
                         'id' => 379,
                         'body' => 'Bearing position numbers',
-                        'answer_type' => 'text',
+                        'answer_type' => 'number',
                         'input_count' => 1,
                         'child_id' => 390,
                         'radio_group' => null,
                         'group' => "general",
+                        'type' => 'drive',
                     ],
                     [
                         'question_answer_id' => 380,
@@ -3511,10 +3541,12 @@ class MidQuestionSeeder extends Seeder
             if (isset($questionWithAnswers['type'])) {
                 DB::table('mid_question_type')->insert([
                     'mid_question_id' => $question->id,
+                    'mid_answer_id' => null,
                     'type' => $questionWithAnswers['type'],
                 ]);
             }
-            foreach ($questionWithAnswers['answers'] as $answer) {
+            foreach ($questionWithAnswers['answers '] as $answer) {
+
                 MidAnswers::create([
                     'id' => $answer['id'],
                     'body' => $answer['body'],
@@ -3529,6 +3561,13 @@ class MidQuestionSeeder extends Seeder
                     'group' => $answer['group'],
                     'child_id' => $answer['child_id'],
                 ]);
+                if (str_contains($answer['body'], 'bearing position') || str_contains($answer['body'], 'Bearing position')) {
+                    DB::table('mid_question_type')->insert([
+                        'mid_question_id' => $question->id,
+                        'mid_answer_id' => $answer['id'],
+                        'type' => $answer['type'] ?? null,
+                    ]);
+                }
             }
         }
     }

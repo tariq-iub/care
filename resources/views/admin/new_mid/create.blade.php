@@ -80,9 +80,9 @@
                                                         <div>Current MID</div>
                                                         <div class="ms-3">
                                                             @foreach($components as $index => $componentGroup)
-                                                                @foreach($componentGroup as $component)
-                                                                    <div>⎯ {{ $component }}</div>
-                                                                @endforeach
+{{--                                                                @foreach($componentGroup as $component)--}}
+                                                                    <div>⎯ {{ $componentGroup['answer'] }}</div>
+{{--                                                                @endforeach--}}
                                                             @endforeach
                                                         </div>
                                                     </div>
@@ -101,37 +101,45 @@
                                                     <button class="btn btn-primary">Update</button>
                                                     <button class="btn btn-primary">Delete</button>
                                                 </div>
-                                                @foreach($components as $index => $componentGroup)
-                                                    @foreach($componentGroup as $i => $component)
-                                                    <div class="border p-2 mb-4" id="components-tab{{$i}}">
+                                                @foreach($components as $type => $component)
+                                                    <div class="border p-2 mb-4" id="components-tab-{{ $type }}">
+                                                        <h6 class="text-primary text-uppercase mb-3">{{ ucfirst($type) }} Component</h6>
+
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="component-code" name="component-code" value="" required>
+                                                            <label for="component-code-{{ $type }}" class="form-label-sm me-2 w-30">Component Code <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-code-{{ $type }}" name="components[{{ $type }}][code]" required>
                                                         </div>
+
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="description" name="description" value="" required>
+                                                            <label for="description-{{ $type }}" class="form-label-sm me-2 w-30">Description <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="description-{{ $type }}" name="components[{{ $type }}][description]" required>
                                                         </div>
+
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="" required>
+                                                            <label for="pickup-code-{{ $type }}" class="form-label-sm me-2 w-30">Pickup Code <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="pickup-code-{{ $type }}" name="components[{{ $type }}][pickup_code]" required>
                                                         </div>
-                                                        <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
+
+                                                        <div class="form-group d-flex mb-3 align-items-start">
+                                                            <label class="form-label-sm me-2 w-30">Bearing Monitored <span class="text-danger">*</span></label>
                                                             <div class="col">
-                                                                <div class="d-flex mb-2">
-                                                                    <input type="number" class="form-control me-2" id="bearing-monitored1" name="bearing-monitored" value="" required>
-                                                                    <input type="number" class="form-control me-2" id="bearing-monitored2" name="bearing-monitored" value="" required>
-                                                                </div>
-                                                                <div class="d-flex">
-                                                                    <input type="number" class="form-control me-2" id="bearing-monitored3" name="bearing-monitored" value="" required>
-                                                                    <input type="number" class="form-control me-2" id="bearing-monitored4" name="bearing-monitored" value="" required>
-                                                                </div>
+                                                                @php
+                                                                    $bearingCount = isset($component['bearing_count'])
+                                                                        ? (is_array($component['bearing_count']) ? count($component['bearing_count']) : (int) $component['bearing_count'])
+                                                                        : 0;
+                                                                @endphp
+
+
+                                                            @for ($i = 1; $i <= $bearingCount; $i++)
+                                                                    <div class="d-flex mb-2">
+                                                                        <input type="number" class="form-control me-2" name="components[{{ $type }}][bearings][]" required placeholder="Bearing #{{ $i }}">
+                                                                    </div>
+                                                                @endfor
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endforeach
                                                 @endforeach
+
                                             </div>
                                         </form>
                                     </div>

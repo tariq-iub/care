@@ -7,6 +7,7 @@ use App\Models\MidSetup;
 use App\Models\MidSetupAnswers;
 use App\Models\MidQuestions;
 use App\Models\MidAnswers;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class DesignLayoutService
@@ -14,54 +15,54 @@ class DesignLayoutService
     public function getMachineDesignLayout($midSetupId)
     {
         $components = [];
-        $questions = [];
-        $answers = [];
         $midSetup = MidSetup::find($midSetupId);
-        if ($midSetup){
+
+        if ($midSetup) {
             $midSetupAnswers = MidSetupAnswers::where('mid_setup_id', $midSetupId)->get();
-        }
 
-        foreach ($midSetupAnswers as $midSetupAnswer) {
-            $question = MidQuestions::find($midSetupAnswer->mid_question_id);
-            $answer = MidAnswers::find($midSetupAnswer->mid_answer_id);
+            $questionTypeRows = DB::table('mid_question_type')
+                ->whereIn('mid_question_id', $midSetupAnswers->pluck('mid_question_id'))
+                ->get();
 
-            $questions[] = $question;
-            $answers[] = $answer;
-        }
+            // Separate component definitions (mid_answer_id is null) and bearings
+            $componentDefs = $questionTypeRows->whereNull('mid_answer_id')->keyBy('mid_question_id');
+            $bearingDefs = $questionTypeRows->whereNotNull('mid_answer_id');
 
-        foreach ($questions as $q) {
-            $current_answers = [];
+            foreach ($midSetupAnswers as $setupAnswer) {
+                $questionId = $setupAnswer->mid_question_id;
+                $answerId = $setupAnswer->mid_answer_id;
 
-            foreach ($answers as $a) {
-                $question_answers = DB::table('question_answers')
-                    ->where('mid_question_id', $q->id)
-                    ->where('mid_answer_id', $a->id)
-                    ->get();
+                if (!isset($componentDefs[$questionId])) {
+                    continue; // not a component definition
+                }
 
-                foreach ($question_answers as $qa) {
-                    $current_answer = MidAnswers::find($qa->mid_answer_id);
-                    if ($current_answer) {
-                        $current_answers[] = $current_answer->body;
-                    }
+                $type = $componentDefs[$questionId]->type;
+
+                $answer = MidAnswers::find($answerId);
+                if ($answer && in_array($type, ['drive', 'coupling', 'driven'])) {
+                    $components[$type]['answer'] = $answer->body;
                 }
             }
 
-            foreach ($question_answers as $qa) {
-                $current_answer = MidAnswers::find($qa->mid_answer_id);
-                $current_answers[] = $current_answer->body;
-            }
-            $question_type = DB::table('mid_question_type')->where('mid_question_id', $q->id)->first();
-            if ($question_type && $question_type->type != null) {
-                if ($question_type->type == 'drive') {
-                    $components['drive'] = $current_answers;
-                } elseif ($question_type->type == 'coupling') {
-                    $components['coupling'] = $current_answers;
-                } elseif ($question_type->type == 'driven') {
-                    $components['driven'] = $current_answers;
+            foreach ($bearingDefs as $bearingDef) {
+                $questionId = $bearingDef->mid_question_id;
+                $answerId = $bearingDef->mid_answer_id;
+
+                $type = $bearingDef->type;
+                $answer = MidSetupAnswers::where('mid_setup_id', $midSetupId)
+                    ->where('mid_question_id', $questionId)
+                    ->where('mid_answer_id', $answerId)
+                    ->first();
+
+                Log::info('Answer:', ['answer' => $answer]);
+                // input_count is in format (0,2) or (0,1), need to get 2 or 1
+                $input_count = $answer ? explode(',', $answer->value)[1] : null;
+
+                if ($answer && in_array($type, ['drive', 'coupling', 'driven'])) {
+                    $components[$type]['bearing_count'] = $input_count;
                 }
             }
         }
-
 
         return $components;
     }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mid_question_type', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mid_question_id')->constrained('mid_questions')->onDelete('cascade');
+            $table->foreignId('mid_answer_id')->nullable()->constrained('mid_answers')->onDelete('cascade');
             $table->string('type')->nullable();
             $table->timestamps();
         });

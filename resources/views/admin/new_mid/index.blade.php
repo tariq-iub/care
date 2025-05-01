@@ -26,7 +26,7 @@
 
             <div class="col-auto">
                 <div class="d-flex align-items-center">
-                    <a class="btn btn-primary" href="{{ route('new-mid.create') }}">
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#select-mid-setup">
                         <span class="fas fa-plus me-2"></span>Create New MID
                     </a>
                 </div>
@@ -125,8 +125,50 @@
         </div>
     </div>
 
+    <div class="modal fade" id="select-mid-setup" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollingLongModalLabel2">Select MID Setup</h5>
+                    <button class="btn btn-close p-1" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-vertical-wizard-tab1" id="bootstrap-vertical-wizard-tab1">
+                        <form id="wizardVerticalForm1" novalidate="novalidate" data-wizard-form="1">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label" for="fault-code">Select a MID Setup from the list</label>
+                                    <select class="form-select" id="mid-setup" name="mid-setup">
+                                        @foreach($midSetups as $mid_setup)
+                                            <option value="{{$mid_setup->id}}">{{$mid_setup->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-bs-dismiss="modal" id="confirm-mid-selection">Ok</button>
+                            <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
 @push("scripts")
+<script>
+    $(document).ready(function () {
+        $('#confirm-mid-selection').click(function () {
+            const selectedId = $('#mid-setup').val();
+            if (selectedId) {
+                window.location.href = "{{ url('new-mid/create') }}" + "?mid_setup_id=" + selectedId;
+            }
+        });
+    });
+</script>
+
 @endpush
