@@ -3545,7 +3545,7 @@ class MidQuestionSeeder extends Seeder
                     'type' => $questionWithAnswers['type'],
                 ]);
             }
-            foreach ($questionWithAnswers['answers '] as $answer) {
+            foreach ($questionWithAnswers['answers'] as $answer) {
 
                 MidAnswers::create([
                     'id' => $answer['id'],
