@@ -92,6 +92,7 @@ class NewMidController extends Controller
 
         $layout = new DesignLayoutService();
         $components = $layout->getMachineDesignLayout($id);
+        Log::info($components);
 
         return view('admin.new_mid.show', compact('midSetup', 'midGeneral', 'midComponents', 'forcing_frequencies', 'faultCodes', 'components'));
     }

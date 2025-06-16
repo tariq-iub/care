@@ -103,21 +103,19 @@
                                                 </div>
                                                 @foreach($components as $type => $component)
                                                     <div class="border p-2 mb-4" id="components-tab-{{ $type }}">
-                                                        <h6 class="text-primary text-uppercase mb-3">{{ ucfirst($type) }} Component</h6>
-
                                                         <div class="form-group d-flex mb-3 align-items-center">
                                                             <label for="component-code-{{ $type }}" class="form-label-sm me-2 w-30">Component Code <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="component-code-{{ $type }}" name="components[{{ $type }}][code]" required>
+                                                            <input type="text" class="form-control me-2 component-code" id="component-code-{{ $type }}" name="components[{{ $type }}][code]" required>
                                                         </div>
 
                                                         <div class="form-group d-flex mb-3 align-items-center">
                                                             <label for="description-{{ $type }}" class="form-label-sm me-2 w-30">Description <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="description-{{ $type }}" name="components[{{ $type }}][description]" required>
+                                                            <input type="text" class="form-control me-2 description" id="description-{{ $type }}" name="components[{{ $type }}][description]" required>
                                                         </div>
 
                                                         <div class="form-group d-flex mb-3 align-items-center">
                                                             <label for="pickup-code-{{ $type }}" class="form-label-sm me-2 w-30">Pickup Code <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="pickup-code-{{ $type }}" name="components[{{ $type }}][pickup_code]" required>
+                                                            <input type="text" class="form-control me-2 pickup-code" id="pickup-code-{{ $type }}" name="components[{{ $type }}][pickup_code]" required>
                                                         </div>
 
                                                         <div class="form-group d-flex mb-3 align-items-start">
@@ -132,7 +130,7 @@
 
                                                             @for ($i = 1; $i <= $bearingCount; $i++)
                                                                     <div class="d-flex mb-2">
-                                                                        <input type="number" class="form-control me-2" name="components[{{ $type }}][bearings][]" required placeholder="Bearing #{{ $i }}">
+                                                                        <input type="number" class="form-control me-2" id="bearing-monitored-{{ $type }}" name="components[{{ $type }}][bearings][]" required placeholder="Bearing #{{ $i }}">
                                                                     </div>
                                                                 @endfor
                                                             </div>
@@ -412,9 +410,11 @@
                 }
                 const component = {};
 
-                component.componentCode = tab.querySelector("#component-code").value.trim();
-                component.description = tab.querySelector("#description").value.trim();
-                component.pickupCode = tab.querySelector("#pickup-code").value.trim();
+                console.log(tab.querySelector(".component-code").value.trim());
+
+                component.componentCode = tab.querySelector(".component-code").value.trim();
+                component.description = tab.querySelector(".description").value.trim();
+                component.pickupCode = tab.querySelector(".pickup-code").value.trim();
 
                 component.bearingMonitored = [];
                 tab.querySelectorAll("[id^='bearing-monitored']").forEach((input) => {

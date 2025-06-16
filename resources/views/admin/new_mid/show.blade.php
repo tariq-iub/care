@@ -16,9 +16,9 @@
                             <div class="col-md-12">
                                 <div class="tab-content">
                                     <p class="nav nav-underline fs-9 p-1 mb-2" id="myTab" role="tablist">
-                                        <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="false">General</a>
-                                        <a class="nav-link" id="components-tab" data-bs-toggle="tab" href="#tab-components" role="tab" aria-controls="tab-components" aria-selected="false">Components</a>
-                                        <a class="nav-link" id="frequencies-tab" data-bs-toggle="tab" href="#tab-frequencies" role="tab" aria-controls="tab-frequencies" aria-selected="false">Forcing Frequencies</a>
+                                        <a class="nav-link active " id="general-tab" data-bs-toggle="tab" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="false">General</a>
+                                        <a class="nav-link " id="components-tab" data-bs-toggle="tab" href="#tab-components" role="tab" aria-controls="tab-components" aria-selected="false">Components</a>
+                                        <a class="nav-link " id="frequencies-tab" data-bs-toggle="tab" href="#tab-frequencies" role="tab" aria-controls="tab-frequencies" aria-selected="false">Forcing Frequencies</a>
                                     </p>
                                     <div class="tab-pane active" id="tab-general" role="tabpanel" aria-labelledby="general-tab">
                                         <form>
@@ -35,7 +35,7 @@
 
                                                 <div class="form-group d-flex mb-3 align-items-center d-none">
                                                     <label for="name" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Name<span class="text-danger">*</span></label>
-                                                    <input class="form-control me-2" id="mid-general-id" name="mid-general-id" value="{{$midGeneral != null ? $midGeneral->id : ""}}">
+                                                    <input class="form-control me-2" id="mid-general-id" name="mid-general-id" value="{{$midGeneral != null ? $midGeneral->id : ""}}" readonly>
                                                 </div>
 
                                                 <div class="form-group d-flex mb-3 align-items-center">
@@ -43,11 +43,11 @@
                                                     <div class="d-flex flex-grow-1 align-items-center">
                                                         <input class="form-control me-2" id="nominal-speed-2" name="nominal-speed" value="{{$midGeneral != null ? $midGeneral->nominal_speed : ""}}" readonly>
                                                         <div class="form-check ms-2">
-                                                            <input class="form-check-input" id="flexRadioDefaultHz-2" type="radio" name="flexRadioDefaultSpeed-2" value="Hz" {{$midGeneral != null && $midGeneral->speed_unit == "Hz" ? "checked" : ""}} onclick="return false;">
+                                                            <input class="form-check-input" id="flexRadioDefaultHz-2" type="radio" name="flexRadioDefaultSpeed-2" value="Hz" {{$midGeneral != null && $midGeneral->speed_unit == "Hz" ? "checked" : ""}} onclick="return false;" disabled>
                                                             <label class="form-check-label fs-8" for="flexRadioDefaultHz-2">Hz</label>
                                                         </div>
                                                         <div class="form-check ms-2">
-                                                            <input class="form-check-input" id="flexRadioDefaultCPM-2" type="radio" name="flexRadioDefaultSpeed-2" value="CPM" {{$midGeneral != null && $midGeneral->speed_unit == "CPM" ? "checked" : ""}} onclick="return false;">
+                                                            <input class="form-check-input" id="flexRadioDefaultCPM-2" type="radio" name="flexRadioDefaultSpeed-2" value="CPM" {{$midGeneral != null && $midGeneral->speed_unit == "CPM" ? "checked" : ""}} onclick="return false;" disabled>
                                                             <label class="form-check-label fs-8" for="flexRadioDefaultCPM-2">CPM</label>
                                                         </div>
                                                     </div>
@@ -60,11 +60,11 @@
 
                                                 <div class="form-group d-flex mb-3 align-items-center">
                                                     <label for="mid-rating" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">MID Rating<span class="text-danger">*</span></label>
-                                                    <input class="form-control me-2" id="mid-rating" name="mid-rating" value="{{$midGeneral != null ? $midGeneral->mid_rating : ""}}" required>
+                                                    <input class="form-control me-2" id="mid-rating" name="mid-rating" value="{{$midGeneral != null ? $midGeneral->mid_rating : ""}}" readonly required>
                                                 </div>
 
                                                 <div class="form-group d-flex mb-3 align-items-center">
-                                                    <label for="mid-number" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Machine Orientation<span class="text-danger">*</span></label>
+                                                    <label for="machine-orientation" class="form-label-sm me-2 flex-shrink-0" style="width: 200px;">Machine Orientation<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control me-2" id="machine-orientation" name="machine-orientation" value="{{$midGeneral != null ? $midGeneral->machine_orientation : ""}}" readonly>
                                                 </div>
 
@@ -92,32 +92,32 @@
                                                 @foreach($midComponents as $index => $midComponent)
                                                     <div class="border p-2 mb-4" id="components-tab-{{$index + 1}}">
                                                         <div class="form-group d-flex mb-3 align-items-center d-none">
-                                                            <label for="component-code" class="form-label-sm me-2 w-30">Id<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="component-id" name="component-id" value="{{$midComponent->id}}" readonly>
+                                                            <label for="component-id-{{$index + 1}}" class="form-label-sm me-2 w-30">Id<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-id-{{$index + 1}}" name="component-id" value="{{$midComponent->id}}" readonly>
                                                         </div>
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="component-code" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="component-code" name="component-code" value="{{$midComponent->component_code}}" readonly>
+                                                            <label for="component-code-{{$index + 1}}" class="form-label-sm me-2 w-30">Component Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="component-code-{{$index + 1}}" name="component-code" value="{{$midComponent->component_code}}" readonly required>
                                                         </div>
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="description" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="description" name="description" value="{{$midComponent->description}}" readonly>
+                                                            <label for="description-{{$index + 1}}" class="form-label-sm me-2 w-30">Description<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="description-{{$index + 1}}" name="description" value="{{$midComponent->description}}" readonly required>
                                                         </div>
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="pickup-code" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control me-2" id="pickup-code" name="pickup-code" value="{{$midComponent->pickup_code}}" readonly>
+                                                            <label for="pickup-code-{{$index + 1}}" class="form-label-sm me-2 w-30">Pickup Code<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control me-2" id="pickup-code-{{$index + 1}}" name="pickup-code" value="{{$midComponent->pickup_code}}" readonly required>
                                                         </div>
                                                         <div class="form-group d-flex mb-3 align-items-center">
-                                                            <label for="bearing-monitored" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
+                                                            <label for="bearing-monitored-{{$index + 1}}" class="form-label-sm me-2 w-30">Bearing Monitored<span class="text-danger">*</span></label>
                                                             <div class="row g-2">
-                                                                @foreach($midComponent->bearings_monitored_array as $index => $bearing)
+                                                                @foreach($midComponent->bearings_monitored_array as $bearingIndex => $bearing)
                                                                     <div class="col-md-6">
                                                                         <input type="number"
                                                                                class="form-control"
-                                                                               id="bearing-monitored{{ $index + 1 }}"
+                                                                               id="bearing-monitored-{{$index + 1}}-{{$bearingIndex + 1}}"
                                                                                name="bearings_monitored"
                                                                                value="{{ $bearing }}"
-                                                                               readonly>
+                                                                               readonly required>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
